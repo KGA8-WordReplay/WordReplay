@@ -449,6 +449,9 @@ MonoBehaviour:
   word: {fileID: 1276835169}
   mean: {fileID: 661845098}
   confirmButton: {fileID: 966189271}
+  wordList: []
+  meanList: []
+  _count: 0
 --- !u!4 &385354565
 Transform:
   m_ObjectHideFlags: 0
@@ -866,7 +869,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 966189272}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 385354564}
+        m_TargetAssemblyTypeName: HEEJAETEST, Assembly-CSharp
+        m_MethodName: NextButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &966189272
 MonoBehaviour:
   m_ObjectHideFlags: 0

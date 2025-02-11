@@ -14,33 +14,46 @@ public class HEEJAETEST : MonoBehaviour
 
     public List<string> wordList = new List<string>();
     public List<string> meanList = new List<string>();
-    private Dictionary<string, string> dic = new Dictionary<string, string>();
+    private Dictionary<string, string> _dic = new Dictionary<string, string>();
+    private List<Dictionary<string, object>> _everyWord = new List<Dictionary<string, object>>();
+    public int _count;
 
     private bool isDone = false;
 
     private void Awake()
     {
-        confirmButton.onClick.AddListener(OnClickConfirmButton);
+        //confirmButton.onClick.AddListener(OnClickConfirmButton);
     }
 
     private void Start()
     {
-        List<Dictionary<string, object>> csvData = HEEJAECSVTEST.Read("EveryWord");
+        _everyWord = HEEJAECSVTEST.Read("EveryWord");
+        //List<Dictionary<string, object>> csvData = HEEJAECSVTEST.Read("EveryWord");
 
-        foreach (var row in csvData)
-        {
-            string word = row["어휘"].ToString();
-            string mean = row["뜻풀이"].ToString();
+        //foreach (var row in csvData)
+        //{
+        //    string word = row["어휘"].ToString();
+        //    string mean = row["뜻풀이"].ToString();
 
-            wordList.Add(word);
+        //    wordList.Add(word);
+        //    meanList.Add(mean);
 
-            meanList.Add(mean);
+        //    _dic[word] = mean;
+        //}
 
-            dic[word] = mean;
-        }
-
-        isDone = true;
+        //isDone = true;
         //StartCoroutine(LoadData());
+    }
+    public void NextButton()
+    {
+        if (_count >= _everyWord.Count) _count = 0;
+
+        string word = _everyWord[_count]["어휘"].ToString();
+        string explanation = _everyWord[_count]["뜻풀이"].ToString();
+        this.word.text = word;
+        mean.text = explanation;
+
+        _count++;
     }
 
     private void Update()
@@ -96,7 +109,7 @@ public class HEEJAETEST : MonoBehaviour
             wordList.Add(word);
             meanList.Add(mean);
 
-            dic[word] = mean;
+            _dic[word] = mean;
         }
 
         isDone = true;
@@ -122,7 +135,7 @@ public class HEEJAETEST : MonoBehaviour
 
     private void ShowMean(string inputText)
     {
-        string mean = dic[inputText];
+        string mean = _dic[inputText];
         this.mean.text = mean;
     }
 
