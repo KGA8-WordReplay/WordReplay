@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,31 +25,29 @@ public class HEEJAETEST : MonoBehaviour
 
     private void Start()
     {
-        //List<Dictionary<string, object>> csvData = CSVReader.Read("korean_words");
+        List<Dictionary<string, object>> csvData = HEEJAECSVTEST.Read("EveryWord");
 
-        //foreach (var row in csvData)
-        //{
-        //    string word = row["단어"].ToString();
-        //    //string mean = row["뜻"].ToString();
+        foreach (var row in csvData)
+        {
+            string word = row["어휘"].ToString();
+            string mean = row["뜻풀이"].ToString();
 
-        //    wordList.Add(word);
+            wordList.Add(word);
 
-        //    //meanList.Add(mean);
+            meanList.Add(mean);
 
-        //    //dic[word] = mean;
-        //}
-        //print(wordList[110000]);
-        //isDone = true;
-        StartCoroutine(LoadData());
+            dic[word] = mean;
+        }
+
+        isDone = true;
+        //StartCoroutine(LoadData());
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            //confirmButton.onClick.Invoke();
-            print(wordList[10000]);
-            print(meanList[10000]);
+            confirmButton.onClick.Invoke();
         }
     }
 
@@ -86,13 +85,13 @@ public class HEEJAETEST : MonoBehaviour
         //    csvData = CSVReader.Read("korean_words");
         //    return csvData != null && csvData.Count > 0;
         //});
-        csvData = HEEJAECSVTEST.Read("korean_words");
+        csvData = HEEJAECSVTEST.Read("EveryWord");
         yield return new WaitForSeconds(20f);
 
         foreach (var row in csvData)
         {
-            string word = row["단어"].ToString();
-            string mean = row["뜻"].ToString();
+            string word = row["어휘"].ToString();
+            string mean = row["뜻풀이"].ToString();
 
             wordList.Add(word);
             meanList.Add(mean);
