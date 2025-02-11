@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class SEOTest : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _wordText;
-    [SerializeField] private TextMeshProUGUI _explanationText;
+    public TextMeshProUGUI wordText;
+    public TextMeshProUGUI explanationText;
+    public int _count;
 
     private List<Dictionary<string, object>> _everyWord = new List<Dictionary<string, object>>();
-    public int _count;
 
     private void Awake()
     {
@@ -24,8 +24,8 @@ public class SEOTest : MonoBehaviour
 
         string word = _everyWord[_count]["어휘"].ToString();
         string explanation = _everyWord[_count]["뜻풀이"].ToString();
-        _wordText.text = word;
-        _explanationText.text = explanation;
+        wordText.text = word;
+        explanationText.text = explanation;
 
         _count++;
     }
