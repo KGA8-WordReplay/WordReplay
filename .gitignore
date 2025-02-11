@@ -79,3 +79,5 @@ Assets/Resources/Fonts/*.woff
 Assets/Resources/Fonts/*.woff2
 Assets/Resources/Fonts/*.asset
 Assets/Resources/Fonts/*.fnt
+
+Assets/Resources/*.csv
