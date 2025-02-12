@@ -33,7 +33,7 @@ public class AutoMode : MonoBehaviour
             {
                 KeyValuePair<string, int> firstWord = _myWordDict.First();
                 _wordReplayManager.PreWord = firstWord.Key;
-                _wordReplayManager.mainUI.wordText.text = firstWord.Key;
+                _wordReplayManager.mainUI.outputText.text = firstWord.Key;
                 _myWordDict[firstWord.Key] = 1;
             }
             else
@@ -73,7 +73,7 @@ public class AutoMode : MonoBehaviour
                     }
                 }
                 print($"다음 단어: {longestWord}");
-                _wordReplayManager.mainUI.wordText.text = longestWord;
+                _wordReplayManager.mainUI.outputText.text = longestWord;
 
                 _wordReplayManager.PreWord = longestWord;
                 _myWordDict[longestWord] = 1;

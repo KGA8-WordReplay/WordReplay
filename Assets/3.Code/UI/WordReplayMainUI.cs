@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class WordReplayMainUI : MonoBehaviour
 {
-    public TextMeshProUGUI wordText;
     public TextMeshProUGUI explanationText;
+    public TextMeshProUGUI outputText;
+    public TMP_InputField inputText;
+    public Button confirmButton;
+
     public Button autoButton;
     public bool onAuto = false;
     private WordReplayManager _wordReplayManager;
