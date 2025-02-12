@@ -14,8 +14,8 @@ public class SEOTest : MonoBehaviour
 
     private void Awake()
     {
-        _everyWord = CSVReader.Read("Word/EveryWord");
-        print(_everyWord.Count);
+        //_everyWord = CSVReader.Read("Word/EveryWord");
+        //print(_everyWord.Count);
     }
 
     public void NextButton()

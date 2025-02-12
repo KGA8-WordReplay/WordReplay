@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class WordReplayMainUI : MonoBehaviour
+{
+    public TextMeshProUGUI wordText;
+    public TextMeshProUGUI explanationText;
+    public Button autoButton;
+    public bool onAuto = false;
+    private WordReplayManager _wordReplayManager;
+
+    private void Awake()
+    {
+        _wordReplayManager = FindObjectOfType<WordReplayManager>();
+        autoButton.onClick.AddListener(AutoButtonClick);
+    }
+    private void OnDestroy()
+    {
+        autoButton.onClick.RemoveListener(AutoButtonClick);
+    }
+
+    private void AutoButtonClick()
+    {
+        onAuto = !onAuto;
+        _wordReplayManager.AutoMode(onAuto);
+    }
+
+    public void AutoButtonColor()
+    {
+        autoButton.GetComponent<Image>().color = onAuto ? Color.green : Color.white;
+    }
+}
