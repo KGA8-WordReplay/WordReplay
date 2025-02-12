@@ -8,25 +8,25 @@ public class SEOTest : MonoBehaviour
 {
     public TextMeshProUGUI wordText;
     public TextMeshProUGUI explanationText;
-    public int _count;
+    public int count;
 
     private List<Dictionary<string, object>> _everyWord = new List<Dictionary<string, object>>();
 
     private void Awake()
     {
-        _everyWord = CSVReader.Read("EveryWord");
-        print(_everyWord.Count);
+        //_everyWord = CSVReader.Read("Word/EveryWord");
+        //print(_everyWord.Count);
     }
 
     public void NextButton()
     {
-        if (_count >= _everyWord.Count) _count = 0;
+        if (count >= _everyWord.Count) count = 0;
 
-        string word = _everyWord[_count]["어휘"].ToString();
-        string explanation = _everyWord[_count]["뜻풀이"].ToString();
+        string word = _everyWord[count]["어휘"].ToString();
+        string explanation = _everyWord[count]["뜻풀이"].ToString();
         wordText.text = word;
         explanationText.text = explanation;
 
-        _count++;
+        count++;
     }
 }
