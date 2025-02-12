@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,36 +12,38 @@ public class HEEJAEGameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI word;
     [SerializeField] private TextMeshProUGUI mean;
     [SerializeField] private Button confirmButton;
-    [SerializeField] private int _count;
+    [SerializeField] private string textFileName;
+    [SerializeField] private string wordName;
+    [SerializeField] private string meanName;
 
-    private List<string> _wordList = new List<string>();
-    private List<string> _meanList = new List<string>();
+    [SerializeField] private int count;
+
+    public List<string> _wordList = new List<string>();
+    //public List<string> _meanList = new List<string>();
     private List<Dictionary<string, object>> _everyWord = new List<Dictionary<string, object>>();
+
+    private string _beforeWord;
 
     private void Awake()
     {
         confirmButton.onClick.AddListener(OnClickConfirmButton);
-        _everyWord = HEEJAECSVReader.Read("EveryWord");
+        _everyWord = HEEJAECSVReader.Read(textFileName);
     }
 
     private void Start()
     {
+        //시작하면 처음 단어가 주어짐
+        Init();
+
         int i = 0;
         foreach (var row in _everyWord)
         {
             i++;
-            string word = row["어휘"].ToString();
-            print(row.ContainsKey("뜻풀이"));
-            var a = row["뜻풀이"];
-            print("0");
-            string mean = row["뜻풀이"].ToString();
-            print("1");
+            string word = row[wordName].ToString();
+            //string mean = row["뜻"].ToString();
 
             _wordList.Add(word);
-            print("2");
-
-            _meanList.Add(mean);
-            print("3");
+            //_meanList.Add(mean);
             print(i);
         }
     }
@@ -53,48 +56,86 @@ public class HEEJAEGameManager : MonoBehaviour
         }
     }
 
+    private void Init()
+    {
+        _beforeWord = "사과";
+        word.text = _beforeWord;
+        mean.text = "사과 뜻";
+    }
+
     //확인 버튼 누르면 단어가 있는지 확인 해야함
     private void OnClickConfirmButton()
     {
-        //있는 단어이면
-        if (CheckInputWordInList(input.text))
+        //확인 버튼 누르면 확인하는 순서
+        //1. 전체 단어에 있는 단어인지 확인
+        //2. 끝말잇기가 되는지 확인
+        string inputText = input.text;
+        if (IsInputWordInList(inputText))
         {
-            ShowMean(input.text);
+            //전체 단어에도 있으면서 끝말잇기도 되는 경우
+            if (IsWordChainTrue(inputText))
+            {
+                word.text = inputText;
+                ShowMean(inputText);
+            }
+            //전체 단어에는 있지만 끝말잇기는 되지 않는 경우
+            else
+            {
+                print("끝말잇기가 안됩니다");
+            }
         }
         else
         {
             mean.text = "없는 단어입니다.";
         }
 
-        if (input.text != null)
-        {
-            StartWordChain();
-        }
-
         input.text = "";
         input.ActivateInputField();
     }
-    private bool CheckInputWordInList(string inputText)
+    private bool IsInputWordInList(string inputText)
     {
         foreach (var word in _wordList)
         {
-            if (word != null)
+            if (word == inputText)
             {
+                print("있는 단어입니다");
                 return true;
             }
-            else
-            {
-                return false;
-            }
         }
+        print("없는 단어입니다.");
         return false;
+    }
+
+    private bool IsWordChainTrue(string input)
+    {
+        char beforeLastWord = _beforeWord[_beforeWord.Length - 1];
+        print($"이전 단어 끝글자 : {beforeLastWord}");
+        char inputLastWord = input[0];
+        print($"현재 단어 앞글자 : {inputLastWord}");
+
+        if (beforeLastWord == inputLastWord)
+        {
+            print("끝말잇기 성공");
+            _beforeWord = input;
+            return true;
+        }
+        else
+        {
+            print("끝말잇기 실패");
+            return false;
+        }
     }
 
     private void ShowMean(string inputText)
     {
         foreach(var word in _everyWord)
         {
-            mean.text = word[inputText].ToString();
+            if (word[wordName].ToString() == inputText)
+            {
+                string mean = word[meanName].ToString();
+                this.mean.text = mean;
+                return;
+            }
         }
     }
 

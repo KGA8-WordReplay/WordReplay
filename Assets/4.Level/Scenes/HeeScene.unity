@@ -464,7 +464,11 @@ MonoBehaviour:
   word: {fileID: 1276835169}
   mean: {fileID: 661845098}
   confirmButton: {fileID: 966189271}
-  _count: 0
+  textFileName: WordTest
+  wordName: "\uB2E8\uC5B4"
+  meanName: "\uB73B"
+  count: 0
+  _wordList: []
 --- !u!1 &661845096
 GameObject:
   m_ObjectHideFlags: 0
