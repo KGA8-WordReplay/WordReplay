@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,16 +14,35 @@ public class HEEJAEGameManager : MonoBehaviour
     [SerializeField] private int _count;
 
     private List<string> _wordList = new List<string>();
+    private List<string> _meanList = new List<string>();
     private List<Dictionary<string, object>> _everyWord = new List<Dictionary<string, object>>();
 
     private void Awake()
     {
         confirmButton.onClick.AddListener(OnClickConfirmButton);
+        _everyWord = HEEJAECSVReader.Read("EveryWord");
     }
 
     private void Start()
     {
-        _everyWord = HEEJAECSVReader.Read("EveryWord");
+        int i = 0;
+        foreach (var row in _everyWord)
+        {
+            i++;
+            string word = row["어휘"].ToString();
+            print(row.ContainsKey("뜻풀이"));
+            var a = row["뜻풀이"];
+            print("0");
+            string mean = row["뜻풀이"].ToString();
+            print("1");
+
+            _wordList.Add(word);
+            print("2");
+
+            _meanList.Add(mean);
+            print("3");
+            print(i);
+        }
     }
 
     private void Update()
@@ -56,19 +76,26 @@ public class HEEJAEGameManager : MonoBehaviour
     }
     private bool CheckInputWordInList(string inputText)
     {
-        foreach (var word in _everyWord)
+        foreach (var word in _wordList)
         {
-            if (word[inputText] != null)
+            if (word != null)
             {
-                return 
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
+        return false;
     }
 
     private void ShowMean(string inputText)
     {
-        string mean = _everyWord[inputText];
-        this.mean.text = mean;
+        foreach(var word in _everyWord)
+        {
+            mean.text = word[inputText].ToString();
+        }
     }
 
     private void StartWordChain()
