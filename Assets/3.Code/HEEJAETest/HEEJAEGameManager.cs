@@ -25,11 +25,12 @@ public class HEEJAEGameManager : MonoBehaviour
     private List<Dictionary<string, object>> _everyWord = new List<Dictionary<string, object>>();
 
     private string _beforeWord;
+    public bool isSuggestionEnd = false;
 
     private void Awake()
     {
         confirmButton.onClick.AddListener(OnClickConfirmButton);
-        input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
+        //input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
         _everyWord = HEEJAECSVReader.Read(textFileName);
     }
@@ -63,14 +64,20 @@ public class HEEJAEGameManager : MonoBehaviour
         {
             OnSubmit(input.text);
         }
-        //if (!string.IsNullOrEmpty(Input.compositionString))
-        //{
-        //    Debug.Log($"조합 중 글자: {Input.compositionString}");
-        //}
-        //else
-        //{
-        //    Debug.Log($"완성된 텍스트: {input.text}");
-        //}
+
+        //현재 조합중인 문자
+        string composition = Input.compositionString;
+        //입력된 문자
+        string currentInput = input.text;
+
+        if (!string.IsNullOrEmpty(composition) && isSuggestionEnd == false)
+        {
+            MatchWord(composition);
+        }
+        else
+        {
+            suggestionText.text = "";
+        }
     }
 
     private void Init()
@@ -78,6 +85,8 @@ public class HEEJAEGameManager : MonoBehaviour
         _beforeWord = "사과";
         word.text = _beforeWord;
         mean.text = "사과 뜻";
+
+        isSuggestionEnd = false;
     }
 
     //확인 버튼 누르면 단어가 있는지 확인 해야함
@@ -190,6 +199,27 @@ public class HEEJAEGameManager : MonoBehaviour
             this.input.text = suggestionText.text;
             //버퍼 뒤로 이동
             this.input.MoveTextEnd(false);
+        }
+    }
+
+    private void MatchWord(string composition)
+    {
+        string matchWord = _wordList.FirstOrDefault(word => word.StartsWith(composition));
+        print($"단어 찾음{matchWord}");
+
+        //매치되는 단어가 있으면
+        if (!string.IsNullOrEmpty(matchWord))
+        {
+            suggestionText.text = matchWord;
+            print("단어 찾음");
+            isSuggestionEnd = true;
+        }
+        //없으면
+        else
+        {
+            suggestionText.text = "";
+            print("단어 못찾음");
+            isSuggestionEnd = false;
         }
     }
 }
