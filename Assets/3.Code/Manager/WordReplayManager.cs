@@ -15,9 +15,6 @@ public class WordReplayManager : MonoBehaviour
     {
         mainUI = FindObjectOfType<WordReplayMainUI>();
         _autoMode = FindObjectOfType<AutoMode>();
-
-        WordStorage wordStorage = new WordStorage();
-        wordStorage.Init();
     }
 
     public void AutoMode(bool onAuto)

@@ -35,4 +35,10 @@ public class WordReplayMainUI : MonoBehaviour
     {
         autoButton.GetComponent<Image>().color = onAuto ? Color.green : Color.white;
     }
+
+    public void UpdateWordDisplay(string output, string explanation)
+    {
+        outputText.text = output;
+        explanationText.text = explanation;
+    }
 }
