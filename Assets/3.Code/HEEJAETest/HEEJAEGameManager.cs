@@ -25,7 +25,7 @@ public class HEEJAEGameManager : MonoBehaviour
     private List<Dictionary<string, object>> _everyWord = new List<Dictionary<string, object>>();
 
     private string _beforeWord;
-    public bool isSuggestionEnd = false;
+    public bool hasSuggestion = false;
 
     private void Awake()
     {
@@ -55,18 +55,29 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void Update()
     {
+        string inputText = input.text;
+        string composition = Input.compositionString;
+        string currentInput = inputText + composition;
         if (Input.GetKeyDown(KeyCode.Return))
         {
             confirmButton.onClick.Invoke();
+            OnSubmit(currentInput);
         }
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            OnSubmit(input.text);
+            if (!string.IsNullOrEmpty(currentInput))
+            {
+                MatchWord(currentInput);
+            }
         }
 
         //현재 조합중인 문자
-        //string composition = Input.compositionString;
+
+        print($"찐 입력 : {currentInput}");
+       
+        //print($"현재 조합중인 문자 : {composition}");
+
         ////입력된 문자
         //string currentInput = input.text;
 
@@ -86,7 +97,7 @@ public class HEEJAEGameManager : MonoBehaviour
         outputWord.text = _beforeWord;
         explanationText.text = "사과 뜻";
 
-        isSuggestionEnd = false;
+        hasSuggestion = false;
     }
 
     //확인 버튼 누르면 단어가 있는지 확인 해야함
@@ -204,22 +215,24 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void MatchWord(string composition)
     {
-        string matchWord = _wordList.FirstOrDefault(word => word.StartsWith(composition));
-        print($"단어 찾음{matchWord}");
+        string matchWord = _wordList.FirstOrDefault(word => (word.Contains(composition) && word.StartsWith(composition)));
+        print($"현재 입력중인 단어 : {composition}");
+        print($"매치된 단어 : {matchWord}");
 
         //매치되는 단어가 있으면
         if (!string.IsNullOrEmpty(matchWord))
         {
             suggestionText.text = matchWord;
             print("단어 찾음");
-            isSuggestionEnd = true;
+            hasSuggestion = true;
         }
         //없으면
         else
         {
             suggestionText.text = "";
             print("단어 못찾음");
-            isSuggestionEnd = false;
+            hasSuggestion = false;
         }
+
     }
 }
