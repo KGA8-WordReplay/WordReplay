@@ -974,12 +974,14 @@ MonoBehaviour:
   explanationText: {fileID: 1293296726}
   suggestionText: {fileID: 1542695711}
   confirmButton: {fileID: 436744900}
-  textFileName: WordTest
+  wholeWordTextName: WholeWordTest
+  foodWordTextName: FoodWordTest
   wordName: "\uB2E8\uC5B4"
   meanName: "\uB73B"
   count: 0
-  _wordList: []
-  isSuggestionEnd: 0
+  _everyWordList: []
+  _foodWordList: []
+  hasSuggestion: 0
 --- !u!4 &901576663
 Transform:
   m_ObjectHideFlags: 0
@@ -1517,7 +1519,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0569ae2e441fba740b7bcec095f3af36, type: 2}
   m_sharedMaterial: {fileID: -5019499479224736696, guid: 0569ae2e441fba740b7bcec095f3af36, type: 2}
