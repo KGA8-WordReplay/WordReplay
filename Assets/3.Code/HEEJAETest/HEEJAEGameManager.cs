@@ -10,8 +10,8 @@ using UnityEngine.UI;
 public class HEEJAEGameManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField input;
-    [SerializeField] private TextMeshProUGUI word;
-    [SerializeField] private TextMeshProUGUI mean;
+    [SerializeField] private TextMeshProUGUI outputWord;
+    [SerializeField] private TextMeshProUGUI explanationText;
     [SerializeField] private TextMeshProUGUI suggestionText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private string textFileName;
@@ -30,7 +30,7 @@ public class HEEJAEGameManager : MonoBehaviour
     private void Awake()
     {
         confirmButton.onClick.AddListener(OnClickConfirmButton);
-        //input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
+        input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
         _everyWord = HEEJAECSVReader.Read(textFileName);
     }
@@ -66,25 +66,25 @@ public class HEEJAEGameManager : MonoBehaviour
         }
 
         //현재 조합중인 문자
-        string composition = Input.compositionString;
-        //입력된 문자
-        string currentInput = input.text;
+        //string composition = Input.compositionString;
+        ////입력된 문자
+        //string currentInput = input.text;
 
-        if (!string.IsNullOrEmpty(composition) && isSuggestionEnd == false)
-        {
-            MatchWord(composition);
-        }
-        else
-        {
-            suggestionText.text = "";
-        }
+        //if (!string.IsNullOrEmpty(composition))
+        //{
+        //    MatchWord(composition);
+        //}
+        //else
+        //{
+        //    suggestionText.text = "";
+        //}
     }
 
     private void Init()
     {
         _beforeWord = "사과";
-        word.text = _beforeWord;
-        mean.text = "사과 뜻";
+        outputWord.text = _beforeWord;
+        explanationText.text = "사과 뜻";
 
         isSuggestionEnd = false;
     }
@@ -101,7 +101,7 @@ public class HEEJAEGameManager : MonoBehaviour
             //전체 단어에도 있으면서 끝말잇기도 되는 경우
             if (IsWordChainTrue(inputText))
             {
-                word.text = inputText;
+                outputWord.text = inputText;
                 ShowMean(inputText);
             }
             //전체 단어에는 있지만 끝말잇기는 되지 않는 경우
@@ -112,7 +112,7 @@ public class HEEJAEGameManager : MonoBehaviour
         }
         else
         {
-            mean.text = "없는 단어입니다.";
+            explanationText.text = "없는 단어입니다.";
         }
 
         input.text = "";
@@ -160,7 +160,7 @@ public class HEEJAEGameManager : MonoBehaviour
             if (word[wordName].ToString() == inputText)
             {
                 string mean = word[meanName].ToString();
-                this.mean.text = mean;
+                this.explanationText.text = mean;
                 return;
             }
         }
