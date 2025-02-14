@@ -982,6 +982,8 @@ MonoBehaviour:
   _everyWordList: []
   _foodWordList: []
   hasSuggestion: 0
+  firstWord: "\uC0AC\uACFC"
+  suggestionList: []
 --- !u!4 &901576663
 Transform:
   m_ObjectHideFlags: 0

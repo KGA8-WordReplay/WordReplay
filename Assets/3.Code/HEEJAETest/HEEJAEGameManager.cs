@@ -28,6 +28,7 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private string _beforeWord;
     public bool hasSuggestion = false;
+    public string firstWord;
 
     public List<string> suggestionList = new List<string>();
 
@@ -116,9 +117,9 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void Init()
     {
-        _beforeWord = "사과";
+        _beforeWord = firstWord;
         outputWord.text = _beforeWord;
-        explanationText.text = "사과 뜻";
+        explanationText.text = "처음단어";
 
         hasSuggestion = false;
     }
