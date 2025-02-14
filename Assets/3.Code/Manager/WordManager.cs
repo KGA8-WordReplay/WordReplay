@@ -6,8 +6,9 @@ public class WordManager : Singleton<WordManager>
 {
     public WordStorage wordStorage;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         wordStorage = new WordStorage();
         wordStorage.Init();
     }

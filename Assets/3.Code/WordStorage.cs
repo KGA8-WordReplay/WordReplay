@@ -10,6 +10,8 @@ public class WordStorage
     public Dictionary<string, string> EveryWordDict { get; private set; }
     //나의 데이터 사전
     public Dictionary<string, string> MyWordDict { get; private set; }
+    //두음 데이터 사전
+    public Dictionary<string, string> DueumDict { get; private set; }
     //사용한 데이터 사전
     public List<string> UsedWord { get; private set; }
 
@@ -23,27 +25,32 @@ public class WordStorage
         //필드 초기화
         EveryWordDict = new Dictionary<string, string>();
         MyWordDict = new Dictionary<string, string>();
+        DueumDict = new Dictionary<string, string>();
         UsedWord = new List<string>();
 
         //엑셀 파일 에러땜에 나중에 주석만 지우면 됌.
         //데이터 가공
         //List<Dictionary<string, object>> everyWordDict = CSVReader.Read("Word/EveryWord");
         List<Dictionary<string, object>> myWordDict = CSVReader.Read("Word/MyWord");
+        List<Dictionary<string, object>> dueumDict = CSVReader.Read("Word/Dueum");
 
         //전체 데이터 사전 등록
         //EveryWordDict = ConvertToStringDictionary(everyWordDict);
 
         //나의 데이터 사전 등록
-        MyWordDict = ConvertToStringDictionary(myWordDict);
+        MyWordDict = ConvertToStringDictionary(myWordDict, "어휘", "뜻풀이");
+
+        //두음 데이터 사전 등록
+        DueumDict = ConvertToStringDictionary(dueumDict, "두음 적용 전", "두음 적용 후");
     }
 
-    private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>> data)
+    private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>> data, string colName, string colName2)
     {
         Dictionary<string, string> processedData = new Dictionary<string, string>();
         for (int i = 0; i < data.Count; i++)
         {
-            string word = data[i]["어휘"].ToString();
-            string explanation = data[i]["뜻풀이"].ToString();
+            string word = data[i][colName].ToString();
+            string explanation = data[i][colName2].ToString();
 
             if (processedData.ContainsKey(word)) continue;
             processedData.Add(word, explanation);

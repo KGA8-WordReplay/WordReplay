@@ -14,6 +14,12 @@ public class AutoMode : MonoBehaviour
         _wordReplayManager = FindObjectOfType<WordReplayManager>();
     }
 
+    //두음 법칙 로직
+    private bool IsDueum(string letter)
+    {
+        return WordManager.Instance.wordStorage.DueumDict.ContainsKey(letter);
+    }
+
     public IEnumerator AutoCoroutine()
     {
         WordStorage wordStorage = WordManager.Instance.wordStorage;
@@ -39,6 +45,12 @@ public class AutoMode : MonoBehaviour
                 {
                     //이전 마지막 글자로 시작하는 단어가 있는지 && 이미 사용한 단어는 제외
                     if (word.FirstOrDefault().Equals(lastLetter) && !wordStorage.UsedWord.Contains(word))
+                    {
+                        findWords.Add(word);
+                    }
+
+                    //두음 법칙 적용했을 때 사용할 수 있는 단어가 있는지 && 이미 사용한 단어는 제외
+                    if (IsDueum(lastLetter.ToString()) && !wordStorage.UsedWord.Contains(word))
                     {
                         findWords.Add(word);
                     }
