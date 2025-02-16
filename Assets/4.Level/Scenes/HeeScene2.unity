@@ -976,6 +976,7 @@ MonoBehaviour:
   confirmButton: {fileID: 436744900}
   wholeWordTextName: WholeWordTest
   foodWordTextName: FoodWordTest
+  ruleOfHeadingTextName: RuleOfHeading
   wordName: "\uB2E8\uC5B4"
   meanName: "\uB73B"
   count: 0
@@ -1732,6 +1733,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1293296724}
   m_CullTransparentMesh: 1
+--- !u!1 &1302204740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1302204742}
+  - component: {fileID: 1302204741}
+  m_Layer: 0
+  m_Name: BlockManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1302204741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302204740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71478a6fe6dfae842a275e7908d6e903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackBlockPrefab: {fileID: 3528514114463624012, guid: 73748af69028c1546b3332744bdb63bc, type: 3}
+  grayBlockPrefab: {fileID: 3528514114463624012, guid: 831e181ecb303a94ab65e127ad531c6c, type: 3}
+--- !u!4 &1302204742
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302204740}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.52544, y: 10.038736, z: 10.350529}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1415113761
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,3 +2077,4 @@ SceneRoots:
   - {fileID: 440426130}
   - {fileID: 649155338}
   - {fileID: 901576663}
+  - {fileID: 1302204742}

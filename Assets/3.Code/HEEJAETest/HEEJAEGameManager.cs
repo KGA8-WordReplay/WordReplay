@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
@@ -16,6 +17,7 @@ public class HEEJAEGameManager : MonoBehaviour
     [SerializeField] private Button confirmButton;
     [SerializeField] private string wholeWordTextName;
     [SerializeField] private string foodWordTextName;
+    [SerializeField] private string ruleOfHeadingTextName;
     [SerializeField] private string wordName;
     [SerializeField] private string meanName;
 
@@ -26,24 +28,38 @@ public class HEEJAEGameManager : MonoBehaviour
     private List<Dictionary<string, object>> _everyWordDic = new List<Dictionary<string, object>>();
     private List<Dictionary<string, object>> _foodWordDic = new List<Dictionary<string, object>>();
 
-    private string _beforeWord;
+    //두음법칙
+    public Dictionary<char, char> _ruleOfHeading = new Dictionary<char, char>();
+
+    private string _preWord; //이거는 전체 단어 관리자에서 전에 입력된 단어 가져올 거임
     public bool hasSuggestion = false;
     public string firstWord;
 
+    //추천 단어 리스트
     public List<string> suggestionList = new List<string>();
 
+    //치고있는 단어
     private string _typingWord;
     private string _preTypingWord = "";
 
-    private int _currentSuggestionIndex = 0;
+    //현재 추천 단어
+    private string _currentSuggetion = "";
 
     private void Awake()
     {
         confirmButton.onClick.AddListener(OnClickConfirmButton);
-        //input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
+        input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
         _everyWordDic = HEEJAECSVReader.Read(wholeWordTextName);
         _foodWordDic = HEEJAECSVReader.Read(foodWordTextName);
+
+        List<Dictionary<string, object>> ruleOfHeadingList = HEEJAECSVReader.Read(ruleOfHeadingTextName);
+        foreach(var ruleOfHeading in ruleOfHeadingList)
+        {
+            string before = ruleOfHeading["전"].ToString();
+            string after = ruleOfHeading["후"].ToString();
+            _ruleOfHeading[char.Parse(before)] = char.Parse(after);
+        }
     }
 
     private void Start()
@@ -73,15 +89,27 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void Update()
     {
-        //string inputText = input.text;
-        //string composition = Input.compositionString;
         _typingWord = input.text + Input.compositionString;
-        //print($"찐 입력 : {_typingWord}");
-        
-        //입력값이 바뀔때만 확인
+
         if (_typingWord != _preTypingWord)
         {
-            MatchWord(_typingWord);
+            print("몇번");
+            //매칭되는 단어 있으면
+            if (HasMatchWord(_typingWord) == true)
+            {
+                SetCurrentSuggestion();
+
+                //추천 단어가 있으면
+                if (string.IsNullOrEmpty(_currentSuggetion) == false)
+                {
+                    BlockManager.Instance.MakeSuggestionBlock(_typingWord, _currentSuggetion);
+                }
+            }
+            //매칭되는 단어 없으면 그냥 삭제
+            else
+            {
+                BlockManager.Instance.DestroyBlock(_typingWord);
+            }
             _preTypingWord = _typingWord;
         }
 
@@ -97,29 +125,14 @@ public class HEEJAEGameManager : MonoBehaviour
         {
             OnClickTab();
         }
-
-        //현재 조합중인 문자
-       
-        //print($"현재 조합중인 문자 : {composition}");
-
-        ////입력된 문자
-        //string currentInput = input.text;
-
-        //if (!string.IsNullOrEmpty(composition))
-        //{
-        //    MatchWord(composition);
-        //}
-        //else
-        //{
-        //    suggestionText.text = "";
-        //}
     }
 
     private void Init()
     {
-        _beforeWord = firstWord;
-        outputWord.text = _beforeWord;
+        _preWord = firstWord;
+        outputWord.text = _preWord;
         explanationText.text = "처음단어";
+        BlockManager.Instance.MakeLastWord(firstWord);
 
         hasSuggestion = false;
     }
@@ -139,6 +152,7 @@ public class HEEJAEGameManager : MonoBehaviour
                 outputWord.text = inputText;
                 ShowMean(inputText);
                 suggestionText.text = " ";
+                BlockManager.Instance.MakeLastWord(inputText);
             }
             //전체 단어에는 있지만 끝말잇기는 되지 않는 경우
             else
@@ -170,17 +184,45 @@ public class HEEJAEGameManager : MonoBehaviour
         return false;
     }
 
+    //private bool IsWordChainTrue(string input)
+    //{
+    //    char beforeLastWord = _beforeWord[_beforeWord.Length - 1];
+    //    print($"이전 단어 끝글자 : {beforeLastWord}");
+    //    char inputLastWord = input[0];
+    //    print($"현재 단어 앞글자 : {inputLastWord}");
+
+    //    if (beforeLastWord == inputLastWord)
+    //    {
+    //        print("끝말잇기 성공");
+    //        _beforeWord = input;
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        print("끝말잇기 실패");
+    //        return false;
+    //    }
+    //}
+
     private bool IsWordChainTrue(string input)
     {
-        char beforeLastWord = _beforeWord[_beforeWord.Length - 1];
+        //이전 글자의 끝글자
+        char beforeLastWord = _preWord[_preWord.Length - 1];
         print($"이전 단어 끝글자 : {beforeLastWord}");
-        char inputLastWord = input[0];
-        print($"현재 단어 앞글자 : {inputLastWord}");
 
-        if (beforeLastWord == inputLastWord)
+        //현재 글자의 앞글자
+        char inputFirstWord = input[0];
+        print($"현재 단어 앞글자 : {inputFirstWord}");
+
+        //현재 글자의 앞글자 분해
+        string disassemble = inputFirstWord.ToString().Normalize(NormalizationForm.FormD);
+        char vowels = disassemble[0];
+        print(vowels);
+
+        if (beforeLastWord == inputFirstWord)
         {
             print("끝말잇기 성공");
-            _beforeWord = input;
+            _preWord = input;
             return true;
         }
         else
@@ -214,19 +256,7 @@ public class HEEJAEGameManager : MonoBehaviour
             return;
         }
 
-        //뭔가 있다면 그 단어로 시작하는 단어 찾기
-        string matchWord = _everyWordList.FirstOrDefault(word => word.StartsWith(input));
 
-        //매치되는 단어가 있으면
-        if (!string.IsNullOrEmpty(matchWord))
-        {
-            suggestionText.text = matchWord;
-        }
-        //없으면
-        else
-        {
-            suggestionText.text = "";
-        }
     }
 
     private void OnSubmit(string input)
@@ -244,51 +274,114 @@ public class HEEJAEGameManager : MonoBehaviour
     {
         if(suggestionList.Count > 0)
         {
-            _currentSuggestionIndex = (_currentSuggestionIndex + 1) % suggestionList.Count;
-            suggestionText.text = suggestionList[_currentSuggestionIndex];
-            print($"{_currentSuggestionIndex}번째 추천 단어 : {suggestionText.text}");
+            //_currentSuggestionIndex = (_currentSuggestionIndex + 1) % suggestionList.Count;
+            //suggestionText.text = suggestionList[_currentSuggestionIndex];
+            //print($"{_currentSuggestionIndex}번째 추천 단어 : {suggestionText.text}");
+            //SetCurrentSuggestion();
+            SetCurrentSuggestion();
+            BlockManager.Instance.MakeSuggestionBlock(_typingWord, _currentSuggetion);
         }
     }
 
-    private void MatchWord(string composition)
+    //매치하는 단어가 있는지 확인
+    private bool HasMatchWord(string composition)
     {
-        print("매치단어 찾음");
         if (composition == "")
         {
-            suggestionText.text = " ";
-            return;
+            suggestionText.text = "";
+            suggestionList.Clear();
+            return false;
         }
-        //단어 찾음
-        //preSuggestion = _foodWordList.FirstOrDefault(word => word.StartsWith(composition));
-
-        //맞는 단어 리스트로 만듦
-        suggestionList = _foodWordList.Where(word => word.StartsWith(composition)).ToList();
-
-        //추천 단어없으면 지정
-        if (suggestionList.Count > 0)
+        if (_ruleOfHeading.ContainsKey(composition[0]))
         {
-            _currentSuggestionIndex = 0;
-            suggestionText.text = suggestionList[_currentSuggestionIndex];
-            print($"처음 추천 단어 : {suggestionText.text}");
-            hasSuggestion = true;
+            print("두음법칙 적용됨");
+            string secondWord = "";
+            //첫번째 글자 치환 
+            secondWord = composition.Replace(composition[0], _ruleOfHeading[composition[0]]);
+            print($"변경됨 : {secondWord} ");
+
+            suggestionList = _foodWordList.Where(word => word.StartsWith(secondWord) && word.StartsWith(composition)).ToList();
         }
 
-        //print($"매치 된 단어 : {preSuggestion}");
-
-        ////매치되는 단어가 있으면
-        //if (!string.IsNullOrEmpty(preSuggestion))
-        //{
-        //    //추천 단어가 그 매치되는 단어로 바뀜
-        //    suggestionText.text = preSuggestion;
-        //    print("단어 찾음");
-        //    hasSuggestion = true;
-        //}
-        //없으면
+        //두음 법칙이 성립 안할때
         else
         {
-            suggestionText.text = "";
-            print("단어 못찾음");
-            hasSuggestion = false;
+            //맞는 단어 리스트로 만듦
+            suggestionList = _foodWordList.Where(word => word.StartsWith(composition)).ToList();
         }
+
+        if (suggestionList.Count > 0)
+        {
+            print($"추천단어 설정 완료 : {suggestionList[0]}");
+            return true;
+        }
+        else
+        {
+            print($"추천단어 없음");
+            suggestionList.Clear();
+            return false;
+        }
+        //int i = 0;
+        //print("$$");
+        ////단어가 없으면 빈칸으로 비워줌
+        //if (composition == "")
+        //{
+        //    suggestionText.text = "";
+        //    return false;
+        //}
+
+        //    i++;
+        //    print($"변한 수 : {i}");
+        //    //두음법칙 중에 입력중인 단어의 첫번재 단어가 있을경우
+        //    if (_ruleOfHeading.ContainsKey(composition[0]))
+        //    {
+        //        print("두음법칙 적용됨");
+        //        string secondWord = "";
+        //        //첫번째 글자 치환 
+        //        secondWord = composition.Replace(composition[0], _ruleOfHeading[composition[0]]);
+        //        print($"변경됨 : {secondWord} ");
+
+        //        suggestionList = _foodWordList.Where(word => word.StartsWith(secondWord) && word.StartsWith(composition)).ToList();
+        //        print($"추천단어 : {suggestionList[0]}");
+        //        return true;
+        //    }
+
+        //    else
+        //    {
+        //        //맞는 단어 리스트로 만듦
+        //        suggestionList = _foodWordList.Where(word => word.StartsWith(composition)).ToList();
+        //        return true;
+        //    }
+
+        //_preSuggestionList = new List<string>(suggestionList);
+        ////추천 단어 있을떄
+        //if (suggestionList.Count > 0)
+        //{
+        //    print("추천단어 있음");
+        //    return true;
+        //}
+
+        //else
+        //{
+        //    return false;
+        //}
+    }
+
+    private int _index = 0;
+
+    private void SetCurrentSuggestion()
+    {
+        if (suggestionList.Count == 0)
+        {
+            _currentSuggetion = null;
+            return;
+        }
+
+        _index++;
+        int num = (_index % suggestionList.Count);
+        _currentSuggetion = suggestionList[num];
+        print($"현재 추천 단어 : {_currentSuggetion}");
+
+        //BlockManager.Instance.MakeSuggestionBlock(_typingWord, _currentSuggetion);
     }
 }
