@@ -271,7 +271,7 @@ public class HEEJAEGameManager : MonoBehaviour
     }
 
     private void OnClickTab()
-    {
+    {   
         if(suggestionList.Count > 0)
         {
             //_currentSuggestionIndex = (_currentSuggestionIndex + 1) % suggestionList.Count;
@@ -300,7 +300,7 @@ public class HEEJAEGameManager : MonoBehaviour
             secondWord = composition.Replace(composition[0], _ruleOfHeading[composition[0]]);
             print($"변경됨 : {secondWord} ");
 
-            suggestionList = _foodWordList.Where(word => word.StartsWith(secondWord) && word.StartsWith(composition)).ToList();
+            suggestionList = _foodWordList.Where(word => word.StartsWith(secondWord) || word.StartsWith(composition)).ToList();
         }
 
         //두음 법칙이 성립 안할때
