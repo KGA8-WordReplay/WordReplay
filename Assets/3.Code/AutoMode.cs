@@ -77,7 +77,6 @@ public class AutoMode : MonoBehaviour
                 }
 
                 string longestWord = "";
-                print($"longestWord의 처음 길이 값: {longestWord.Length}");
                 //찾은 단어에서 제일 긴 단어 검출
                 foreach (string word in findWords)
                 {
