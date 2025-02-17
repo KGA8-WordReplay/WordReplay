@@ -10,6 +10,7 @@ public class Timer : MonoBehaviour
     private Slider _slider;
 
     private WordReplayManager _wordReplayManager;
+    private Coroutine _timerCoroutine;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class Timer : MonoBehaviour
 
     public void OnTimer()
     {
-        StartCoroutine(TimerCoroutine());
+        _timerCoroutine = StartCoroutine(TimerCoroutine());
     }
 
     private IEnumerator TimerCoroutine()
@@ -32,6 +33,8 @@ public class Timer : MonoBehaviour
         _curTime = 0;
         while (_curTime <= limitedTime)
         {
+            if (_wordReplayManager.IsEndGame) yield break;
+
             _curTime += Time.deltaTime;
 
             float progress = Mathf.Clamp01(_curTime / limitedTime);
