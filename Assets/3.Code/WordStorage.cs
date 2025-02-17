@@ -15,6 +15,25 @@ public class WordStorage
     //사용한 데이터 사전
     public List<string> UsedWord { get; private set; }
 
+    public WordStorage(string everyWord, string myWord, string duemWord, string col1, string col2, string col3, string col4)
+    {
+        this.everyWord=everyWord;
+        this.myWord=myWord;
+        this.duemWord=duemWord;
+        this.col1=col1;
+        this.col2=col2;
+        this.col3=col3;
+        this.col4=col4;
+    }
+
+    public string everyWord;
+    public string myWord;
+    public string duemWord;
+    public string col1;
+    public string col2;
+    public string col3;
+    public string col4;
+
     public void AddUsedWord(string used)
     {
         UsedWord.Add(used);
@@ -30,18 +49,18 @@ public class WordStorage
 
         //엑셀 파일 에러땜에 나중에 주석만 지우면 됌.
         //데이터 가공
-        //List<Dictionary<string, object>> everyWordDict = CSVReader.Read("Word/EveryWord");
-        List<Dictionary<string, object>> myWordDict = CSVReader.Read("Word/TestWord");
-        List<Dictionary<string, object>> dueumDict = CSVReader.Read("Word/Dueum");
+        List<Dictionary<string, object>> everyWordDict = CSVReader.Read($"Word/{everyWord}");
+        List<Dictionary<string, object>> myWordDict = CSVReader.Read($"Word/{myWord}");
+        List<Dictionary<string, object>> dueumDict = CSVReader.Read($"Word/{duemWord}");
 
         //전체 데이터 사전 등록
-        //EveryWordDict = ConvertToStringDictionary(everyWordDict);
+        EveryWordDict = ConvertToStringDictionary(everyWordDict, col1, col2);
 
         //나의 데이터 사전 등록
-        MyWordDict = ConvertToStringDictionary(myWordDict, "어휘", "뜻풀이");
+        MyWordDict = ConvertToStringDictionary(myWordDict, col1, col2);
 
         //두음 데이터 사전 등록
-        DueumDict = ConvertToCharDictionary(dueumDict, "두음 적용 전", "두음 적용 후");
+        DueumDict = ConvertToCharDictionary(dueumDict, col3, col4);
     }
 
     private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>> data, string colName, string colName2)

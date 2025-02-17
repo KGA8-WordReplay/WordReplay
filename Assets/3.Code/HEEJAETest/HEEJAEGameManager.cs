@@ -28,8 +28,8 @@ public class HEEJAEGameManager : MonoBehaviour
 
     public List<string> _everyWordList = new List<string>();
     public List<string> _foodWordList = new List<string>();
-    private List<Dictionary<string, object>> _everyWordDic = new List<Dictionary<string, object>>();
-    private List<Dictionary<string, object>> _foodWordDic = new List<Dictionary<string, object>>();
+    //private List<Dictionary<string, object>> _everyWordDic = new List<Dictionary<string, object>>();
+    //private List<Dictionary<string, object>> _foodWordDic = new List<Dictionary<string, object>>();
 
     //두음법칙
     public Dictionary<char, char> _ruleOfHeading = new Dictionary<char, char>();
@@ -56,16 +56,16 @@ public class HEEJAEGameManager : MonoBehaviour
         confirmButton.onClick.AddListener(OnClickConfirmButton);
         input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
-        _everyWordDic = HEEJAECSVReader.Read(wholeWordTextName);
-        _foodWordDic = HEEJAECSVReader.Read(foodWordTextName);
+        //_everyWordDic = HEEJAECSVReader.Read(wholeWordTextName);
+        //_foodWordDic = HEEJAECSVReader.Read(foodWordTextName);
 
-        List<Dictionary<string, object>> ruleOfHeadingList = HEEJAECSVReader.Read(ruleOfHeadingTextName);
-        foreach(var ruleOfHeading in ruleOfHeadingList)
-        {
-            string before = ruleOfHeading["전"].ToString();
-            string after = ruleOfHeading["후"].ToString();
-            _ruleOfHeading[char.Parse(before)] = char.Parse(after);
-        }
+        //List<Dictionary<string, object>> ruleOfHeadingList = HEEJAECSVReader.Read(ruleOfHeadingTextName);
+        //foreach(var ruleOfHeading in ruleOfHeadingList)
+        //{
+        //    string before = ruleOfHeading["전"].ToString();
+        //    string after = ruleOfHeading["후"].ToString();
+        //    _ruleOfHeading[char.Parse(before)] = char.Parse(after);
+        //}
     }
 
     private void Start()
@@ -75,22 +75,18 @@ public class HEEJAEGameManager : MonoBehaviour
 
         //모든 단어 리스트 생성
         int i = 0;
-        foreach (var row in _everyWordDic)
+        foreach (var row in WordStorageManager.Instance.wordStorage.EveryWordDict)
         {
-            i++;
-            string word = row[wordName].ToString();
-            //string mean = row["뜻"].ToString();
-
-            _everyWordList.Add(word);
+            _everyWordList.Add(row.Key);
             //_meanList.Add(mean);
             print(i);
         }
 
-        foreach(var row in _foodWordDic)
+        foreach(var row in WordStorageManager.Instance.wordStorage.MyWordDict)
         {
-            string word = row[wordName].ToString();
-            _foodWordList.Add(word);
+            _everyWordList.Add(row.Key);
         }
+        _ruleOfHeading = WordStorageManager.Instance.wordStorage.DueumDict;
     }
 
     private void Update()
@@ -241,15 +237,7 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void ShowMean(string inputText)
     {
-        foreach(var word in _everyWordDic)
-        {
-            if (word[wordName].ToString() == inputText)
-            {
-                string mean = word[meanName].ToString();
-                this.explanationText.text = mean;
-                return;
-            }
-        }
+        this.explanationText.text = WordStorageManager.Instance.wordStorage.EveryWordDict[inputText];
     }
 
     //input안에 값이 바뀔때 마다 실행

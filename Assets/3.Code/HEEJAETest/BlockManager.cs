@@ -34,7 +34,7 @@ public class BlockManager : MonoBehaviour
 
         bool hasRuleOfHeading = HEEJAEGameManager.Instance._ruleOfHeading.ContainsKey(preWord[preWord.Length - 1]);
         char lastChar = preWord[preWord.Length - 1];
-        char ruledChar = hasRuleOfHeading ? HEEJAEGameManager.Instance._ruleOfHeading[lastChar] : lastChar;
+        char ruledChar = hasRuleOfHeading ? HEEJAEGameManager.Instance._ruleOfHeading[lastChar] : '\0';
 
         Vector3 movePos = Vector3.right;
 
@@ -51,7 +51,7 @@ public class BlockManager : MonoBehaviour
             }
             else
             {
-                block.SetWord(word[i], '\0', false);
+                block.SetWord(word[i], ruledChar, false);
             }
             block.transform.position += movePos;
             childBlock.Add(block);
