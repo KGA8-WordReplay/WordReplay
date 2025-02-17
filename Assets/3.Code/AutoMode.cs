@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,7 @@ public class AutoMode : MonoBehaviour
             if (string.IsNullOrEmpty(_wordReplayManager.PreWord))
             {
                 KeyValuePair<string, string> firstWord = wordStorage.MyWordDict.FirstOrDefault();
-                _wordReplayManager.PreWord = firstWord.Key;
-                _wordReplayManager.mainUI.UpdateWordDisplay(firstWord.Key, firstWord.Value);
-                wordStorage.UsedWord.Add(firstWord.Key);
+                _wordReplayManager.HandleWordSubmission(firstWord.Key);
             }
             else
             {
@@ -70,8 +69,8 @@ public class AutoMode : MonoBehaviour
 
                 if (findWords.Count <= 0)
                 {
-                    _wordReplayManager.mainUI.onAuto = false;
-                    _wordReplayManager.mainUI.AutoButtonColor();
+                    _wordReplayManager.MainUI.onAuto = false;
+                    _wordReplayManager.MainUI.AutoButtonColor();
                     print("이어붙일 단어가 없음");
                     yield break;
                 }
@@ -86,9 +85,7 @@ public class AutoMode : MonoBehaviour
                     }
                 }
                 print($"다음 단어: {longestWord}");
-                _wordReplayManager.PreWord = longestWord;
-                _wordReplayManager.mainUI.UpdateWordDisplay(longestWord, wordStorage.MyWordDict[longestWord]);
-                wordStorage.UsedWord.Add(longestWord);
+                _wordReplayManager.HandleWordSubmission(longestWord);
             }
             yield return new WaitForSeconds(autoInterval);
         }
