@@ -10,6 +10,9 @@ using UnityEngine.UI;
 
 public class HEEJAEGameManager : MonoBehaviour
 {
+    private static HEEJAEGameManager _instance;
+    public static HEEJAEGameManager Instance { get { return _instance; } }
+
     [SerializeField] private TMP_InputField input;
     [SerializeField] private TextMeshProUGUI outputWord;
     [SerializeField] private TextMeshProUGUI explanationText;
@@ -47,6 +50,8 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void Awake()
     {
+        _instance = this;
+        
         confirmButton.onClick.AddListener(OnClickConfirmButton);
         input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
@@ -97,6 +102,7 @@ public class HEEJAEGameManager : MonoBehaviour
             //매칭되는 단어 있으면
             if (HasMatchWord(_typingWord) == true)
             {
+                //추천단어 설정하고
                 SetCurrentSuggestion();
 
                 //추천 단어가 있으면
@@ -108,7 +114,7 @@ public class HEEJAEGameManager : MonoBehaviour
             //매칭되는 단어 없으면 그냥 삭제
             else
             {
-                BlockManager.Instance.DestroyBlock(_typingWord);
+                BlockManager.Instance.MakeBlock(_typingWord);
             }
             _preTypingWord = _typingWord;
         }
@@ -132,7 +138,7 @@ public class HEEJAEGameManager : MonoBehaviour
         _preWord = firstWord;
         outputWord.text = _preWord;
         explanationText.text = "처음단어";
-        BlockManager.Instance.MakeLastWord(firstWord);
+        //BlockManager.Instance.MakeLastWord(firstWord);
 
         hasSuggestion = false;
     }
@@ -152,7 +158,7 @@ public class HEEJAEGameManager : MonoBehaviour
                 outputWord.text = inputText;
                 ShowMean(inputText);
                 suggestionText.text = " ";
-                BlockManager.Instance.MakeLastWord(inputText);
+                //BlockManager.Instance.MakeLastWord(inputText);
             }
             //전체 단어에는 있지만 끝말잇기는 되지 않는 경우
             else
@@ -255,8 +261,6 @@ public class HEEJAEGameManager : MonoBehaviour
             suggestionText.text = "";
             return;
         }
-
-
     }
 
     private void OnSubmit(string input)

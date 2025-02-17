@@ -983,7 +983,7 @@ MonoBehaviour:
   _everyWordList: []
   _foodWordList: []
   hasSuggestion: 0
-  firstWord: "\uACE0\uCC38"
+  firstWord: "\uC0C1\uACE0"
   suggestionList: []
 --- !u!4 &901576663
 Transform:
