@@ -14,15 +14,21 @@ public class AutoMode : MonoBehaviour
         _wordReplayManager = FindObjectOfType<WordReplayManager>();
     }
 
-    //두음 법칙 로직
-    private bool IsDueum(string letter)
+    #region 두음 법칙 로직
+    private bool IsDueum(char letter)
     {
-        return WordManager.Instance.wordStorage.DueumDict.ContainsKey(letter);
+        return WordStorageManager.Instance.wordStorage.DueumDict.ContainsKey(letter);
     }
+
+    private char ConvertToDueum(char lastLetter)
+    {
+        return WordStorageManager.Instance.wordStorage.DueumDict[lastLetter];
+    }
+    #endregion
 
     public IEnumerator AutoCoroutine()
     {
-        WordStorage wordStorage = WordManager.Instance.wordStorage;
+        WordStorage wordStorage = WordStorageManager.Instance.wordStorage;
         while (true)
         {
             if (string.IsNullOrEmpty(_wordReplayManager.PreWord))
@@ -40,19 +46,25 @@ public class AutoMode : MonoBehaviour
                 char lastLetter = _wordReplayManager.PreWord.LastOrDefault();
 
                 List<string> findWords = new List<string>();
+
                 //이전 단어 마지막 글자와 일치하는 단어List 검출
                 foreach (string word in wordStorage.MyWordDict.Keys)
                 {
-                    //이전 마지막 글자로 시작하는 단어가 있는지 && 이미 사용한 단어는 제외
-                    if (word.FirstOrDefault().Equals(lastLetter) && !wordStorage.UsedWord.Contains(word))
+                    if (wordStorage.UsedWord.Contains(word)) continue;
+
+                    //이전 마지막 글자로 시작하는 단어가 있는지
+                    if (word.FirstOrDefault().Equals(lastLetter))
                     {
                         findWords.Add(word);
                     }
-
-                    //두음 법칙 적용했을 때 사용할 수 있는 단어가 있는지 && 이미 사용한 단어는 제외
-                    if (IsDueum(lastLetter.ToString()) && !wordStorage.UsedWord.Contains(word))
+                    //두음법칙으로 했을 때, 사용할 수 있는 단어가 있는지
+                    else if (IsDueum(lastLetter))
                     {
-                        findWords.Add(word);
+                        char dueumLetter = ConvertToDueum(lastLetter);
+                        if (word.FirstOrDefault().Equals(dueumLetter))
+                        {
+                            findWords.Add(word);
+                        }
                     }
                 }
 

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WordManager : Singleton<WordManager>
+public class WordStorageManager : Singleton<WordStorageManager>
 {
-    public WordStorage wordStorage;
+    public WordStorage wordStorage { get; private set; }
 
     protected override void Awake()
     {
