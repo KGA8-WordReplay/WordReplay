@@ -5,16 +5,13 @@ using UnityEngine;
 
 public class WordReplayManager : MonoBehaviour
 {
-    [Header("점수 관련 변수")]
-    public int basicScore = 10;
-    public int curScore;
-    public int maxScore;
 
     //프로퍼티
     public string PreWord { get; set; }
 
     public bool IsEndGame { get; private set; }
     public WordReplayMainUI MainUI { get; private set; }
+    public ScoreTracker ScoreTracker { get; private set; }
 
     //private
     private AutoMode _autoMode;
@@ -22,6 +19,7 @@ public class WordReplayManager : MonoBehaviour
 
     //코루틴
     private Coroutine _autoCoroutine;
+    private Coroutine _timerCoroutine;
 
     private void Awake()
     {
@@ -36,8 +34,8 @@ public class WordReplayManager : MonoBehaviour
     private void GameStart()
     {
         _timer.OnTimer();
-        MainUI.AddScore(curScore);
-        MainUI.SetMaxScore(maxScore);
+        MainUI.AddScore(ScoreTracker.CurScore);
+        MainUI.SetMaxScore(ScoreTracker.maxScore);
     }
 
     //단어 입력에 대한 처리
@@ -47,11 +45,12 @@ public class WordReplayManager : MonoBehaviour
         MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
         WordStorageManager.Instance.wordStorage.UsedWord.Add(word);
 
-        _timer.MaxTimer();
-        curScore += CalcScoreByLength(word);
-        MainUI.AddScore(curScore);
+        //_timer.MaxTimer();
+        InitTimer();
+        ScoreTracker.CalcScoreByLength(word);
+        MainUI.AddScore(ScoreTracker.CurScore);
 
-        if (IsMaxScore())
+        if (ScoreTracker.IsMaxScore())
         {
             GameResult(true);
         }
@@ -70,6 +69,16 @@ public class WordReplayManager : MonoBehaviour
             if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);
             print("오토기능 멈춤");
         }
+    }
+
+    public void InitTimer()
+    {
+        if (_timerCoroutine != null)
+        {
+            StopCoroutine(_timerCoroutine);
+            print("타이머 멈춤");
+        }
+        _timerCoroutine = StartCoroutine(_timer.TimerCoroutine(ScoreTracker.GetLimitedTime()));
     }
 
     public void GameResult(bool isSuccess)
@@ -95,22 +104,11 @@ public class WordReplayManager : MonoBehaviour
         Debug.Log("시간 초과로 졌음");
     }
 
-    private int CalcScoreByLength(string word)
-    {
-        int bonus = (word.Length - 2) * 5;
-        int result = basicScore + bonus;
-        return result;
-    }
-
-    private bool IsMaxScore()
-    {
-        return curScore >= maxScore ? true : false;
-    }
-
     private void Init()
     {
         MainUI = FindObjectOfType<WordReplayMainUI>();
         _autoMode = FindObjectOfType<AutoMode>();
         _timer = FindObjectOfType<Timer>();
+        ScoreTracker = FindObjectOfType<ScoreTracker>();
     }
 }
