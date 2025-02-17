@@ -47,6 +47,7 @@ public class HEEJAEGameManager : MonoBehaviour
 
     //현재 추천 단어
     private string _currentSuggetion = "";
+    private string _privateCurrentSuggestion = "";
 
     private void Awake()
     {
@@ -108,13 +109,13 @@ public class HEEJAEGameManager : MonoBehaviour
                 //추천 단어가 있으면
                 if (string.IsNullOrEmpty(_currentSuggetion) == false)
                 {
-                    BlockManager.Instance.MakeSuggestionBlock(_typingWord, _currentSuggetion);
+                    BlockManager.Instance.MakeSuggestionBlock(_preWord, _typingWord, _currentSuggetion);
                 }
             }
             //매칭되는 단어 없으면 그냥 삭제
             else
             {
-                BlockManager.Instance.MakeBlock(_typingWord);
+                BlockManager.Instance.MakeBlock(_preWord, _typingWord);
             }
             _preTypingWord = _typingWord;
         }
@@ -220,10 +221,10 @@ public class HEEJAEGameManager : MonoBehaviour
         char inputFirstWord = input[0];
         print($"현재 단어 앞글자 : {inputFirstWord}");
 
-        //현재 글자의 앞글자 분해
-        string disassemble = inputFirstWord.ToString().Normalize(NormalizationForm.FormD);
-        char vowels = disassemble[0];
-        print(vowels);
+        ////현재 글자의 앞글자 분해
+        //string disassemble = inputFirstWord.ToString().Normalize(NormalizationForm.FormD);
+        //char vowels = disassemble[0];
+        //print(vowels);
 
         if (beforeLastWord == inputFirstWord)
         {
@@ -283,7 +284,7 @@ public class HEEJAEGameManager : MonoBehaviour
             //print($"{_currentSuggestionIndex}번째 추천 단어 : {suggestionText.text}");
             //SetCurrentSuggestion();
             SetCurrentSuggestion();
-            BlockManager.Instance.MakeSuggestionBlock(_typingWord, _currentSuggetion);
+            BlockManager.Instance.MakeSuggestionBlock(_preWord, _typingWord, _currentSuggetion);
         }
     }
 
