@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,8 +9,11 @@ public class WordReplayMainUI : MonoBehaviour
 {
     public TextMeshProUGUI explanationText;
     public TextMeshProUGUI outputText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI maxScoreText;
     public TMP_InputField inputText;
     public Button confirmButton;
+    public Button quitButton;
 
     public Button autoButton;
     public bool onAuto = false;
@@ -34,5 +38,21 @@ public class WordReplayMainUI : MonoBehaviour
     public void AutoButtonColor()
     {
         autoButton.GetComponent<Image>().color = onAuto ? Color.green : Color.white;
+    }
+
+    public void UpdateWordDisplay(string output, string explanation)
+    {
+        outputText.text = output;
+        explanationText.text = explanation;
+    }
+
+    public void AddScore(int score)
+    {
+        scoreText.text = score.ToString();
+    }
+
+    public void SetMaxScore(int score)
+    {
+        maxScoreText.text = score.ToString();
     }
 }
