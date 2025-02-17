@@ -7,6 +7,7 @@ public class WordReplayManager : MonoBehaviour
 {
     public string PreWord { get; set; }
 
+    public bool IsEndGame { get; private set; }
     public WordReplayMainUI MainUI { get; private set; }
     private AutoMode _autoMode;
     private Timer _timer;
@@ -44,13 +45,14 @@ public class WordReplayManager : MonoBehaviour
         else
         {
             MainUI.AutoButtonColor();
-            StopCoroutine(_autoCoroutine);
+            if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);
             print("오토기능 멈춤");
         }
     }
 
     public void GameResult(bool isSuccess)
     {
+        IsEndGame = true;
         if (isSuccess)
         {
             OnSuccess();

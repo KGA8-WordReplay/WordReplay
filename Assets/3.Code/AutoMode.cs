@@ -30,7 +30,7 @@ public class AutoMode : MonoBehaviour
     public IEnumerator AutoCoroutine()
     {
         WordStorage wordStorage = WordStorageManager.Instance.wordStorage;
-        while (true)
+        while (!_wordReplayManager.IsEndGame)
         {
             if (string.IsNullOrEmpty(_wordReplayManager.PreWord))
             {
@@ -85,7 +85,11 @@ public class AutoMode : MonoBehaviour
                     }
                 }
                 print($"다음 단어: {longestWord}");
-                _wordReplayManager.HandleWordSubmission(longestWord);
+
+                if (!_wordReplayManager.IsEndGame)
+                {
+                    _wordReplayManager.HandleWordSubmission(longestWord);
+                }
             }
             yield return new WaitForSeconds(autoInterval);
         }
