@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +15,27 @@ public class AutoMode : MonoBehaviour
         _wordReplayManager = FindObjectOfType<WordReplayManager>();
     }
 
+    #region 두음 법칙 로직
+    private bool IsDueum(char letter)
+    {
+        return WordStorageManager.Instance.wordStorage.DueumDict.ContainsKey(letter);
+    }
+
+    private char ConvertToDueum(char lastLetter)
+    {
+        return WordStorageManager.Instance.wordStorage.DueumDict[lastLetter];
+    }
+    #endregion
+
     public IEnumerator AutoCoroutine()
     {
-        WordStorage wordStorage = WordManager.Instance.wordStorage;
-        while (true)
+        WordStorage wordStorage = WordStorageManager.Instance.wordStorage;
+        while (!_wordReplayManager.IsEndGame)
         {
             if (string.IsNullOrEmpty(_wordReplayManager.PreWord))
             {
                 KeyValuePair<string, string> firstWord = wordStorage.MyWordDict.FirstOrDefault();
-                _wordReplayManager.PreWord = firstWord.Key;
-                _wordReplayManager.mainUI.UpdateWordDisplay(firstWord.Key, firstWord.Value);
-                wordStorage.UsedWord.Add(firstWord.Key);
+                _wordReplayManager.HandleWordSubmission(firstWord.Key);
             }
             else
             {
@@ -34,26 +45,37 @@ public class AutoMode : MonoBehaviour
                 char lastLetter = _wordReplayManager.PreWord.LastOrDefault();
 
                 List<string> findWords = new List<string>();
+
                 //이전 단어 마지막 글자와 일치하는 단어List 검출
                 foreach (string word in wordStorage.MyWordDict.Keys)
                 {
-                    //이전 마지막 글자로 시작하는 단어가 있는지 && 이미 사용한 단어는 제외
-                    if (word.FirstOrDefault().Equals(lastLetter) && !wordStorage.UsedWord.Contains(word))
+                    if (wordStorage.UsedWord.Contains(word)) continue;
+
+                    //이전 마지막 글자로 시작하는 단어가 있는지
+                    if (word.FirstOrDefault().Equals(lastLetter))
                     {
                         findWords.Add(word);
+                    }
+                    //두음법칙으로 했을 때, 사용할 수 있는 단어가 있는지
+                    else if (IsDueum(lastLetter))
+                    {
+                        char dueumLetter = ConvertToDueum(lastLetter);
+                        if (word.FirstOrDefault().Equals(dueumLetter))
+                        {
+                            findWords.Add(word);
+                        }
                     }
                 }
 
                 if (findWords.Count <= 0)
                 {
-                    _wordReplayManager.mainUI.onAuto = false;
-                    _wordReplayManager.mainUI.AutoButtonColor();
+                    _wordReplayManager.MainUI.onAuto = false;
+                    _wordReplayManager.MainUI.AutoButtonColor();
                     print("이어붙일 단어가 없음");
                     yield break;
                 }
 
                 string longestWord = "";
-                print($"longestWord의 처음 길이 값: {longestWord.Length}");
                 //찾은 단어에서 제일 긴 단어 검출
                 foreach (string word in findWords)
                 {
@@ -63,9 +85,11 @@ public class AutoMode : MonoBehaviour
                     }
                 }
                 print($"다음 단어: {longestWord}");
-                _wordReplayManager.PreWord = longestWord;
-                _wordReplayManager.mainUI.UpdateWordDisplay(longestWord, wordStorage.MyWordDict[longestWord]);
-                wordStorage.UsedWord.Add(longestWord);
+
+                if (!_wordReplayManager.IsEndGame)
+                {
+                    _wordReplayManager.HandleWordSubmission(longestWord);
+                }
             }
             yield return new WaitForSeconds(autoInterval);
         }
