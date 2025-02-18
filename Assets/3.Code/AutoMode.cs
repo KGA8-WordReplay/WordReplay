@@ -35,7 +35,7 @@ public class AutoMode : MonoBehaviour
             if (string.IsNullOrEmpty(_wordReplayManager.PreWord))
             {
                 KeyValuePair<string, string> firstWord = wordStorage.MyWordDict.FirstOrDefault();
-                _wordReplayManager.HandleWordSubmission(firstWord.Key);
+                _wordReplayManager.HandleWordSubmission(firstWord.Key, true);
             }
             else
             {
@@ -88,7 +88,7 @@ public class AutoMode : MonoBehaviour
 
                 if (!_wordReplayManager.IsEndGame)
                 {
-                    _wordReplayManager.HandleWordSubmission(longestWord);
+                    _wordReplayManager.HandleWordSubmission(longestWord, true);
                 }
             }
             yield return new WaitForSeconds(autoInterval);
