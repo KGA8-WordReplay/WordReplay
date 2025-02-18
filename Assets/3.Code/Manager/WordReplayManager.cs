@@ -39,10 +39,19 @@ public class WordReplayManager : MonoBehaviour
     }
 
     //단어 입력에 대한 처리
-    public void HandleWordSubmission(string word)
+    public void HandleWordSubmission(string word, bool Auto)
     {
+        if (Auto)
+        {
+            MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
+        }
+        else
+        {
+            MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.EveryWordDict[word]);
+        }
+
         PreWord = word;
-        MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
+
         WordStorageManager.Instance.wordStorage.UsedWord.Add(word);
 
         //_timer.MaxTimer();

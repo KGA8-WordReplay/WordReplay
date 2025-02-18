@@ -16,7 +16,6 @@ public class HEEJAEGameManager : MonoBehaviour
     [SerializeField] private TMP_InputField input;
     [SerializeField] private TextMeshProUGUI outputWord;
     [SerializeField] private TextMeshProUGUI explanationText;
-    [SerializeField] private TextMeshProUGUI suggestionText;
     [SerializeField] private Button confirmButton;
     [SerializeField] private string wholeWordTextName;
     [SerializeField] private string foodWordTextName;
@@ -26,15 +25,16 @@ public class HEEJAEGameManager : MonoBehaviour
 
     [SerializeField] private int count;
 
+    //임시 참조
+    [SerializeField] private WordReplayManager wordReplayManager;
+
     public List<string> _everyWordList = new List<string>();
     public List<string> _foodWordList = new List<string>();
-    //private List<Dictionary<string, object>> _everyWordDic = new List<Dictionary<string, object>>();
-    //private List<Dictionary<string, object>> _foodWordDic = new List<Dictionary<string, object>>();
 
     //두음법칙
     public Dictionary<char, char> _ruleOfHeading = new Dictionary<char, char>();
 
-    private string _preWord; //이거는 전체 단어 관리자에서 전에 입력된 단어 가져올 거임
+    //private string _preWord; //이거는 전체 단어 관리자에서 전에 입력된 단어 가져올 거임
     public bool hasSuggestion = false;
     public string firstWord;
 
@@ -49,6 +49,7 @@ public class HEEJAEGameManager : MonoBehaviour
     private string _currentSuggetion = "";
     private string _privateCurrentSuggestion = "";
 
+
     private void Awake()
     {
         _instance = this;
@@ -56,16 +57,6 @@ public class HEEJAEGameManager : MonoBehaviour
         confirmButton.onClick.AddListener(OnClickConfirmButton);
         input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
-        //_everyWordDic = HEEJAECSVReader.Read(wholeWordTextName);
-        //_foodWordDic = HEEJAECSVReader.Read(foodWordTextName);
-
-        //List<Dictionary<string, object>> ruleOfHeadingList = HEEJAECSVReader.Read(ruleOfHeadingTextName);
-        //foreach(var ruleOfHeading in ruleOfHeadingList)
-        //{
-        //    string before = ruleOfHeading["전"].ToString();
-        //    string after = ruleOfHeading["후"].ToString();
-        //    _ruleOfHeading[char.Parse(before)] = char.Parse(after);
-        //}
     }
 
     private void Start()
@@ -84,7 +75,7 @@ public class HEEJAEGameManager : MonoBehaviour
 
         foreach(var row in WordStorageManager.Instance.wordStorage.MyWordDict)
         {
-            _everyWordList.Add(row.Key);
+            _foodWordList.Add(row.Key);
         }
         _ruleOfHeading = WordStorageManager.Instance.wordStorage.DueumDict;
     }
@@ -93,6 +84,7 @@ public class HEEJAEGameManager : MonoBehaviour
     {
         _typingWord = input.text + Input.compositionString;
 
+        //_typingWord가 바뀔 때 마다 들어옴
         if (_typingWord != _preTypingWord)
         {
             print("몇번");
@@ -105,13 +97,13 @@ public class HEEJAEGameManager : MonoBehaviour
                 //추천 단어가 있으면
                 if (string.IsNullOrEmpty(_currentSuggetion) == false)
                 {
-                    BlockManager.Instance.MakeSuggestionBlock(_preWord, _typingWord, _currentSuggetion);
+                    BlockManager.Instance.MakeSuggestionBlock(wordReplayManager.PreWord, _typingWord, _currentSuggetion);
                 }
             }
             //매칭되는 단어 없으면 그냥 삭제
             else
             {
-                BlockManager.Instance.MakeBlock(_preWord, _typingWord);
+                BlockManager.Instance.MakeBlock(wordReplayManager.PreWord, _typingWord);
             }
             _preTypingWord = _typingWord;
         }
@@ -132,8 +124,12 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void Init()
     {
-        _preWord = firstWord;
-        outputWord.text = _preWord;
+        wordReplayManager.PreWord = firstWord;
+        print($"wordReplayManager.PreWord의 단어 : {wordReplayManager.PreWord}");
+        print($"firstWord의 단어 : {firstWord}");
+        //임시로 이전단어 넘김
+        BlockManager.Instance.MakeFirstBlock(wordReplayManager.PreWord);
+        //outputWord.text = _preWord;
         explanationText.text = "처음단어";
         //BlockManager.Instance.MakeLastWord(firstWord);
 
@@ -146,15 +142,16 @@ public class HEEJAEGameManager : MonoBehaviour
         //확인 버튼 누르면 확인하는 순서
         //1. 전체 단어에 있는 단어인지 확인
         //2. 끝말잇기가 되는지 확인
-        string inputText = input.text;
+        string inputText;
+            inputText = input.text;
+
         if (IsInputWordInList(inputText))
         {
             //전체 단어에도 있으면서 끝말잇기도 되는 경우
             if (IsWordChainTrue(inputText))
             {
-                outputWord.text = inputText;
                 ShowMean(inputText);
-                suggestionText.text = " ";
+                BlockManager.Instance.ConfirmBlock();
                 //BlockManager.Instance.MakeLastWord(inputText);
             }
             //전체 단어에는 있지만 끝말잇기는 되지 않는 경우
@@ -169,12 +166,19 @@ public class HEEJAEGameManager : MonoBehaviour
             explanationText.text = "없는 단어입니다.";
         }
 
+
         input.text = "";
         input.ActivateInputField();
     }
 
     private bool IsInputWordInList(string inputText)
     {
+        ////두음법칙이 적용된다면
+        //if (CheckRuleOfHeading(inputText) == true)
+        //{
+
+        //}
+
         foreach (var word in _everyWordList)
         {
             if (word == inputText)
@@ -210,7 +214,7 @@ public class HEEJAEGameManager : MonoBehaviour
     private bool IsWordChainTrue(string input)
     {
         //이전 글자의 끝글자
-        char beforeLastWord = _preWord[_preWord.Length - 1];
+        char beforeLastWord = wordReplayManager.PreWord[wordReplayManager.PreWord.Length - 1];
         print($"이전 단어 끝글자 : {beforeLastWord}");
 
         //현재 글자의 앞글자
@@ -225,7 +229,8 @@ public class HEEJAEGameManager : MonoBehaviour
         if (beforeLastWord == inputFirstWord)
         {
             print("끝말잇기 성공");
-            _preWord = input;
+            wordReplayManager.HandleWordSubmission(input, false);
+            //wordReplayManager.PreWord = input;
             return true;
         }
         else
@@ -247,20 +252,15 @@ public class HEEJAEGameManager : MonoBehaviour
         if (string.IsNullOrEmpty(input))
         {
             //비우기
-            suggestionText.text = "";
             return;
         }
     }
 
     private void OnSubmit(string input)
     {
-        if (!string.IsNullOrEmpty(suggestionText.text))
-        {
-            this.input.text = suggestionText.text;
-            suggestionText.text = "";
             //버퍼 뒤로 이동
             this.input.MoveTextEnd(false);
-        }
+        
     }
 
     private void OnClickTab()
@@ -272,7 +272,7 @@ public class HEEJAEGameManager : MonoBehaviour
             //print($"{_currentSuggestionIndex}번째 추천 단어 : {suggestionText.text}");
             //SetCurrentSuggestion();
             SetCurrentSuggestion();
-            BlockManager.Instance.MakeSuggestionBlock(_preWord, _typingWord, _currentSuggetion);
+            BlockManager.Instance.MakeSuggestionBlock(wordReplayManager.PreWord, _typingWord, _currentSuggetion);
         }
     }
 
@@ -281,10 +281,10 @@ public class HEEJAEGameManager : MonoBehaviour
     {
         if (composition == "")
         {
-            suggestionText.text = "";
             suggestionList.Clear();
             return false;
         }
+
         if (_ruleOfHeading.ContainsKey(composition[0]))
         {
             print("두음법칙 적용됨");
@@ -314,53 +314,9 @@ public class HEEJAEGameManager : MonoBehaviour
             suggestionList.Clear();
             return false;
         }
-        //int i = 0;
-        //print("$$");
-        ////단어가 없으면 빈칸으로 비워줌
-        //if (composition == "")
-        //{
-        //    suggestionText.text = "";
-        //    return false;
-        //}
-
-        //    i++;
-        //    print($"변한 수 : {i}");
-        //    //두음법칙 중에 입력중인 단어의 첫번재 단어가 있을경우
-        //    if (_ruleOfHeading.ContainsKey(composition[0]))
-        //    {
-        //        print("두음법칙 적용됨");
-        //        string secondWord = "";
-        //        //첫번째 글자 치환 
-        //        secondWord = composition.Replace(composition[0], _ruleOfHeading[composition[0]]);
-        //        print($"변경됨 : {secondWord} ");
-
-        //        suggestionList = _foodWordList.Where(word => word.StartsWith(secondWord) && word.StartsWith(composition)).ToList();
-        //        print($"추천단어 : {suggestionList[0]}");
-        //        return true;
-        //    }
-
-        //    else
-        //    {
-        //        //맞는 단어 리스트로 만듦
-        //        suggestionList = _foodWordList.Where(word => word.StartsWith(composition)).ToList();
-        //        return true;
-        //    }
-
-        //_preSuggestionList = new List<string>(suggestionList);
-        ////추천 단어 있을떄
-        //if (suggestionList.Count > 0)
-        //{
-        //    print("추천단어 있음");
-        //    return true;
-        //}
-
-        //else
-        //{
-        //    return false;
-        //}
     }
 
-    private int _index = 0;
+    private static int _index = 0;
 
     private void SetCurrentSuggestion()
     {
@@ -374,7 +330,26 @@ public class HEEJAEGameManager : MonoBehaviour
         int num = (_index % suggestionList.Count);
         _currentSuggetion = suggestionList[num];
         print($"현재 추천 단어 : {_currentSuggetion}");
+    }
 
-        //BlockManager.Instance.MakeSuggestionBlock(_typingWord, _currentSuggetion);
+    //입력한 단어가 두음법칙을 만족하는지 확인
+    private bool CheckRuleOfHeading(char word)
+    {
+        if (HEEJAEGameManager.Instance._ruleOfHeading.ContainsKey(word))
+        {
+            return true;
+        }
+
+        else
+        {
+            return false;
+        }
+    }
+
+    //입력한 글자에 두음법칙을 적용한 값을 리턴
+    private char GetRuledChar(char word)
+    {
+        char result = HEEJAEGameManager.Instance._ruleOfHeading[word];
+        return result;
     }
 }
