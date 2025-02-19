@@ -54,8 +54,8 @@ public class WordReplayManager : MonoBehaviour
 
         WordStorageManager.Instance.wordStorage.UsedWord.Add(word);
 
-        //_timer.MaxTimer();
-        InitTimer();
+        _timer.MaxTimer();
+        //InitTimer();
         ScoreTracker.CalcScoreByLength(word);
         MainUI.AddScore(ScoreTracker.CurScore);
 
@@ -80,15 +80,15 @@ public class WordReplayManager : MonoBehaviour
         }
     }
 
-    public void InitTimer()
-    {
-        if (_timerCoroutine != null)
-        {
-            StopCoroutine(_timerCoroutine);
-            print("타이머 멈춤");
-        }
-        _timerCoroutine = StartCoroutine(_timer.TimerCoroutine(ScoreTracker.GetLimitedTime()));
-    }
+    //public void InitTimer()
+    //{
+    //    if (_timerCoroutine != null)
+    //    {
+    //        StopCoroutine(_timerCoroutine);
+    //        print("타이머 멈춤");
+    //    }
+    //    _timerCoroutine = StartCoroutine(_timer.TimerCoroutine(ScoreTracker.GetLimitedTime()));
+    //}
 
     public void GameResult(bool isSuccess)
     {
