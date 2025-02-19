@@ -183,13 +183,14 @@ public class HEEJAEGameManager : MonoBehaviour
         //두음법칙이 적용된다면
         //if (CheckRuleOfHeading(inputText) == true)
         //{
-            
-        //}
 
+        //}
         foreach (var word in _everyWordList)
         {
             if (word == inputText)
             {
+                print($"이전 단어 : {word}");
+                print($"입력단어 단어 : {inputText}");
                 print("있는 단어입니다");
                 return true;
             }
@@ -301,9 +302,11 @@ public class HEEJAEGameManager : MonoBehaviour
     {
         if (composition == "")
         {
+            _currentSuggetion = null;
             suggestionList.Clear();
             return false;
         }
+        _currentSuggetion = null;
 
         if (_ruleOfHeading.ContainsKey(composition[0]))
         {
