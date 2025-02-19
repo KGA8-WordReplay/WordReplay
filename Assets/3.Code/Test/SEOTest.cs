@@ -14,8 +14,27 @@ public class SEOTest : MonoBehaviour
 
     private void Awake()
     {
-        //_everyWord = CSVReader.Read("Word/EveryWord");
+        _everyWord = CSVReader.Read("Word/EveryWord");
         //print(_everyWord.Count);
+    }
+
+    private void Start()
+    {
+        count = 0;
+        print("스타트 시작");
+        foreach (Dictionary<string, object> a in _everyWord)
+        {
+            string word = a.ContainsKey("어휘") ? a["어휘"].ToString() : "N/A";
+            string explanation = a.ContainsKey("뜻풀이") ? a["뜻풀이"].ToString() : "N/A";
+
+            count++;
+            if (word.Equals("N/A") || explanation.Equals("N/A"))
+            {
+                Debug.LogWarning($"{count}: {word} - {explanation}");
+            }
+            print($"{count}: {word} - {explanation}");
+            print(count);
+        }
     }
 
     public void NextButton()
