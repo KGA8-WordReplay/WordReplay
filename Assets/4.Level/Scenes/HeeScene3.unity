@@ -554,6 +554,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1293296726}
     - target: {fileID: 7155121035564559791, guid: 2097856abd0fd30458c80508397bbbf5, type: 3}
+      propertyPath: wholeWordTextName
+      value: "\uBCF5\uC0AC\uBCF8 WholeWord"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155121035564559791, guid: 2097856abd0fd30458c80508397bbbf5, type: 3}
       propertyPath: wordReplayManager
       value: 
       objectReference: {fileID: 649155337}
@@ -950,7 +954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackBlockPrefab: {fileID: 3528514114463624012, guid: 73748af69028c1546b3332744bdb63bc, type: 3}
   grayBlockPrefab: {fileID: 3528514114463624012, guid: 831e181ecb303a94ab65e127ad531c6c, type: 3}
-  spaceScale: 1.3
+  spaceScale: 2.5
   blockSpawnPos: {fileID: 1540524754}
 --- !u!4 &501544563
 Transform:
