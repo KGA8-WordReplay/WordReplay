@@ -46,7 +46,7 @@ public class HEEJAEGameManager : MonoBehaviour
     private string _preTypingWord = "";
 
     //현재 추천 단어
-    private string _currentSuggetion = "";
+    public string _currentSuggetion = "";
     private string _privateCurrentSuggestion = "";
 
 
@@ -143,9 +143,16 @@ public class HEEJAEGameManager : MonoBehaviour
         //1. 전체 단어에 있는 단어인지 확인
         //2. 끝말잇기가 되는지 확인
         string inputText;
+        if (_currentSuggetion == null)
+        {
             inputText = input.text;
+        }
+        else
+        {
+            inputText = _currentSuggetion;
+        }
 
-        if (IsInputWordInList(inputText))
+        if (IsInputWordInEveryList(inputText))
         {
             //전체 단어에도 있으면서 끝말잇기도 되는 경우
             if (IsWordChainTrue(inputText))
@@ -171,18 +178,19 @@ public class HEEJAEGameManager : MonoBehaviour
         input.ActivateInputField();
     }
 
-    private bool IsInputWordInList(string inputText)
+    private bool IsInputWordInEveryList(string inputText)
     {
-        ////두음법칙이 적용된다면
+        //두음법칙이 적용된다면
         //if (CheckRuleOfHeading(inputText) == true)
         //{
 
         //}
-
         foreach (var word in _everyWordList)
         {
             if (word == inputText)
             {
+                print($"이전 단어 : {word}");
+                print($"입력단어 단어 : {inputText}");
                 print("있는 단어입니다");
                 return true;
             }
@@ -215,6 +223,17 @@ public class HEEJAEGameManager : MonoBehaviour
     {
         //이전 글자의 끝글자
         char beforeLastWord = wordReplayManager.PreWord[wordReplayManager.PreWord.Length - 1];
+        char ruled = beforeLastWord;
+        bool hasRule = CheckRuleOfHeading(beforeLastWord);
+
+        //이전 글자의 끝이 두음법칙을 만족한다면 
+        if (hasRule)
+        {
+            //두음법칙이 적용된 후의 문자
+            ruled = GetRuledChar(beforeLastWord);
+            print("두음 법칙 적용 됨");
+        }
+
         print($"이전 단어 끝글자 : {beforeLastWord}");
 
         //현재 글자의 앞글자
@@ -226,10 +245,12 @@ public class HEEJAEGameManager : MonoBehaviour
         //char vowels = disassemble[0];
         //print(vowels);
 
-        if (beforeLastWord == inputFirstWord)
+        if (beforeLastWord == inputFirstWord || (hasRule && ruled == inputFirstWord))
         {
             print("끝말잇기 성공");
             wordReplayManager.HandleWordSubmission(input, false);
+            _currentSuggetion = null;
+            suggestionList.Clear();
             //wordReplayManager.PreWord = input;
             return true;
         }
@@ -281,9 +302,11 @@ public class HEEJAEGameManager : MonoBehaviour
     {
         if (composition == "")
         {
+            _currentSuggetion = null;
             suggestionList.Clear();
             return false;
         }
+        _currentSuggetion = null;
 
         if (_ruleOfHeading.ContainsKey(composition[0]))
         {
