@@ -33,7 +33,7 @@ public class BlockManager : MonoBehaviour
             Block block;
             block = Instantiate(blackBlockPrefab, blockSpawnPos);
 
-            block.transform.position += movePos + Vector3.up;
+            block.transform.position += movePos + Vector3.up * spaceScale;
             block.SetWord(word[i], '\0', false);
 
             confirmedBlock.Add(block);
