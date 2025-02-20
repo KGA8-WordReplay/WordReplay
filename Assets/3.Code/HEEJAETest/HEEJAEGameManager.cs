@@ -28,8 +28,8 @@ public class HEEJAEGameManager : MonoBehaviour
     //임시 참조
     [SerializeField] private WordReplayManager wordReplayManager;
 
-    public List<string> _everyWordList = new List<string>();
-    public List<string> _foodWordList = new List<string>();
+    private List<string> _everyWordList = new List<string>();
+    private List<string> _foodWordList = new List<string>();
 
     //두음법칙
     public Dictionary<char, char> _ruleOfHeading = new Dictionary<char, char>();
@@ -53,7 +53,7 @@ public class HEEJAEGameManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        
+
         confirmButton.onClick.AddListener(OnClickConfirmButton);
         input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
@@ -73,7 +73,7 @@ public class HEEJAEGameManager : MonoBehaviour
             print(i);
         }
 
-        foreach(var row in WordStorageManager.Instance.wordStorage.MyWordDict)
+        foreach (var row in WordStorageManager.Instance.wordStorage.MyWordDict)
         {
             _foodWordList.Add(row.Key);
         }
@@ -185,18 +185,15 @@ public class HEEJAEGameManager : MonoBehaviour
         //{
 
         //}
-        foreach (var word in _everyWordList)
+
+        if (WordStorageManager.Instance.wordStorage.EveryWordDict.ContainsKey(inputText))
         {
-            if (word == inputText)
-            {
-                print($"이전 단어 : {word}");
-                print($"입력단어 단어 : {inputText}");
-                print("있는 단어입니다");
-                return true;
-            }
+            return true;
         }
-        print("없는 단어입니다.");
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     //private bool IsWordChainTrue(string input)
@@ -279,14 +276,14 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void OnSubmit(string input)
     {
-            //버퍼 뒤로 이동
-            this.input.MoveTextEnd(false);
-        
+        //버퍼 뒤로 이동
+        this.input.MoveTextEnd(false);
+
     }
 
     private void OnClickTab()
-    {   
-        if(suggestionList.Count > 0)
+    {
+        if (suggestionList.Count > 0)
         {
             //_currentSuggestionIndex = (_currentSuggestionIndex + 1) % suggestionList.Count;
             //suggestionText.text = suggestionList[_currentSuggestionIndex];

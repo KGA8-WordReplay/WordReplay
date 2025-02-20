@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
+    private float LimitedTime { get { return _wordReplayManager.ScoreTracker.GetLimitedTime(); } }
     private float _curTime;
     private Slider _slider;
 
@@ -24,7 +25,8 @@ public class Timer : MonoBehaviour
 
     public void OnTimer()
     {
-        _timerCoroutine = StartCoroutine(TimerCoroutine(_wordReplayManager.ScoreTracker.GetLimitedTime()));
+        // _timerCoroutine = StartCoroutine(TimerCoroutine(_wordReplayManager.ScoreTracker.GetLimitedTime()));
+        _timerCoroutine = StartCoroutine(TimerCoroutine());
     }
 
     //private IEnumerator TimerCoroutine()
@@ -54,18 +56,42 @@ public class Timer : MonoBehaviour
     //    _wordReplayManager.GameResult(false);
     //}
 
-    public IEnumerator TimerCoroutine(float limitedTime)
+    //public IEnumerator TimerCoroutine(float limitedTime)
+    //{
+    //    _curTime = 0;
+    //    print($"제한 시간 {limitedTime}");
+
+    //    while (_curTime <= limitedTime)
+    //    {
+    //        if (_wordReplayManager.IsEndGame) yield break;
+
+    //        _curTime += Time.deltaTime;
+
+    //        float progress = Mathf.Clamp01(_curTime / limitedTime);
+
+    //        float value = Mathf.Lerp(1f, 0f, progress);
+
+    //        _slider.value = value;
+    //        //print($"타이머 작동 중 {value}");
+    //        yield return null;
+    //    }
+    //    //print("타이머 끝");
+    //    _slider.value = 0f;
+
+    //    _wordReplayManager.GameResult(false);
+    //}
+    public IEnumerator TimerCoroutine()
     {
         _curTime = 0;
-        print($"제한 시간 {limitedTime}");
+        print($"제한 시간 {LimitedTime}");
 
-        while (_curTime <= limitedTime)
+        while (_curTime <= LimitedTime)
         {
             if (_wordReplayManager.IsEndGame) yield break;
 
             _curTime += Time.deltaTime;
 
-            float progress = Mathf.Clamp01(_curTime / limitedTime);
+            float progress = Mathf.Clamp01(_curTime / LimitedTime);
 
             float value = Mathf.Lerp(1f, 0f, progress);
 
