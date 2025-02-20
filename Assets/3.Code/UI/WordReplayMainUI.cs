@@ -46,6 +46,7 @@ public class WordReplayMainUI : MonoBehaviour
         print($"이전 단어 : {_wordReplayManager.PreWord}");
         //outputText.text = output;
         BlockManager.Instance.MakeBlock(_wordReplayManager.PreWord, output);
+        BlockManager.Instance.ConfirmBlock();
         explanationText.text = explanation;
     }
 

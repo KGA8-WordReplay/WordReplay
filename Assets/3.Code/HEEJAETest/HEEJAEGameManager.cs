@@ -78,7 +78,6 @@ public class HEEJAEGameManager : MonoBehaviour
         //_typingWord가 바뀔 때 마다 들어옴
         if (_typingWord != _preTypingWord)
         {
-            print("몇번");
             //매칭되는 단어 있으면
             if (HasMatchWord(_typingWord) == true)
             {
@@ -143,30 +142,41 @@ public class HEEJAEGameManager : MonoBehaviour
             inputText = _currentSuggetion;
         }
 
-        if (IsInputWordInEveryList(inputText))
+        if (WordStorageManager.Instance.wordStorage.UsedWord.Contains(inputText))
         {
-            //전체 단어에도 있으면서 끝말잇기도 되는 경우
-            if (IsWordChainTrue(inputText))
-            {
-                ShowMean(inputText);
-                BlockManager.Instance.ConfirmBlock();
-                //BlockManager.Instance.MakeLastWord(inputText);
-            }
-            //전체 단어에는 있지만 끝말잇기는 되지 않는 경우
-            else
-            {
-                print("끝말잇기가 안됩니다");
-                //suggestionText.text = "";
-            }
+            Debug.LogWarning($"이미 사용한 단어입니다 : {inputText}");
+            input.text = "";
+            input.ActivateInputField();
+            return;
         }
+
         else
         {
-            explanationText.text = "없는 단어입니다.";
+            if (IsInputWordInEveryList(inputText))
+            {
+                //전체 단어에도 있으면서 끝말잇기도 되는 경우
+                if (IsWordChainTrue(inputText))
+                {
+                    ShowMean(inputText);
+                    //BlockManager.Instance.ConfirmBlock();
+                    //BlockManager.Instance.MakeLastWord(inputText);
+                }
+                //전체 단어에는 있지만 끝말잇기는 되지 않는 경우
+                else
+                {
+                    print("끝말잇기가 안됩니다");
+                    //suggestionText.text = "";
+                }
+            }
+            else
+            {
+                explanationText.text = "없는 단어입니다.";
+            }
+
+
+            input.text = "";
+            input.ActivateInputField();
         }
-
-
-        input.text = "";
-        input.ActivateInputField();
     }
 
     private bool IsInputWordInEveryList(string inputText)
