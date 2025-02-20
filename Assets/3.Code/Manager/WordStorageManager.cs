@@ -16,7 +16,12 @@ public class WordStorageManager : Singleton<WordStorageManager>
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void Start()
+    {
         wordStorage = new WordStorage(everyWord, myWord, duemWord, col1, col2, col3, col4);
         wordStorage.Init();
+
     }
 }

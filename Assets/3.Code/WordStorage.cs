@@ -17,13 +17,13 @@ public class WordStorage
 
     public WordStorage(string everyWord, string myWord, string duemWord, string col1, string col2, string col3, string col4)
     {
-        this.everyWord=everyWord;
-        this.myWord=myWord;
-        this.duemWord=duemWord;
-        this.col1=col1;
-        this.col2=col2;
-        this.col3=col3;
-        this.col4=col4;
+        this.everyWord = everyWord;
+        this.myWord = myWord;
+        this.duemWord = duemWord;
+        this.col1 = col1;
+        this.col2 = col2;
+        this.col3 = col3;
+        this.col4 = col4;
     }
 
     public string everyWord;
