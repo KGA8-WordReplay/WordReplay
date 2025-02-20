@@ -28,7 +28,6 @@ public class HEEJAEGameManager : MonoBehaviour
     //임시 참조
     [SerializeField] private WordReplayManager wordReplayManager;
 
-    private List<string> _everyWordList = new List<string>();
     private List<string> _foodWordList = new List<string>();
 
     //두음법칙
@@ -65,14 +64,6 @@ public class HEEJAEGameManager : MonoBehaviour
         Init();
 
         //모든 단어 리스트 생성
-        int i = 0;
-        foreach (var row in WordStorageManager.Instance.wordStorage.EveryWordDict)
-        {
-            _everyWordList.Add(row.Key);
-            //_meanList.Add(mean);
-            print(i);
-        }
-
         foreach (var row in WordStorageManager.Instance.wordStorage.MyWordDict)
         {
             _foodWordList.Add(row.Key);

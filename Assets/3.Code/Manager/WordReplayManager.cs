@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WordReplayManager : MonoBehaviour
 {
@@ -106,11 +107,13 @@ public class WordReplayManager : MonoBehaviour
     private void OnSuccess()
     {
         Debug.Log("스테이지 클리어!");
+        SceneManager.LoadScene("LobbyScene");
     }
 
     private void OnDefeat()
     {
         Debug.Log("시간 초과로 졌음");
+        SceneManager.LoadScene("LobbyScene");
     }
 
     private void Init()
