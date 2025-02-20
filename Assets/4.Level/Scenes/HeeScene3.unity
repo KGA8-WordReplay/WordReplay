@@ -535,7 +535,7 @@ PrefabInstance:
       objectReference: {fileID: 1053532556}
     - target: {fileID: 7155121035564559791, guid: 2097856abd0fd30458c80508397bbbf5, type: 3}
       propertyPath: firstWord
-      value: "\uC0AC\uACFC"
+      value: "\uACE0\uB7C9"
       objectReference: {fileID: 0}
     - target: {fileID: 7155121035564559791, guid: 2097856abd0fd30458c80508397bbbf5, type: 3}
       propertyPath: outputWord
