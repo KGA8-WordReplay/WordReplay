@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Page : MonoBehaviour
 {
-
+    public bool isDefault;
 }
