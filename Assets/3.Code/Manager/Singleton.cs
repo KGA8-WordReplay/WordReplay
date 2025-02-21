@@ -38,6 +38,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            print($"{Instance.GetType().Name} 싱글톤 파괴");
         }
     }
 }

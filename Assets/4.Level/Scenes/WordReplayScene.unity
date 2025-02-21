@@ -741,7 +741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicScore: 10
-  maxScore: 100
+  maxScore: 200
   limitedTimeByScores:
   - score: 30
     time: 15
@@ -751,8 +751,6 @@ MonoBehaviour:
     time: 6
   - score: 120
     time: 3
-  - score: 150
-    time: 1.5
 --- !u!1 &436744898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1352,6 +1350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b7573f5538b2246aa212d78e3bac31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winGold: 100
+  loseGold: 1000
+  stageName: stage1
 --- !u!4 &649155338
 Transform:
   m_ObjectHideFlags: 0
