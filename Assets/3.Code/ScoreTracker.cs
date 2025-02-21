@@ -37,6 +37,7 @@ public class ScoreTracker : MonoBehaviour
     public void CalcScoreByLength(string word)
     {
         int bonus = (word.Length - 2) * 5;
+        bonus = bonus >= 0 ? bonus : 0;
         int result = basicScore + bonus;
         CurScore += result;
     }
