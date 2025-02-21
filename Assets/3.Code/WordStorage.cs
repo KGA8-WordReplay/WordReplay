@@ -90,4 +90,17 @@ public class WordStorage
         }
         return processedData;
     }
+
+    public void AddMyWordDict(Dictionary<string, string> words)
+    {
+        foreach (var word in words)
+        {
+            //키값에 이미 추가된게 없을때만 추가해야함
+            if (MyWordDict.ContainsKey(word.Key) == false)
+            {
+                MyWordDict.Add(word.Key, word.Value);
+            }
+        }
+        Debug.Log("추가 완료");
+    }
 }
