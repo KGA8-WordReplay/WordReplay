@@ -39,11 +39,10 @@ public class PageManager : Singleton<PageManager>
     {
         _pages.Clear();
 
-        GameObject pagesGO = GameObject.Find("Pages");
+        //GameObject pagesGO = GameObject.Find("Pages");
 
-        if (pagesGO != null)
-        {
-            Page[] pages = pagesGO.GetComponentsInChildren<Page>();
+
+        Page[] pages = FindObjectsOfType<Page>();
 
             foreach (Page page in pages)
             {
@@ -51,7 +50,6 @@ public class PageManager : Singleton<PageManager>
                 page.gameObject.SetActive(page.isDefault);
                 print(page.name + "이 담김");
             }
-        }
         print("Init이 작동함");
     }
 }

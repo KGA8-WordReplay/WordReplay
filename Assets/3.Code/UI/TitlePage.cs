@@ -28,7 +28,7 @@ public class TitlePage : Page
     }
     private void CollectionButtonClick()
     {
-        PageManager.Instance.OpenPage<StagePage>();
+        PageManager.Instance.OpenPage<CollectionPage>();
     }
     private void QuitButtonClick()
     {
