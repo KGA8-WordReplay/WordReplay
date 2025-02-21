@@ -17,21 +17,23 @@ public class UserData
         stageClearDict = new Dictionary<string, bool>();
     }
 
-    public void AddGold(int value)
-    {
-        gold += value;
-    }
+    //Add
+    public void AddGold(int value) { gold += value; }
 
-    public void AddCollectionName(string collectionName)
-    {
-        collectionNames.Add(collectionName);
-    }
+    public void AddCollectionName(string collectionName) { collectionNames.Add(collectionName); }
 
-    public void AddStageClear(string stageName)
-    {
-        stageClearDict.Add(stageName, true);
-    }
+    public void AddStageClear(string stageName) { stageClearDict.Add(stageName, true); }
 
+    //Sub
+    public void SubGold(int value) { gold -= value; }
+
+    //Get
+    public int GetGold() { return gold; }
+
+    public List<string> GetCollectionNames() { return collectionNames; }
+
+
+    //bool
     public bool IsStageClear(string stageName)
     {
         return stageClearDict.ContainsKey(stageName);

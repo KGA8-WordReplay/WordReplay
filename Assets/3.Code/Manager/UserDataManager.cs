@@ -32,6 +32,11 @@ public class UserDataManager : Singleton<UserDataManager>
         SaveUserData();
     }
 
+    public bool IsStageClear(string stageName)
+    {
+        return _userData.IsStageClear(stageName);
+    }
+
     private void SaveUserData()
     {
         string json = JsonConvert.SerializeObject(_userData);
@@ -56,5 +61,7 @@ public class UserDataManager : Singleton<UserDataManager>
             _userData = new UserData();
             print("새로운 UserData가 불러와짐.");
         }
+
+        SaveStageClear("stage1");
     }
 }

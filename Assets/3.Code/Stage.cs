@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
+    public string stageName;
     public int achieveScore;
     public bool isLock = false;
 
@@ -22,6 +23,7 @@ public class Stage : MonoBehaviour
 
     private void Start()
     {
+        isLock = UserDataManager.Instance.IsStageClear(stageName);
         LockStage();
     }
 
