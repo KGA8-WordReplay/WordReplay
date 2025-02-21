@@ -23,7 +23,7 @@ public class Stage : MonoBehaviour
 
     private void Start()
     {
-        isLock = UserDataManager.Instance.IsStageClear(stageName);
+        isLock = UserDataManager.Instance.IsStageLock(stageName);
         LockStage();
     }
 

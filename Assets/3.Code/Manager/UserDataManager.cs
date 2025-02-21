@@ -32,9 +32,9 @@ public class UserDataManager : Singleton<UserDataManager>
         SaveUserData();
     }
 
-    public bool IsStageClear(string stageName)
+    public bool IsStageLock(string stageName)
     {
-        return _userData.IsStageClear(stageName);
+        return !_userData.IsStageClear(stageName);
     }
 
     private void SaveUserData()

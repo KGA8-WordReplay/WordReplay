@@ -22,7 +22,13 @@ public class UserData
 
     public void AddCollectionName(string collectionName) { collectionNames.Add(collectionName); }
 
-    public void AddStageClear(string stageName) { stageClearDict.Add(stageName, true); }
+    public void AddStageClear(string stageName)
+    {
+        if (!stageClearDict.ContainsKey(stageName))
+        {
+            stageClearDict.Add(stageName, true);
+        }
+    }
 
     //Sub
     public void SubGold(int value) { gold -= value; }
