@@ -22,6 +22,5 @@ public class WordStorageManager : Singleton<WordStorageManager>
     {
         wordStorage = new WordStorage(everyWord, myWord, duemWord, col1, col2, col3, col4);
         wordStorage.Init();
-
     }
 }

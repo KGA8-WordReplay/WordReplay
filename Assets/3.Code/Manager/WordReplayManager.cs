@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class WordReplayManager : MonoBehaviour
 {
+    public int winGold;
+    public int loseGold;
+
+    public string stageName;
 
     //프로퍼티
     public string PreWord { get; set; }
@@ -107,12 +111,15 @@ public class WordReplayManager : MonoBehaviour
     private void OnSuccess()
     {
         Debug.Log("스테이지 클리어!");
+        UserDataManager.Instance.Save(winGold); //골드 저장
+        UserDataManager.Instance.SaveStageClear(stageName); //스테이지 클리어 저장
         SceneManager.LoadScene("LobbyScene");
     }
 
     private void OnDefeat()
     {
         Debug.Log("시간 초과로 졌음");
+        UserDataManager.Instance.Save(loseGold); //골드 저장
         SceneManager.LoadScene("LobbyScene");
     }
 
