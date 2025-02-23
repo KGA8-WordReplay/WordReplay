@@ -6,43 +6,36 @@ using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
-    public string stageName;
-    public int achieveScore;
-    public bool isLock = false;
+	public string stageName;
+	public int achieveScore;
 
-    private Button _stageButton;
-    private GameObject _lockGO;
+	private Button _stageButton;
+	private GameObject _lockGO;
 
-    private void Awake()
-    {
-        _stageButton = GetComponent<Button>();
-        _lockGO = transform.Find("Lock").gameObject;
+	private void Awake()
+	{
+		_stageButton = GetComponent<Button>();
+		_lockGO = transform.Find("Lock").gameObject;
 
-        _stageButton.onClick.AddListener(StageButtonClick);
-    }
+		_stageButton.onClick.AddListener(StageButtonClick);
+	}
 
-    private void Start()
-    {
-        isLock = UserDataManager.Instance.IsStageLock(stageName);
-        LockStage();
-    }
+	private void StageButtonClick()
+	{
+		SceneManager.LoadScene("WordReplayScene");
+	}
 
-    private void StageButtonClick()
-    {
-        SceneManager.LoadScene("WordReplayScene");
-    }
-
-    public void LockStage()
-    {
-        if (isLock)
-        {
-            _stageButton.interactable = false;
-            _lockGO.SetActive(true);
-        }
-        else
-        {
-            _stageButton.interactable = true;
-            _lockGO.SetActive(false);
-        }
-    }
+	public void LockStage(bool isLock)
+	{
+		if (isLock)
+		{
+			_stageButton.interactable = false;
+			_lockGO.SetActive(true);
+		}
+		else
+		{
+			_stageButton.interactable = true;
+			_lockGO.SetActive(false);
+		}
+	}
 }

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/4.Level/Scenes/LobbyScene.unity
     guid: 30794948c99470748b1a65035c515b4a
   - enabled: 1
+    path: Assets/4.Level/Scenes/SeoLobbyScene.unity
+    guid: 01ad3bd805f4eda4bbf6811473c8081a
+  - enabled: 1
     path: Assets/4.Level/Scenes/WordReplayScene.unity
     guid: b99f95ed8a2928543895c1768ca93649
   m_configObjects: {}
