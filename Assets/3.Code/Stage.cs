@@ -22,7 +22,7 @@ public class Stage : MonoBehaviour
 
 	private void StageButtonClick()
 	{
-		SceneManager.LoadScene("WordReplayScene");
+		SceneManager.LoadScene(stageName);
 	}
 
 	public void LockStage(bool isLock)
