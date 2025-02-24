@@ -6140,13 +6140,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5caa3a9e694de1e42a161b7954456bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  everyWord: WholeWordTest
-  myWord: FoodWordTest
+  everyWord: EveryWord
+  myWord: TestWord
   duemWord: Dueum
   col1: "\uC5B4\uD718"
   col2: "\uB73B\uD480\uC774"
-  col3: "\uC804"
-  col4: "\uD6C4"
+  col3: "\uB450\uC74C \uC801\uC6A9 \uC804"
+  col4: "\uB450\uC74C \uC801\uC6A9 \uD6C4"
 --- !u!4 &2043854253
 Transform:
   m_ObjectHideFlags: 0

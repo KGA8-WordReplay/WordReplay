@@ -32,6 +32,11 @@ public class WordReplayMainUI : MonoBehaviour
         quitButton.onClick.RemoveListener(QuitButtonClick);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1)) AutoButtonClick();
+    }
+
     private void AutoButtonClick()
     {
         onAuto = !onAuto;
