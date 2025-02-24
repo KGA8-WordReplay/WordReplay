@@ -335,6 +335,7 @@ public class BlockManager : MonoBehaviour
         foreach (var block in childBlock)
         {
             block.transform.position -= upScale;
+            block.SpawnParticle();
         }
 
         confirmedBlock.AddRange(childBlock);
