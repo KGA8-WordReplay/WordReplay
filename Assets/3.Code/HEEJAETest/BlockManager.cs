@@ -75,6 +75,15 @@ public class BlockManager : MonoBehaviour
 
         Vector3 movePos = Vector3.zero;
 
+        //오른쪽 최대 위치
+        float screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+
+        //블록이 처음 생성되는 위치
+        float startX = blockSpawnPos.position.x;
+
+        float currentX = startX;
+        float currentY = blockSpawnPos.position.y;
+
         for (int i = 0; i < word.Length; i++)
         {
             Block block;
@@ -90,11 +99,18 @@ public class BlockManager : MonoBehaviour
             {
                 block.SetWord(word[i], ruledChar, false);
             }
-            block.transform.position += movePos;
+
+            if (currentX + _blockLength >= screenRightEdge)
+            {
+                currentX = blockSpawnPos.position.x;
+                currentY -= _blockLength;
+            }
+
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
-
-            movePos += Vector3.right * _blockLength;
+            currentX += _blockLength;
+            //movePos += Vector3.right * _blockLength;
 
             //Invoke("Temp", 3f);
         }
@@ -126,6 +142,15 @@ public class BlockManager : MonoBehaviour
 
         Vector3 movePos = Vector3.zero;
 
+        //오른쪽 최대 위치
+        float screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+
+        //블록이 처음 생성되는 위치
+        float startX = blockSpawnPos.position.x;
+
+        float currentX = startX;
+        float currentY = blockSpawnPos.position.y;
+
         for (int i = 0; i < word.Length; i++)
         {
             Block block;
@@ -141,11 +166,22 @@ public class BlockManager : MonoBehaviour
             {
                 block.SetWord(word[i], ruledChar, false);
             }
-            block.transform.position += movePos;
+
+            if (currentX + _blockLength >= screenRightEdge)
+            {
+                currentX = blockSpawnPos.position.x;
+                currentY -= _blockLength;
+            }
+
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
+            currentX += _blockLength;
+            //block.transform.position += movePos;
 
-            movePos += Vector3.right * _blockLength;
+            //childBlock.Add(block);
+
+            //movePos += Vector3.right * _blockLength;
 
             yield return new WaitForSeconds(autoDelay);
         }
@@ -173,6 +209,15 @@ public class BlockManager : MonoBehaviour
         //이전 단어에 두음 법칙 적용 후 단어
         char ruledChar = hasRuleOfHeading ? HEEJAEGameManager.Instance._ruleOfHeading[lastChar] : '\0';
 
+        //오른쪽 최대 위치
+        float screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+
+        //블록이 처음 생성되는 위치
+        float startX = blockSpawnPos.position.x;
+
+        float currentX = startX;
+        float currentY = blockSpawnPos.position.y;
+
         for (int i = 0; i < currentSuggestion.Length; i++)
         {
             Block block;
@@ -196,10 +241,22 @@ public class BlockManager : MonoBehaviour
             {
                 block.SetWord(currentSuggestion[i], ruledChar, false);
             }
-            block.transform.position += movePos;
-            childBlock.Add(block);
 
-            movePos += Vector3.right * _blockLength;
+            if (currentX + _blockLength >= screenRightEdge)
+            {
+                currentX = blockSpawnPos.position.x;
+                currentY -= _blockLength;
+            }
+
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
+
+            childBlock.Add(block);
+            currentX += _blockLength;
+
+            //block.transform.position += movePos;
+            //childBlock.Add(block);
+
+            //movePos += Vector3.right * _blockLength;
         }
     }
 
@@ -268,6 +325,13 @@ public class BlockManager : MonoBehaviour
     //끝말잇기가 되면 올라감
     public void ConfirmBlock()
     {
+        float childBlockY = childBlock[childBlock.Count() - 1].transform.position.y;
+        Vector3 upScale = Vector3.up * childBlockY;
+        foreach (var block in childBlock)
+        {
+            block.transform.position -= upScale;
+        }
+
         confirmedBlock.AddRange(childBlock);
         childBlock.Clear();
         foreach(var block in confirmedBlock)
