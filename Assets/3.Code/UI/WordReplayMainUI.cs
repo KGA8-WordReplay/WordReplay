@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,16 +24,23 @@ public class WordReplayMainUI : MonoBehaviour
     {
         _wordReplayManager = FindObjectOfType<WordReplayManager>();
         autoButton.onClick.AddListener(AutoButtonClick);
+        quitButton.onClick.AddListener(QuitButtonClick);
     }
     private void OnDestroy()
     {
         autoButton.onClick.RemoveListener(AutoButtonClick);
+        quitButton.onClick.RemoveListener(QuitButtonClick);
     }
 
     private void AutoButtonClick()
     {
         onAuto = !onAuto;
         _wordReplayManager.AutoMode(onAuto);
+    }
+
+    private void QuitButtonClick()
+    {
+        PopupManager.Instance.PopupOpen<GiveupPopup>();
     }
 
     public void AutoButtonColor()

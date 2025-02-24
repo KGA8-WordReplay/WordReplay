@@ -111,23 +111,30 @@ public class WordReplayManager : MonoBehaviour
         }
     }
 
+    private void EndGame()
+    {
+        SceneManager.LoadScene(nextScene);
+    }
+
     private void OnSuccess()
     {
         Debug.Log("스테이지 클리어!");
-        UserDataManager.Instance.Save(winGold); //골드 저장
+        int finalGold = winGold + ScoreTracker.CurScore;
+        UserDataManager.Instance.Save(finalGold); //골드 저장
         UserDataManager.Instance.SaveStageUnlock(stageName); //스테이지 클리어 잠금 해제
         if (StageManager.Instance.IsNextStage(stageName))
         {
             StageManager.Instance.NextStageUnlock(stageName);
         }
-        SceneManager.LoadScene(nextScene);
+
+        PopupManager.Instance.PopupOpen<ResultPopup>().SetPopup("승리", finalGold.ToString(), EndGame);
     }
 
     private void OnDefeat()
     {
         Debug.Log("시간 초과로 졌음");
-        UserDataManager.Instance.Save(loseGold); //골드 저장
-        SceneManager.LoadScene(nextScene);
+        UserDataManager.Instance.Save(ScoreTracker.CurScore); //골드 저장
+        PopupManager.Instance.PopupOpen<ResultPopup>().SetPopup("패배", ScoreTracker.CurScore.ToString(), EndGame);
     }
 
     private void Init()
