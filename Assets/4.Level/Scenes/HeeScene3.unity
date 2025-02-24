@@ -751,16 +751,16 @@ MonoBehaviour:
   basicScore: 10
   maxScore: 500
   limitedTimeByScores:
-  - score: 30
+  - score: 125
+    time: 20
+  - score: 250
     time: 15
-  - score: 60
-    time: 9
   - score: 375
-    time: 6
+    time: 10
   - score: 450
-    time: 3
+    time: 8
   - score: 500
-    time: 1.5
+    time: 6
 --- !u!1 &436744898
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,7 +1760,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -60, y: -7.2}
+  m_AnchoredPosition: {x: -60, y: -7.200001}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &977939198
@@ -1837,7 +1837,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -110, y: 0}
+  m_AnchoredPosition: {x: -109.99994, y: 0}
   m_SizeDelta: {x: -220, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1053532556
@@ -2667,7 +2667,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.2999723, y: 0}
+  m_AnchoredPosition: {x: 3.2999725, y: 0}
   m_SizeDelta: {x: 6.6000547, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1463593670
@@ -3044,7 +3044,7 @@ Canvas:
   m_GameObject: {fileID: 1975198635}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -3056,7 +3056,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -29
   m_TargetDisplay: 0
 --- !u!224 &1975198639
 RectTransform:
@@ -3125,8 +3125,8 @@ MonoBehaviour:
   everyWord: WholeWordTest
   myWord: FoodWordTest
   duemWord: Dueum
-  col1: "\uB2E8\uC5B4"
-  col2: "\uB73B"
+  col1: "\uC5B4\uD718"
+  col2: "\uB73B\uD480\uC774"
   col3: "\uC804"
   col4: "\uD6C4"
 --- !u!1001 &1111163590804142206

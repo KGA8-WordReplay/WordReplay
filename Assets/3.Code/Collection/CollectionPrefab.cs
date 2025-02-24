@@ -10,6 +10,7 @@ public class CollectionPrefab : MonoBehaviour
     [SerializeField] private CollectionData collectionData;
     [SerializeField] private Image lockedImage;
     [SerializeField] private Image collectionImage;
+    [SerializeField] private Image checkImage;
     [SerializeField] private TextMeshProUGUI collectionName;
     [SerializeField] private TextMeshProUGUI gold;
     [SerializeField] private Button activeButton;
@@ -29,10 +30,12 @@ public class CollectionPrefab : MonoBehaviour
         if (isActive == true)
         {
             lockedImage.gameObject.SetActive(false);
+            checkImage.gameObject.SetActive(true);
         }
         else
         {
             lockedImage.gameObject.SetActive(true);
+            checkImage.gameObject.SetActive(false);
         }
     }
 
@@ -41,10 +44,12 @@ public class CollectionPrefab : MonoBehaviour
         if (isActive == true)
         {
             lockedImage.gameObject.SetActive(false);
+            checkImage.gameObject.SetActive(true);
         }
         else
         {
             lockedImage.gameObject.SetActive(true);
+            checkImage.gameObject.SetActive(false);
         }
     }
 
@@ -117,6 +122,7 @@ public class CollectionPrefab : MonoBehaviour
 
             isActive = true;
             lockedImage.gameObject.SetActive(false);
+            checkImage.gameObject.SetActive(true);
         }
         else
         {
