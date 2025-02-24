@@ -6,6 +6,17 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public TextMeshProUGUI word;
+    public List<Sprite> sprites;
+    public static float blockLength;
+
+    private void Start()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        blockLength = spriteRenderer.bounds.size.x; // 가로 길이 가져오기
+
+        print($"블록 길이 :{blockLength}");
+    }
 
     public void SetWord(char word, char ruledWord, bool isStart)
     {
@@ -29,7 +40,7 @@ public class Block : MonoBehaviour
         {
             return;
         }
-        
+
         char ruleOfHeading = HEEJAEGameManager.Instance._ruleOfHeading[word];
         string result = "";
         result = $"{word.ToString()}({ruleOfHeading.ToString()})";

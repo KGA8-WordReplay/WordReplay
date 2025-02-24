@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TreeEditor;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,11 +16,15 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private Block grayBlockPrefab;
     [SerializeField] private float spaceScale;
     [SerializeField] private Transform blockSpawnPos;
+    [SerializeField] private float autoDelay;
 
     private List<Block> childBlock = new List<Block>();
     private List<Block> confirmedBlock = new List<Block>();
 
+    public List<string> stageName = 
+
     private Block _lastWordPrefab;
+    private float _blockLength;
 
     private void Awake()
     {
@@ -44,6 +50,7 @@ public class BlockManager : MonoBehaviour
 
     public void MakeBlock(string preWord, string word)
     {
+        _blockLength = Block.blockLength;
         if (word == null)
         {
             Debug.LogWarning("입력된 단어 없음");
@@ -81,12 +88,67 @@ public class BlockManager : MonoBehaviour
 
             childBlock.Add(block);
 
-            movePos += Vector3.right;
+            movePos += Vector3.right * _blockLength;
+
+            //Invoke("Temp", 3f);
         }
+    }
+
+    public void AutoBlock(string preWord, string word)
+    {
+        if (word == null)
+        {
+            Debug.LogWarning("입력된 단어 없음");
+            return;
+        }
+
+        //블록 초기화
+        InitializeBlockPrefab(word);
+
+        StartCoroutine(HandleAutoBlock(preWord, word));
+    }
+
+    private IEnumerator HandleAutoBlock(string preWord, string word)
+    {
+        _blockLength = Block.blockLength;
+        //마지막 글자가 두음법칙을 만족하는가?
+        bool hasRuleOfHeading = HEEJAEGameManager.Instance._ruleOfHeading.ContainsKey(preWord[preWord.Length - 1]);
+        //마지막 글자
+        char lastChar = preWord[preWord.Length - 1];
+        //두음법칙 적용된 글자
+        char ruledChar = hasRuleOfHeading ? HEEJAEGameManager.Instance._ruleOfHeading[lastChar] : '\0';
+
+        Vector3 movePos = Vector3.zero;
+
+        for (int i = 0; i < word.Length; i++)
+        {
+            Block block;
+            block = Instantiate(blackBlockPrefab, blockSpawnPos);
+            bool isStart = (i == 0);
+
+            //첫번째 글자이면서 두음법칙을 만족하면
+            if (isStart && hasRuleOfHeading && (word[0] == lastChar || word[0] == ruledChar))
+            {
+                block.SetWord(lastChar, ruledChar, true);
+            }
+            else
+            {
+                block.SetWord(word[i], ruledChar, false);
+            }
+            block.transform.position += movePos;
+
+            childBlock.Add(block);
+
+            movePos += Vector3.right * _blockLength;
+
+            yield return new WaitForSeconds(autoDelay);
+        }
+        ConfirmBlock();
     }
 
     public void MakeSuggestionBlock(string preWord, string typingWord, string currentSuggestion)
     {
+        _blockLength = Block.blockLength;
         if (currentSuggestion == null)
         {
             Debug.LogError("추천 단어 안넘어옴");
@@ -131,7 +193,7 @@ public class BlockManager : MonoBehaviour
             block.transform.position += movePos;
             childBlock.Add(block);
 
-            movePos += Vector3.right;
+            movePos += Vector3.right * _blockLength;
         }
     }
 
@@ -172,7 +234,6 @@ public class BlockManager : MonoBehaviour
         //    }
         //}
     }
-
 
     //끝말이 항상 생성되게 함
     public void MakeLastWord(string preWord)
