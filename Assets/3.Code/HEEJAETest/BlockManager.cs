@@ -6,6 +6,7 @@ using TreeEditor;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BlockManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class BlockManager : MonoBehaviour
 
     private List<Block> childBlock = new List<Block>();
     private List<Block> confirmedBlock = new List<Block>();
+    private List<Block> tempBlock = new List<Block>();
 
     public List<string> stageNames = new List<string> { "불", "물" };
     public string stageName = "";
@@ -339,6 +341,28 @@ public class BlockManager : MonoBehaviour
             block.transform.position += Vector3.up * spaceScale;
             block.word.color = Color.black;
         }
+    }
+
+    public void SetPrefabTextRed()
+    {
+        tempBlock.AddRange(childBlock);
+        childBlock.Clear();
+        StartCoroutine(HandleTextRedTime());
+    }
+
+    private IEnumerator HandleTextRedTime()
+    {
+        foreach (var block in tempBlock)
+        {
+            block.word.color = Color.red;
+            print($"빨개짐");
+        }
+        yield return new WaitForSeconds(0.3f);
+        foreach (var block in tempBlock)
+        {
+            Destroy(block.gameObject);
+        }
+        tempBlock.Clear();
     }
 }
 
