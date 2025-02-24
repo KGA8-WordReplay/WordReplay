@@ -24,8 +24,6 @@ public class Block : MonoBehaviour
         }
 
         blockLength = spriteRenderer.bounds.size.x; // 가로 길이 가져오기
-
-        print($"블록 길이 :{blockLength}");
     }
 
     public void SetWord(char word, char ruledWord, bool isStart)
