@@ -18,9 +18,13 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
     private void Start()
     {
-        print("CollectionDataManager Start");
         myWordNameList = UserDataManager.Instance.GetCollectionName();
         Init();
+        print("CollectionDataManager에서 옴");
+        foreach(var temp in myWordNameList)
+        {
+            print(temp);
+        }
 
         //myWordNameDict.Clear();
         //myWordNameDict["가톨릭"] = myWord[0];

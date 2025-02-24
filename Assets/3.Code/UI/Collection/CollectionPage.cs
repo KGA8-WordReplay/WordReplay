@@ -12,11 +12,13 @@ public class CollectionPage : Page
     private void OnEnable()
     {
         backButton.onClick.AddListener(OnClickBackButton);
+        print("켜짐");
     }
 
     private void OnDisable()
     {
         backButton.onClick.RemoveAllListeners();
+        print("꺼짐");
     }
 
     private void Start()
@@ -27,6 +29,8 @@ public class CollectionPage : Page
     private void Init()
     {
         goldText.text = TempGoldSingleton.Instance.gold.ToString();
+        //List<CollectionPrefab> collectionPrefabs = new List<CollectionPrefab>();
+        //CollectionPrefab collectionPrefab = FindObjectOfType<CollectionPrefab>();
     }
 
     private void OnClickBackButton()

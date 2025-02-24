@@ -12,8 +12,8 @@ public class CollectionPrefab : MonoBehaviour
     [SerializeField] private Image collectionImage;
     [SerializeField] private TextMeshProUGUI collectionName;
     [SerializeField] private TextMeshProUGUI gold;
-    [SerializeField] private bool isActive;
     [SerializeField] private Button activeButton;
+    public bool isActive;
 
 
     private void Awake()
@@ -24,7 +24,7 @@ public class CollectionPrefab : MonoBehaviour
     private void Start()
     {
         Init();
-
+        print("CollectionPrefab에서 옴");
         //활성화true -> Active(false)
         if (isActive == true)
         {
@@ -35,12 +35,50 @@ public class CollectionPrefab : MonoBehaviour
             lockedImage.gameObject.SetActive(true);
         }
     }
-    
+
+    private void OnEnable()
+    {
+        if (isActive == true)
+        {
+            lockedImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            lockedImage.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnDisable()
+    {
+        //Init();
+        print("프리팹 꺼짐");
+    }
+
     private void Init()
     {
         collectionImage.sprite = collectionData.image;
         collectionName.text = collectionData.textName;
         //gold.text = collectionData.gold.ToString();
+        string collection = $"『{collectionName.text}』";
+        print($"콜렉션 이름 : {collection}");
+        //foreach(var temp in CollectionDataManager.Instance.myWordNameList)
+        //{
+        //    print(collection.Equals(temp));
+        //}
+        //print(collection.Equals(CollectionDataManager.Instance.myWordNameList.Contains(collection)));
+
+        if (CollectionDataManager.Instance.myWordNameList.Contains(collection))
+        {
+            print("있는 사전임!");
+            isActive = true;
+        }
+        else
+        {
+            isActive = false;
+            print("여기임");
+        }
+        print("프리팹 켜짐");
+
     }
 
     private void HandleLocked()
