@@ -103,12 +103,21 @@ public class WordReplayManager : MonoBehaviour
         IsEndGame = true;
         if (isSuccess)
         {
-            OnSuccess();
+            GameEndManager.Instance.Win();
+            StartCoroutine(HandleWin());
+            //OnSuccess();
         }
         else
         {
+            GameEndManager.Instance.Lose();
             OnDefeat();
         }
+    }
+
+    private IEnumerator HandleWin()
+    {
+        yield return new WaitUntil(() => GameEndManager.Instance.WinAnimEnd);
+        OnSuccess();
     }
 
     private void EndGame()

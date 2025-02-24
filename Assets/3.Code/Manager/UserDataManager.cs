@@ -41,12 +41,15 @@ public class UserDataManager : Singleton<UserDataManager>
         SaveUserData();
     }
 
+	public List<string> GetCollectionName()
+	{
+        return _userData.GetCollectionNames();
+	}
 
-
-    public bool IsStageLock(string stageName)
-    {
-        return !_userData.IsStageUnlock(stageName);
-    }
+	public bool IsStageLock(string stageName)
+	{
+		return !_userData.IsStageUnlock(stageName);
+	}
 
     private void SaveUserData()
     {

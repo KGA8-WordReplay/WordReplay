@@ -50,14 +50,14 @@ public class WordStorage
         //엑셀 파일 에러땜에 나중에 주석만 지우면 됌.
         //데이터 가공
         List<Dictionary<string, object>> everyWordDict = CSVReader.Read($"Word/{everyWord}");
-        List<Dictionary<string, object>> myWordDict = CSVReader.Read($"Word/{myWord}");
+        //List<Dictionary<string, object>> myWordDict = CSVReader.Read($"Word/MyWord/{myWord}");
         List<Dictionary<string, object>> dueumDict = CSVReader.Read($"Word/{duemWord}");
 
         //전체 데이터 사전 등록
         EveryWordDict = ConvertToStringDictionary(everyWordDict, col1, col2);
 
         //나의 데이터 사전 등록
-        MyWordDict = ConvertToStringDictionary(myWordDict, col1, col2);
+        //MyWordDict = ConvertToStringDictionary(myWordDict, col1, col2);
 
         //두음 데이터 사전 등록
         DueumDict = ConvertToCharDictionary(dueumDict, col3, col4);
@@ -93,6 +93,11 @@ public class WordStorage
 
     public void AddMyWordDict(Dictionary<string, string> words)
     {
+        //if (MyWordDict.Count <= 0)
+        //{
+        //    return;
+        //}
+
         foreach (var word in words)
         {
             //키값에 이미 추가된게 없을때만 추가해야함

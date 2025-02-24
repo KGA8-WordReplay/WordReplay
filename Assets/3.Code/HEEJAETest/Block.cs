@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TreeEditor;
 using UnityEngine;
 
 public class Block : MonoBehaviour
@@ -8,9 +9,13 @@ public class Block : MonoBehaviour
     public TextMeshProUGUI word;
     public List<Sprite> sprites;
     public static float blockLength;
+    public Rigidbody rb;
+    public GameObject particlePrefab;
 
     private void Start()
     {
+        //particlePrefab.SetActive(false);
+        rb = GetComponent<Rigidbody>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         switch (BlockManager.Instance.stageName)
@@ -75,5 +80,12 @@ public class Block : MonoBehaviour
         {
             return false;
         }
+    }
+    
+    public void SpawnParticle()
+    {
+        GameObject particle = Instantiate(particlePrefab, transform);
+        particle.SetActive(true);
+        print("프리팹 소환됨");
     }
 }
