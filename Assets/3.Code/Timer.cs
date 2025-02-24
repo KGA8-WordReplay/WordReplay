@@ -87,6 +87,7 @@ public class Timer : MonoBehaviour
 
         while (_curTime <= LimitedTime)
         {
+            yield return new WaitUntil(() => BlockManager.Instance.temp);
             if (_wordReplayManager.IsEndGame) yield break;
 
             _curTime += Time.deltaTime;

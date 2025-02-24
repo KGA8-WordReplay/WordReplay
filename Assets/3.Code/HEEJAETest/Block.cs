@@ -15,11 +15,17 @@ public class Block : MonoBehaviour
 
         switch (BlockManager.Instance.stageName)
         {
-            case "불":
+            case "stage1":
                 spriteRenderer.sprite = sprites[0];
                 break;
-            case "물":
+            case "stage2":
                 spriteRenderer.sprite = sprites[1];
+                break;
+            case "stage3":
+                spriteRenderer.sprite = sprites[2];
+                break;
+            case "stage4":
+                spriteRenderer.sprite = sprites[3];
                 break;
         }
 

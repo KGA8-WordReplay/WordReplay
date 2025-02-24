@@ -6,6 +6,7 @@ using TreeEditor;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class BlockManager : MonoBehaviour
@@ -23,7 +24,6 @@ public class BlockManager : MonoBehaviour
     private List<Block> confirmedBlock = new List<Block>();
     private List<Block> tempBlock = new List<Block>();
 
-    public List<string> stageNames = new List<string> { "불", "물" };
     public string stageName = "";
 
     private Block _lastWordPrefab;
@@ -36,7 +36,7 @@ public class BlockManager : MonoBehaviour
 
     private void Start()
     {
-        stageName = stageNames[1];
+        stageName = SceneManager.GetActiveScene().name;
     }
 
     public void MakeFirstBlock(string word)
@@ -120,6 +120,7 @@ public class BlockManager : MonoBehaviour
 
     public void AutoBlock(string preWord, string word)
     {
+        temp = false;
         if (word == null)
         {
             Debug.LogWarning("입력된 단어 없음");
@@ -132,6 +133,7 @@ public class BlockManager : MonoBehaviour
         StartCoroutine(HandleAutoBlock(preWord, word));
     }
 
+    public bool temp = false;
     private IEnumerator HandleAutoBlock(string preWord, string word)
     {
         _blockLength = Block.blockLength;
@@ -188,6 +190,7 @@ public class BlockManager : MonoBehaviour
             yield return new WaitForSeconds(autoDelay);
         }
         ConfirmBlock();
+        temp = true;
     }
 
     public void MakeSuggestionBlock(string preWord, string typingWord, string currentSuggestion)
