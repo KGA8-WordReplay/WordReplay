@@ -18,11 +18,10 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
     private void Start()
     {
-            print("CollectionDataManager Start");
-            myWordNameList = UserDataManager.Instance.GetCollectionName();
-            Init();
-        
-        
+        print("CollectionDataManager Start");
+        myWordNameList = UserDataManager.Instance.GetCollectionName();
+        Init();
+
         //myWordNameDict.Clear();
         //myWordNameDict["가톨릭"] = myWord[0];
         //myWordNameDict["경제"] = myWord[1];
@@ -32,9 +31,14 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
     private void Init()
     {
         print("CollectionDataManager Init");
+        if (myWordNameList == null)
+        {
+            print("콜렉션 리스트 없음");
+            return;
+        }
         foreach (var myWord in myWordNameList)
         {
-            List<Dictionary<string, object>> tempkey = HEEJAECSVReader.Read($"Word/MyWord/{myWord}");
+            List<Dictionary<string, object>> tempkey = CSVReader.Read($"Word/MyWord/{myWord}");
 
             Dictionary<string, string> tempword = ConvertToStringDictionary(tempkey, col1, col2);
 
