@@ -10,7 +10,7 @@ public class Stage : MonoBehaviour
     public string stageName;
     public int achieveScore;
 
-    [SerializeField] private TextMeshProUGUI _achieveScoreText;
+    private TextMeshProUGUI _achieveScoreText;
 
     private Button _stageButton;
     private GameObject _lockGO;

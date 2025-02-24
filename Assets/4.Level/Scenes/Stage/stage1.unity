@@ -1364,16 +1364,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicScore: 10
-  maxScore: 200
+  maxScore: 300
   limitedTimeByScores:
-  - score: 30
+  - score: 75
+    time: 20
+  - score: 150
     time: 15
-  - score: 60
-    time: 9
-  - score: 100
+  - score: 225
+    time: 10
+  - score: 270
+    time: 8
+  - score: 300
     time: 6
-  - score: 120
-    time: 3
 --- !u!1 &432203941
 GameObject:
   m_ObjectHideFlags: 0
