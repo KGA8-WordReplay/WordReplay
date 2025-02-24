@@ -18,11 +18,10 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
     private void Start()
     {
-            print("CollectionDataManager Start");
-            myWordNameList = UserDataManager.Instance.GetCollectionName();
-            Init();
-        
-        
+        print("CollectionDataManager Start");
+        myWordNameList = UserDataManager.Instance.GetCollectionName();
+        Init();
+
         //myWordNameDict.Clear();
         //myWordNameDict["가톨릭"] = myWord[0];
         //myWordNameDict["경제"] = myWord[1];
