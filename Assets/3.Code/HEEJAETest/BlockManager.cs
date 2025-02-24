@@ -17,11 +17,11 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private Block blackBlockPrefab;
     [SerializeField] private Block grayBlockPrefab;
     [SerializeField] private float spaceScale;
-    [SerializeField] private Transform blockSpawnPos;
+    public Transform blockSpawnPos;
     [SerializeField] private float autoDelay;
 
     private List<Block> childBlock = new List<Block>();
-    private List<Block> confirmedBlock = new List<Block>();
+    public List<Block> confirmedBlock = new List<Block>();
     private List<Block> tempBlock = new List<Block>();
 
     public string stageName = "";

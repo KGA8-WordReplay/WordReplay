@@ -8,9 +8,11 @@ public class Block : MonoBehaviour
     public TextMeshProUGUI word;
     public List<Sprite> sprites;
     public static float blockLength;
+    public Rigidbody rigidbody;
 
     private void Start()
     {
+        rigidbody = GetComponent<Rigidbody>();
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
         switch (BlockManager.Instance.stageName)
