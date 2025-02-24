@@ -960,6 +960,11 @@ MonoBehaviour:
   grayBlockPrefab: {fileID: 3528514114463624012, guid: 831e181ecb303a94ab65e127ad531c6c, type: 3}
   spaceScale: 2.5
   blockSpawnPos: {fileID: 1540524754}
+  autoDelay: 0.1
+  stageNames:
+  - "\uBD88"
+  - "\uBB3C"
+  stageName: 
 --- !u!4 &501544563
 Transform:
   m_ObjectHideFlags: 0
@@ -1360,6 +1365,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b7573f5538b2246aa212d78e3bac31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winGold: 0
+  loseGold: 0
+  stageName: 
 --- !u!4 &649155338
 Transform:
   m_ObjectHideFlags: 0

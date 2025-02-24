@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TreeEditor;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BlockManager : MonoBehaviour
 {
@@ -14,15 +17,26 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private Block grayBlockPrefab;
     [SerializeField] private float spaceScale;
     [SerializeField] private Transform blockSpawnPos;
+    [SerializeField] private float autoDelay;
 
     private List<Block> childBlock = new List<Block>();
     private List<Block> confirmedBlock = new List<Block>();
+    private List<Block> tempBlock = new List<Block>();
+
+    public List<string> stageNames = new List<string> { "불", "물" };
+    public string stageName = "";
 
     private Block _lastWordPrefab;
+    private float _blockLength;
 
     private void Awake()
     {
         _instance = this;
+    }
+
+    private void Start()
+    {
+        stageName = stageNames[1];
     }
 
     public void MakeFirstBlock(string word)
@@ -44,6 +58,7 @@ public class BlockManager : MonoBehaviour
 
     public void MakeBlock(string preWord, string word)
     {
+        _blockLength = Block.blockLength;
         if (word == null)
         {
             Debug.LogWarning("입력된 단어 없음");
@@ -62,6 +77,15 @@ public class BlockManager : MonoBehaviour
 
         Vector3 movePos = Vector3.zero;
 
+        //오른쪽 최대 위치
+        float screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+
+        //블록이 처음 생성되는 위치
+        float startX = blockSpawnPos.position.x;
+
+        float currentX = startX;
+        float currentY = blockSpawnPos.position.y;
+
         for (int i = 0; i < word.Length; i++)
         {
             Block block;
@@ -77,16 +101,98 @@ public class BlockManager : MonoBehaviour
             {
                 block.SetWord(word[i], ruledChar, false);
             }
-            block.transform.position += movePos;
+
+            if (currentX + _blockLength >= screenRightEdge)
+            {
+                currentX = blockSpawnPos.position.x;
+                currentY -= _blockLength;
+            }
+
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
+            currentX += _blockLength;
+            //movePos += Vector3.right * _blockLength;
 
-            movePos += Vector3.right;
+            //Invoke("Temp", 3f);
         }
+    }
+
+    public void AutoBlock(string preWord, string word)
+    {
+        if (word == null)
+        {
+            Debug.LogWarning("입력된 단어 없음");
+            return;
+        }
+
+        //블록 초기화
+        InitializeBlockPrefab(word);
+
+        StartCoroutine(HandleAutoBlock(preWord, word));
+    }
+
+    private IEnumerator HandleAutoBlock(string preWord, string word)
+    {
+        _blockLength = Block.blockLength;
+        //마지막 글자가 두음법칙을 만족하는가?
+        bool hasRuleOfHeading = HEEJAEGameManager.Instance._ruleOfHeading.ContainsKey(preWord[preWord.Length - 1]);
+        //마지막 글자
+        char lastChar = preWord[preWord.Length - 1];
+        //두음법칙 적용된 글자
+        char ruledChar = hasRuleOfHeading ? HEEJAEGameManager.Instance._ruleOfHeading[lastChar] : '\0';
+
+        Vector3 movePos = Vector3.zero;
+
+        //오른쪽 최대 위치
+        float screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+
+        //블록이 처음 생성되는 위치
+        float startX = blockSpawnPos.position.x;
+
+        float currentX = startX;
+        float currentY = blockSpawnPos.position.y;
+
+        for (int i = 0; i < word.Length; i++)
+        {
+            Block block;
+            block = Instantiate(blackBlockPrefab, blockSpawnPos);
+            bool isStart = (i == 0);
+
+            //첫번째 글자이면서 두음법칙을 만족하면
+            if (isStart && hasRuleOfHeading && (word[0] == lastChar || word[0] == ruledChar))
+            {
+                block.SetWord(lastChar, ruledChar, true);
+            }
+            else
+            {
+                block.SetWord(word[i], ruledChar, false);
+            }
+
+            if (currentX + _blockLength >= screenRightEdge)
+            {
+                currentX = blockSpawnPos.position.x;
+                currentY -= _blockLength;
+            }
+
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
+
+            childBlock.Add(block);
+            currentX += _blockLength;
+            //block.transform.position += movePos;
+
+            //childBlock.Add(block);
+
+            //movePos += Vector3.right * _blockLength;
+
+            yield return new WaitForSeconds(autoDelay);
+        }
+        ConfirmBlock();
     }
 
     public void MakeSuggestionBlock(string preWord, string typingWord, string currentSuggestion)
     {
+        _blockLength = Block.blockLength;
         if (currentSuggestion == null)
         {
             Debug.LogError("추천 단어 안넘어옴");
@@ -104,6 +210,15 @@ public class BlockManager : MonoBehaviour
         char lastChar = preWord[preWord.Length - 1];
         //이전 단어에 두음 법칙 적용 후 단어
         char ruledChar = hasRuleOfHeading ? HEEJAEGameManager.Instance._ruleOfHeading[lastChar] : '\0';
+
+        //오른쪽 최대 위치
+        float screenRightEdge = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0, 0)).x;
+
+        //블록이 처음 생성되는 위치
+        float startX = blockSpawnPos.position.x;
+
+        float currentX = startX;
+        float currentY = blockSpawnPos.position.y;
 
         for (int i = 0; i < currentSuggestion.Length; i++)
         {
@@ -128,10 +243,22 @@ public class BlockManager : MonoBehaviour
             {
                 block.SetWord(currentSuggestion[i], ruledChar, false);
             }
-            block.transform.position += movePos;
-            childBlock.Add(block);
 
-            movePos += Vector3.right;
+            if (currentX + _blockLength >= screenRightEdge)
+            {
+                currentX = blockSpawnPos.position.x;
+                currentY -= _blockLength;
+            }
+
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
+
+            childBlock.Add(block);
+            currentX += _blockLength;
+
+            //block.transform.position += movePos;
+            //childBlock.Add(block);
+
+            //movePos += Vector3.right * _blockLength;
         }
     }
 
@@ -173,7 +300,6 @@ public class BlockManager : MonoBehaviour
         //}
     }
 
-
     //끝말이 항상 생성되게 함
     public void MakeLastWord(string preWord)
     {
@@ -201,6 +327,13 @@ public class BlockManager : MonoBehaviour
     //끝말잇기가 되면 올라감
     public void ConfirmBlock()
     {
+        float childBlockY = childBlock[childBlock.Count() - 1].transform.position.y;
+        Vector3 upScale = Vector3.up * childBlockY;
+        foreach (var block in childBlock)
+        {
+            block.transform.position -= upScale;
+        }
+
         confirmedBlock.AddRange(childBlock);
         childBlock.Clear();
         foreach(var block in confirmedBlock)
@@ -208,6 +341,28 @@ public class BlockManager : MonoBehaviour
             block.transform.position += Vector3.up * spaceScale;
             block.word.color = Color.black;
         }
+    }
+
+    public void SetPrefabTextRed()
+    {
+        tempBlock.AddRange(childBlock);
+        childBlock.Clear();
+        StartCoroutine(HandleTextRedTime());
+    }
+
+    private IEnumerator HandleTextRedTime()
+    {
+        foreach (var block in tempBlock)
+        {
+            block.word.color = Color.red;
+            print($"빨개짐");
+        }
+        yield return new WaitForSeconds(0.3f);
+        foreach (var block in tempBlock)
+        {
+            Destroy(block.gameObject);
+        }
+        tempBlock.Clear();
     }
 }
 

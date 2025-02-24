@@ -142,14 +142,17 @@ public class HEEJAEGameManager : MonoBehaviour
             inputText = _currentSuggetion;
         }
 
+        //사용한 단어 예외처리
         if (WordStorageManager.Instance.wordStorage.UsedWord.Contains(inputText))
         {
+            BlockManager.Instance.SetPrefabTextRed();
             Debug.LogWarning($"이미 사용한 단어입니다 : {inputText}");
             input.text = "";
             input.ActivateInputField();
             return;
         }
 
+        //사용하지 않은 단어일 경우
         else
         {
             if (IsInputWordInEveryList(inputText))
@@ -170,6 +173,7 @@ public class HEEJAEGameManager : MonoBehaviour
             }
             else
             {
+                BlockManager.Instance.SetPrefabTextRed();
                 explanationText.text = "없는 단어입니다.";
             }
 

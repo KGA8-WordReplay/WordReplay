@@ -49,7 +49,7 @@ public class WordReplayManager : MonoBehaviour
     {
         if (Auto)
         {
-            MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
+            MainUI.UpdateAutoDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
         }
         else
         {
