@@ -1,41 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
-	public string stageName;
-	public int achieveScore;
+    public string stageName;
+    public int achieveScore;
 
-	private Button _stageButton;
-	private GameObject _lockGO;
+    private TextMeshProUGUI _achieveScoreText;
 
-	private void Awake()
-	{
-		_stageButton = GetComponent<Button>();
-		_lockGO = transform.Find("Lock").gameObject;
+    private Button _stageButton;
+    private GameObject _lockGO;
 
-		_stageButton.onClick.AddListener(StageButtonClick);
-	}
+    private void Awake()
+    {
+        _stageButton = GetComponent<Button>();
+        _lockGO = transform.Find("Lock").gameObject;
 
-	private void StageButtonClick()
-	{
-		SceneManager.LoadScene(stageName);
-	}
+        _stageButton.onClick.AddListener(StageButtonClick);
 
-	public void LockStage(bool isLock)
-	{
-		if (isLock)
-		{
-			_stageButton.interactable = false;
-			_lockGO.SetActive(true);
-		}
-		else
-		{
-			_stageButton.interactable = true;
-			_lockGO.SetActive(false);
-		}
-	}
+        _achieveScoreText = GetComponentsInChildren<TextMeshProUGUI>()[1];
+    }
+
+    private void Start()
+    {
+        _achieveScoreText.text = $"클리어 점수 : {achieveScore}";
+    }
+
+    private void StageButtonClick()
+    {
+        SceneManager.LoadScene(stageName);
+    }
+
+    public void LockStage(bool isLock)
+    {
+        if (isLock)
+        {
+            _stageButton.interactable = false;
+            _lockGO.SetActive(true);
+        }
+        else
+        {
+            _stageButton.interactable = true;
+            _lockGO.SetActive(false);
+        }
+    }
 }

@@ -24,7 +24,7 @@ public class TitlePage : Page
 
     private void StartButtonClick()
     {
-        PageManager.Instance.OpenPage<StagePage>();
+        PageManager.Instance.OpenPage<StagePage>().stages[0].transform.SetAsLastSibling();
     }
     private void CollectionButtonClick()
     {

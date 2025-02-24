@@ -9,11 +9,9 @@ public class StageManager : Singleton<StageManager>
     public List<string> stageList = new List<string>();
     public string lobbySceneName;
 
-
     private void Start()
     {
         Init();
-
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -29,7 +27,7 @@ public class StageManager : Singleton<StageManager>
     {
         stageList.Clear();
 
-        Stage[] stages = GameObject.Find("Stages").GetComponentsInChildren<Stage>();
+        Stage[] stages = GameObject.Find("StagePivot").transform.GetComponentsInChildren<Stage>();
 
         for (int i = 0; i < stages.Length; i++)
         {
@@ -44,7 +42,11 @@ public class StageManager : Singleton<StageManager>
     public bool IsNextStage(string stage)
     {
         int index = stageList.IndexOf(stage);
-        return index >= 0 && index + 1 < stageList.Count;
+        if (index >= 0 && index + 1 < stageList.Count)
+        {
+            if (!string.IsNullOrEmpty(stageList[index + 1])) return true;
+        }
+        return false;
     }
 
     public void NextStageUnlock(string stage)
