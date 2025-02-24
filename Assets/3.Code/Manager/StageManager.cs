@@ -29,7 +29,7 @@ public class StageManager : Singleton<StageManager>
     {
         stageList.Clear();
 
-        Stage[] stages = GameObject.Find("Stages").GetComponentsInChildren<Stage>();
+        Stage[] stages = FindObjectOfType<StagePage>().GetComponentsInChildren<Stage>();
 
         for (int i = 0; i < stages.Length; i++)
         {
