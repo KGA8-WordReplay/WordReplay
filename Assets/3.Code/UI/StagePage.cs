@@ -24,8 +24,6 @@ public class StagePage : Page
 
         _nextButton = buttons[1];
         _nextButton.onClick.AddListener(NextButtonClick);
-
-        stages[channel].transform.SetAsLastSibling();
     }
 
     private void NextButtonClick()
