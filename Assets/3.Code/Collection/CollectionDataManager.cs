@@ -12,7 +12,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
     [SerializeField] private string col2;
 
     //PlayerPrefab에서 가져오는 string 값이 들어가야함
-    private List<string> myWordNameList = new List<string>();
+    public List<string> myWordNameList = new List<string>();
 
     private Dictionary<string, string> myWordNameDict = new Dictionary<string, string>();
 
