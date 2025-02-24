@@ -92,7 +92,8 @@ public class AutoMode : MonoBehaviour
                     _wordReplayManager.HandleWordSubmission(longestWord, true);
                 }
             }
-            yield return new WaitForSeconds(autoInterval);
+            yield return new WaitUntil(() => BlockManager.Instance.temp);
+            yield return new WaitForSeconds(1f);
         }
     }
 }
