@@ -7,6 +7,7 @@ public class GameEndManager : Singleton<GameEndManager>
 {
     private Block _targetBlock;
     private Camera _camera;
+    public bool WinAnimEnd = false;
 
     private void Awake()
     {
@@ -14,13 +15,13 @@ public class GameEndManager : Singleton<GameEndManager>
     }
     private void Start()
     {
+        WinAnimEnd = false;
     }
 
     public void Win()
     {
         StartCoroutine(WinCameraMove());
     }
-
     private IEnumerator WinCameraMove()
     {
         _targetBlock = BlockManager.Instance.confirmedBlock[0];
@@ -28,7 +29,7 @@ public class GameEndManager : Singleton<GameEndManager>
         Vector3 endPos = _targetBlock.transform.position + new Vector3(7.69f, 0, -10);
 
         float elaspedTime = 0f;
-        float durationTime = 1.5f;
+        float durationTime = 0.5f;
 
         yield return new WaitUntil(() => BlockManager.Instance.temp);
 
@@ -40,6 +41,7 @@ public class GameEndManager : Singleton<GameEndManager>
         }
 
         _camera.transform.position = endPos;
+        WinAnimEnd = true;
     }
 
     public void Lose()
