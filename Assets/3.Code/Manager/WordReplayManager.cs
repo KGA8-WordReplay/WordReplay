@@ -10,6 +10,7 @@ public class WordReplayManager : MonoBehaviour
     public int loseGold;
 
     public string stageName;
+    public string nextScene;
 
     //프로퍼티
     public string PreWord { get; set; }
@@ -74,11 +75,13 @@ public class WordReplayManager : MonoBehaviour
     {
         if (onAuto)
         {
+            MainUI.inputText.interactable = false;
             MainUI.AutoButtonColor();
             _autoCoroutine = StartCoroutine(_autoMode.AutoCoroutine());
         }
         else
         {
+            MainUI.inputText.interactable = true;
             MainUI.AutoButtonColor();
             if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);
             print("오토기능 멈춤");
@@ -108,19 +111,30 @@ public class WordReplayManager : MonoBehaviour
         }
     }
 
+    private void EndGame()
+    {
+        SceneManager.LoadScene(nextScene);
+    }
+
     private void OnSuccess()
     {
         Debug.Log("스테이지 클리어!");
-        UserDataManager.Instance.Save(winGold); //골드 저장
-        UserDataManager.Instance.SaveStageClear(stageName); //스테이지 클리어 저장
-        SceneManager.LoadScene("LobbyScene");
+        int finalGold = winGold + ScoreTracker.CurScore;
+        UserDataManager.Instance.Save(finalGold); //골드 저장
+        UserDataManager.Instance.SaveStageUnlock(stageName); //스테이지 클리어 잠금 해제
+        if (StageManager.Instance.IsNextStage(stageName))
+        {
+            StageManager.Instance.NextStageUnlock(stageName);
+        }
+
+        PopupManager.Instance.PopupOpen<ResultPopup>().SetPopup("승리", finalGold.ToString(), EndGame);
     }
 
     private void OnDefeat()
     {
         Debug.Log("시간 초과로 졌음");
-        UserDataManager.Instance.Save(loseGold); //골드 저장
-        SceneManager.LoadScene("LobbyScene");
+        UserDataManager.Instance.Save(ScoreTracker.CurScore); //골드 저장
+        PopupManager.Instance.PopupOpen<ResultPopup>().SetPopup("패배", ScoreTracker.CurScore.ToString(), EndGame);
     }
 
     private void Init()

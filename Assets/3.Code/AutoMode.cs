@@ -72,6 +72,7 @@ public class AutoMode : MonoBehaviour
                     _wordReplayManager.MainUI.onAuto = false;
                     _wordReplayManager.MainUI.AutoButtonColor();
                     print("이어붙일 단어가 없음");
+                    _wordReplayManager.MainUI.inputText.interactable = true;
                     yield break;
                 }
 
