@@ -13,6 +13,16 @@ public class Block : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
+        switch (BlockManager.Instance.stageName)
+        {
+            case "불":
+                spriteRenderer.sprite = sprites[0];
+                break;
+            case "물":
+                spriteRenderer.sprite = sprites[1];
+                break;
+        }
+
         blockLength = spriteRenderer.bounds.size.x; // 가로 길이 가져오기
 
         print($"블록 길이 :{blockLength}");

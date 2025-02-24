@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestBlock
       objectReference: {fileID: 0}
+    - target: {fileID: 7687591886143232701, guid: 5b7313f502364c24889cfbfa5170731e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -601,7 +605,7 @@ PrefabInstance:
       objectReference: {fileID: 1053532556}
     - target: {fileID: 7155121035564559791, guid: 2097856abd0fd30458c80508397bbbf5, type: 3}
       propertyPath: firstWord
-      value: "\uACE0\uB984"
+      value: "\uC0AC\uACFC"
       objectReference: {fileID: 0}
     - target: {fileID: 7155121035564559791, guid: 2097856abd0fd30458c80508397bbbf5, type: 3}
       propertyPath: outputWord
@@ -1027,6 +1031,10 @@ MonoBehaviour:
   spaceScale: 2.5
   blockSpawnPos: {fileID: 1540524754}
   autoDelay: 0.3
+  stageNames:
+  - "\uBD88"
+  - "\uBB3C"
+  stageName: 
 --- !u!4 &501544563
 Transform:
   m_ObjectHideFlags: 0

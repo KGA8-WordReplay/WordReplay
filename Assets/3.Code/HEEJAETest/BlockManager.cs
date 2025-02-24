@@ -21,7 +21,8 @@ public class BlockManager : MonoBehaviour
     private List<Block> childBlock = new List<Block>();
     private List<Block> confirmedBlock = new List<Block>();
 
-    public List<string> stageName = 
+    public List<string> stageNames = new List<string> { "불", "물" };
+    public string stageName = "";
 
     private Block _lastWordPrefab;
     private float _blockLength;
@@ -29,6 +30,11 @@ public class BlockManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+    }
+
+    private void Start()
+    {
+        stageName = stageNames[1];
     }
 
     public void MakeFirstBlock(string word)
