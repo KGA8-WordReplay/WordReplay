@@ -93,6 +93,11 @@ public class WordStorage
 
     public void AddMyWordDict(Dictionary<string, string> words)
     {
+        //if (MyWordDict.Count <= 0)
+        //{
+        //    return;
+        //}
+
         foreach (var word in words)
         {
             //키값에 이미 추가된게 없을때만 추가해야함

@@ -74,7 +74,8 @@ public class CollectionPrefab : MonoBehaviour
 
             popup.SetPopup(collectionData, "사전 획득!");
 
-            CollectionDataManager.Instance.PurchaseWordDict(collectionName.text);
+            string temp = $"『{collectionName.text}』";
+            CollectionDataManager.Instance.PurchaseWordDict(temp);
 
             isActive = true;
             lockedImage.gameObject.SetActive(false);
