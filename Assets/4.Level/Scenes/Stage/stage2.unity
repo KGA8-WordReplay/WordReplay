@@ -1353,6 +1353,7 @@ MonoBehaviour:
   winGold: 100
   loseGold: 1000
   stageName: stage2
+  nextScene: SeoLobbyScene
 --- !u!4 &649155338
 Transform:
   m_ObjectHideFlags: 0

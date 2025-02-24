@@ -6,132 +6,135 @@ using UnityEngine.SceneManagement;
 
 public class WordReplayManager : MonoBehaviour
 {
-	public int winGold;
-	public int loseGold;
+    public int winGold;
+    public int loseGold;
 
-	public string stageName;
+    public string stageName;
+    public string nextScene;
 
-	//프로퍼티
-	public string PreWord { get; set; }
+    //프로퍼티
+    public string PreWord { get; set; }
 
-	public bool IsEndGame { get; private set; }
-	public WordReplayMainUI MainUI { get; private set; }
-	public ScoreTracker ScoreTracker { get; private set; }
+    public bool IsEndGame { get; private set; }
+    public WordReplayMainUI MainUI { get; private set; }
+    public ScoreTracker ScoreTracker { get; private set; }
 
-	//private
-	private AutoMode _autoMode;
-	private Timer _timer;
+    //private
+    private AutoMode _autoMode;
+    private Timer _timer;
 
-	//코루틴
-	private Coroutine _autoCoroutine;
-	private Coroutine _timerCoroutine;
+    //코루틴
+    private Coroutine _autoCoroutine;
+    private Coroutine _timerCoroutine;
 
-	private void Awake()
-	{
-		Init();
-	}
+    private void Awake()
+    {
+        Init();
+    }
 
-	private void Start()
-	{
-		GameStart();
-	}
+    private void Start()
+    {
+        GameStart();
+    }
 
-	private void GameStart()
-	{
-		_timer.OnTimer();
-		MainUI.AddScore(ScoreTracker.CurScore);
-		MainUI.SetMaxScore(ScoreTracker.maxScore);
-	}
+    private void GameStart()
+    {
+        _timer.OnTimer();
+        MainUI.AddScore(ScoreTracker.CurScore);
+        MainUI.SetMaxScore(ScoreTracker.maxScore);
+    }
 
-	//단어 입력에 대한 처리
-	public void HandleWordSubmission(string word, bool Auto)
-	{
-		if (Auto)
-		{
-			MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
-		}
-		else
-		{
-			MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.EveryWordDict[word]);
-		}
+    //단어 입력에 대한 처리
+    public void HandleWordSubmission(string word, bool Auto)
+    {
+        if (Auto)
+        {
+            MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
+        }
+        else
+        {
+            MainUI.UpdateWordDisplay(word, WordStorageManager.Instance.wordStorage.EveryWordDict[word]);
+        }
 
-		PreWord = word;
+        PreWord = word;
 
-		WordStorageManager.Instance.wordStorage.UsedWord.Add(word);
+        WordStorageManager.Instance.wordStorage.UsedWord.Add(word);
 
-		_timer.MaxTimer();
-		//InitTimer();
-		ScoreTracker.CalcScoreByLength(word);
-		MainUI.AddScore(ScoreTracker.CurScore);
+        _timer.MaxTimer();
+        //InitTimer();
+        ScoreTracker.CalcScoreByLength(word);
+        MainUI.AddScore(ScoreTracker.CurScore);
 
-		if (ScoreTracker.IsMaxScore())
-		{
-			GameResult(true);
-		}
-	}
+        if (ScoreTracker.IsMaxScore())
+        {
+            GameResult(true);
+        }
+    }
 
-	public void AutoMode(bool onAuto)
-	{
-		if (onAuto)
-		{
-			MainUI.AutoButtonColor();
-			_autoCoroutine = StartCoroutine(_autoMode.AutoCoroutine());
-		}
-		else
-		{
-			MainUI.AutoButtonColor();
-			if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);
-			print("오토기능 멈춤");
-		}
-	}
+    public void AutoMode(bool onAuto)
+    {
+        if (onAuto)
+        {
+            MainUI.inputText.interactable = false;
+            MainUI.AutoButtonColor();
+            _autoCoroutine = StartCoroutine(_autoMode.AutoCoroutine());
+        }
+        else
+        {
+            MainUI.inputText.interactable = true;
+            MainUI.AutoButtonColor();
+            if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);
+            print("오토기능 멈춤");
+        }
+    }
 
-	//public void InitTimer()
-	//{
-	//    if (_timerCoroutine != null)
-	//    {
-	//        StopCoroutine(_timerCoroutine);
-	//        print("타이머 멈춤");
-	//    }
-	//    _timerCoroutine = StartCoroutine(_timer.TimerCoroutine(ScoreTracker.GetLimitedTime()));
-	//}
+    //public void InitTimer()
+    //{
+    //    if (_timerCoroutine != null)
+    //    {
+    //        StopCoroutine(_timerCoroutine);
+    //        print("타이머 멈춤");
+    //    }
+    //    _timerCoroutine = StartCoroutine(_timer.TimerCoroutine(ScoreTracker.GetLimitedTime()));
+    //}
 
-	public void GameResult(bool isSuccess)
-	{
-		IsEndGame = true;
-		if (isSuccess)
-		{
-			OnSuccess();
-		}
-		else
-		{
-			OnDefeat();
-		}
-	}
+    public void GameResult(bool isSuccess)
+    {
+        IsEndGame = true;
+        if (isSuccess)
+        {
+            OnSuccess();
+        }
+        else
+        {
+            OnDefeat();
+        }
+    }
 
-	private void OnSuccess()
-	{
-		Debug.Log("스테이지 클리어!");
-		UserDataManager.Instance.Save(winGold); //골드 저장
-		UserDataManager.Instance.SaveStageUnlock(stageName); //스테이지 클리어 잠금 해제
-		if (StageManager.Instance.IsNextStage(stageName))
-		{
-			StageManager.Instance.NextStageUnlock(stageName);
-		}
-		SceneManager.LoadScene("LobbyScene");
-	}
+    private void OnSuccess()
+    {
+        Debug.Log("스테이지 클리어!");
+        UserDataManager.Instance.Save(winGold); //골드 저장
+        UserDataManager.Instance.SaveStageUnlock(stageName); //스테이지 클리어 잠금 해제
+        if (StageManager.Instance.IsNextStage(stageName))
+        {
+            StageManager.Instance.NextStageUnlock(stageName);
+        }
+        SceneManager.LoadScene(nextScene);
+    }
 
-	private void OnDefeat()
-	{
-		Debug.Log("시간 초과로 졌음");
-		UserDataManager.Instance.Save(loseGold); //골드 저장
-		SceneManager.LoadScene("LobbyScene");
-	}
+    private void OnDefeat()
+    {
+        Debug.Log("시간 초과로 졌음");
+        UserDataManager.Instance.Save(loseGold); //골드 저장
+        SceneManager.LoadScene(nextScene);
+    }
 
-	private void Init()
-	{
-		MainUI = FindObjectOfType<WordReplayMainUI>();
-		_autoMode = FindObjectOfType<AutoMode>();
-		_timer = FindObjectOfType<Timer>();
-		ScoreTracker = FindObjectOfType<ScoreTracker>();
-	}
+    private void Init()
+    {
+        MainUI = FindObjectOfType<WordReplayMainUI>();
+        _autoMode = FindObjectOfType<AutoMode>();
+        _timer = FindObjectOfType<Timer>();
+        ScoreTracker = FindObjectOfType<ScoreTracker>();
+    }
 }

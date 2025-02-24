@@ -6,50 +6,50 @@ using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
-	public List<string> stageList = new List<string>();
+    public List<string> stageList = new List<string>();
+    public string lobbySceneName;
 
 
+    private void Start()
+    {
+        Init();
 
-	private void Start()
-	{
-		Init();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
-		SceneManager.sceneLoaded += OnSceneLoaded;
-	}
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        if (SceneManager.GetActiveScene().name == lobbySceneName)
+        {
+            Init();
+        }
+    }
 
-	private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
-	{
-		if (SceneManager.GetActiveScene().name == "LobbyScene")
-		{
-			Init();
-		}
-	}
+    private void Init()
+    {
+        stageList.Clear();
 
-	private void Init()
-	{
-		stageList.Clear();
+        Stage[] stages = GameObject.Find("Stages").GetComponentsInChildren<Stage>();
 
-		Stage[] stages = GameObject.Find("Stages").GetComponentsInChildren<Stage>();
+        for (int i = 0; i < stages.Length; i++)
+        {
+            Stage stage = stages[i];
+            bool isLocked = UserDataManager.Instance.IsStageLock(stage.stageName);
 
-		for (int i = 0; i < stages.Length; i++)
-		{
-			Stage stage = stages[i];
-			bool isLocked = UserDataManager.Instance.IsStageLock(stage.stageName);
+            stage.LockStage(isLocked);
+            stageList.Add(stage.stageName);
+        }
+    }
 
-			stage.LockStage(isLocked);
-			stageList.Add(stage.stageName);
-		}
-	}
+    public bool IsNextStage(string stage)
+    {
+        int index = stageList.IndexOf(stage);
+        return index >= 0 && index + 1 < stageList.Count;
+    }
 
-	public bool IsNextStage(string stage)
-	{
-		int index = stageList.IndexOf(stage);
-		return index >= 0 && index + 1 < stageList.Count;
-	}
-
-	public void NextStageUnlock(string stage)
-	{
-		int index = stageList.IndexOf(stage) + 1;
-		UserDataManager.Instance.SaveStageUnlock(stageList[index]);
-	}
+    public void NextStageUnlock(string stage)
+    {
+        int index = stageList.IndexOf(stage) + 1;
+        UserDataManager.Instance.SaveStageUnlock(stageList[index]);
+    }
 }
