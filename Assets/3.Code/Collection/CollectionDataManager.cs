@@ -18,6 +18,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
     private void Start()
     {
+        myWordNameList = UserDataManager.Instance.GetCollectionName();
         myWordNameDict.Clear();
         myWordNameDict["가톨릭"] = myWord[0];
         myWordNameDict["경제"] = myWord[1];
@@ -37,16 +38,19 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
     //    }
     //}
 
+    //구매 성공 시
     public void PurchaseWordDict(string collectionName)
     {
         //콜렉션의 UI상에 보이는 이름을 리소스파일 이름으로 변환
         string value = myWordNameDict[collectionName];
         //리소스 파일을 전환
-        List<Dictionary<string, object>> resource = CSVReader.Read($"Word/{value}");
+        List<Dictionary<string, object>> resource = CSVReader.Read($"Word/MyWord/{value}");
         //그 전환한 파일을 Dict로 전환
         Dictionary<string, string> tempWord = ConvertToStringDictionary(resource, col1, col2);
         //마지막으로 내가 가지고 있는 단어에 추가
         WordStorageManager.Instance.wordStorage.AddMyWordDict(tempWord);
+
+
     }
 
     private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>>data, string colName, string colName2)

@@ -49,8 +49,8 @@ public class GameEndManager : Singleton<GameEndManager>
         foreach(var block in BlockManager.Instance.confirmedBlock)
         {
             Vector3 random = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0);
-            block.rigidbody.useGravity = true;
-            block.rigidbody.velocity += random;
+            block.rb.useGravity = true;
+            block.rb.velocity += random;
         }
     }
 }
