@@ -22,12 +22,12 @@ public class PopupManager : Singleton<PopupManager>
 
         Popup[] foundedPopups = GameObject.FindObjectsOfType<Popup>();
 
-        foreach(Popup popup in foundedPopups)
+        foreach (Popup popup in foundedPopups)
         {
             _popups.Add(popup);
         }
 
-        foreach(Popup popup in _popups)
+        foreach (Popup popup in _popups)
         {
             popup.gameObject.SetActive(false);
         }
@@ -49,7 +49,7 @@ public class PopupManager : Singleton<PopupManager>
             _openPopups.Push(openPopup);
         }
 
-        return openPopup; 
+        return openPopup;
     }
 
     public void PopupClose()
@@ -58,6 +58,14 @@ public class PopupManager : Singleton<PopupManager>
         {
             Popup targetPopup = _openPopups.Pop();
             targetPopup.gameObject.SetActive(false);
+        }
+    }
+
+    public void PopupCloseAll()
+    {
+        while (_openPopups.Count > 0)
+        {
+            PopupClose();
         }
     }
 

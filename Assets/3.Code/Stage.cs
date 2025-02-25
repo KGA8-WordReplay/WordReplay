@@ -10,6 +10,7 @@ public class Stage : MonoBehaviour
     public string stageName;
     public int achieveScore;
 
+    private TextMeshProUGUI _stageNameText;
     private TextMeshProUGUI _achieveScoreText;
 
     private Button _stageButton;
@@ -22,11 +23,19 @@ public class Stage : MonoBehaviour
 
         _stageButton.onClick.AddListener(StageButtonClick);
 
-        _achieveScoreText = GetComponentsInChildren<TextMeshProUGUI>()[1];
+        TextMeshProUGUI[] texts = GetComponentsInChildren<TextMeshProUGUI>();
+
+        _stageNameText = texts[0];
+        _achieveScoreText = texts[1];
     }
 
     private void Start()
     {
+        if (!string.IsNullOrEmpty(stageName)) _stageNameText.text = $"<{stageName}>";
+        else
+        {
+            _stageNameText.text = "Coming Soon";
+        }
         _achieveScoreText.text = $"클리어 점수 : {achieveScore}";
     }
 

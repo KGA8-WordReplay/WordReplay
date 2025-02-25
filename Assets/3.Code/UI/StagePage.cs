@@ -52,6 +52,24 @@ public class StagePage : Page
         }
     }
 
+    public void OpenFirst()
+    {
+        channel = 0;
+        stages[channel].transform.SetAsLastSibling();
+
+        foreach (GameObject go in stages)
+        {
+            if (stages.IndexOf(go) == channel)
+            {
+                go.SetActive(true);
+            }
+            else
+            {
+                go.SetActive(false);
+            }
+        }
+    }
+
     private void BackButtonClick()
     {
         PageManager.Instance.OpenPage<TitlePage>();

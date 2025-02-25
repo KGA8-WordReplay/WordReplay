@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/4.Level/Scenes/Stage/stage4.unity
     guid: a7e0946d21c5e91449d98bcbfd566ac7
+  - enabled: 1
+    path: Assets/4.Level/Scenes/SeoLobbyScene2.unity
+    guid: 049453bf5bb47104097a1389b5689c65
   m_configObjects: {}
