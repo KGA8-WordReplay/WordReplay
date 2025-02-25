@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public enum Bgm { None = -1, Jegi, Lobby, RGL = 4, Omok, Title, BattleBoss, BattleElite, BattleNormal }
+public enum Bgm { None = -1, Lobby, Stage1, Stage2, Stage3, Stage4, Stage5, Stage6, Stage7, Stage8, Stage9, Stage10 }
 public enum Sfx
 {
-    ButtonPress, GameLose, GameWin, JegiHit, JegiMiss, Cow, RGL1, RGL2, GetCoin, RGLPD, RGLPEarthQ,
-    RGLPGun, Younghee2, Younghee3, Younghee5, OmokTak, Wow, Scream, Aww = 19, BattleHit, BattleLose, BattleReady, BattleStart, BattleWin, BattleHitCritical
+    Button, Fail, StageComplete, Success1, Success2, Success3, Success4, Typing
 }
 
 public class AudioManager : Singleton<AudioManager>
@@ -84,10 +83,6 @@ public class AudioManager : Singleton<AudioManager>
         }
 
         int random = 0;
-        if (bgm == Bgm.Lobby)
-        {
-            random = Random.Range(0, 3);
-        }
 
 
         _bgmPlayer.clip = _bgmClips[(int)bgm + random];
