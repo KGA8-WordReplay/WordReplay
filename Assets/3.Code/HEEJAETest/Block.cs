@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    public TextMeshProUGUI word;
+    public TextMeshPro word;
     public List<Sprite> sprites;
     public static float blockLength;
     public Rigidbody rb;
@@ -48,7 +48,7 @@ public class Block : MonoBehaviour
         else
         {
             this.word.text = $"{word}({ruledWord})";
-            this.word.fontSize = 0.35f;
+            this.word.fontSize = 3f;
             this.word.color = Color.black;
         }
     }

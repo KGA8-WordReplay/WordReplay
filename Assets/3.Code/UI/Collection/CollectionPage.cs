@@ -28,7 +28,7 @@ public class CollectionPage : Page
 
     private void Init()
     {
-        goldText.text = TempGoldSingleton.Instance.gold.ToString();
+        //goldText.text = TempGoldSingleton.Instance.gold.ToString();
         //List<CollectionPrefab> collectionPrefabs = new List<CollectionPrefab>();
         //CollectionPrefab collectionPrefab = FindObjectOfType<CollectionPrefab>();
     }

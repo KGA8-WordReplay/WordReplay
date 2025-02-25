@@ -29,6 +29,9 @@ public class BlockManager : MonoBehaviour
     private Block _lastWordPrefab;
     private float _blockLength;
 
+    //false -> 시간 흘러감, true -> 시간 멈춤
+    public bool blockSpawnEnd = false;
+
     private void Awake()
     {
         _instance = this;
@@ -36,6 +39,7 @@ public class BlockManager : MonoBehaviour
 
     private void Start()
     {
+        blockSpawnEnd = true;
         stageName = SceneManager.GetActiveScene().name;
     }
 
@@ -54,6 +58,8 @@ public class BlockManager : MonoBehaviour
 
             movePos += Vector3.right;
         }
+
+        blockSpawnEnd = true;
     }
 
     public void MakeBlock(string preWord, string word)
@@ -116,11 +122,12 @@ public class BlockManager : MonoBehaviour
 
             //Invoke("Temp", 3f);
         }
+        blockSpawnEnd = true;
     }
 
     public void AutoBlock(string preWord, string word)
     {
-        temp = false;
+        blockSpawnEnd = false;
         if (word == null)
         {
             Debug.LogWarning("입력된 단어 없음");
@@ -133,7 +140,6 @@ public class BlockManager : MonoBehaviour
         StartCoroutine(HandleAutoBlock(preWord, word));
     }
 
-    public bool temp = false;
     private IEnumerator HandleAutoBlock(string preWord, string word)
     {
         _blockLength = Block.blockLength;
@@ -190,7 +196,7 @@ public class BlockManager : MonoBehaviour
             yield return new WaitForSeconds(autoDelay);
         }
         ConfirmBlock();
-        temp = true;
+        blockSpawnEnd = true;
     }
 
     public void MakeSuggestionBlock(string preWord, string typingWord, string currentSuggestion)
@@ -263,6 +269,7 @@ public class BlockManager : MonoBehaviour
 
             //movePos += Vector3.right * _blockLength;
         }
+        blockSpawnEnd = true;
     }
 
 
