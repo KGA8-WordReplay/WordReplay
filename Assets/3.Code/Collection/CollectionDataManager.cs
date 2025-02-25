@@ -1,4 +1,5 @@
 using Seo;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -32,6 +33,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
         //myWordNameDict["교육"] = myWord[2];
     }
 
+    public Action OnDataLoaded;
     private void Init()
     {
         print("CollectionDataManager Init");
@@ -48,6 +50,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
             WordStorageManager.Instance.wordStorage.AddMyWordDict(tempword);
         }
+        OnDataLoaded?.Invoke();
     }
 
     //구매 성공 시

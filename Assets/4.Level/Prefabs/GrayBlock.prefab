@@ -128,10 +128,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   word: {fileID: 448769594437812958}
   sprites:
-  - {fileID: 21300000, guid: 4e05b2e846c3fca448270c987b71f259, type: 3}
-  - {fileID: 21300000, guid: ae92b08bcdd8ae5498b3a4209134d1a2, type: 3}
+  - {fileID: 21300000, guid: e67898e3ccb78804d9bf53f92ad9e8b3, type: 3}
   - {fileID: 21300000, guid: 0ed3f94d3c2f10046ab333019bae51d8, type: 3}
+  - {fileID: 21300000, guid: e3bba083b1d4abe49a7f2b0cea48efc3, type: 3}
+  - {fileID: 21300000, guid: 4e05b2e846c3fca448270c987b71f259, type: 3}
+  - {fileID: 21300000, guid: 67e6ceefb1f7d8149aab12ff715100f4, type: 3}
+  - {fileID: 21300000, guid: ae92b08bcdd8ae5498b3a4209134d1a2, type: 3}
+  - {fileID: 21300000, guid: 4d550f4b599d1c542ac17f64fb08d049, type: 3}
+  - {fileID: 21300000, guid: a40fb2668c3b5d9458ca8c7366ea40f7, type: 3}
   - {fileID: 21300000, guid: 0ebf74ae031b714448ac3991b0ef032c, type: 3}
+  - {fileID: 21300000, guid: 05151c545e2b7964ba23c362710126b3, type: 3}
   rb: {fileID: 0}
   particlePrefab: {fileID: 164546, guid: e6e6f5beacfc73b41883f0becc4e2a67, type: 3}
 --- !u!1 &7948278546993636509
@@ -235,7 +241,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uC77C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: da75807fec8d37f4ea7ef62c656dcf95, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: -5019499479224736696, guid: da75807fec8d37f4ea7ef62c656dcf95, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
