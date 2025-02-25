@@ -43,7 +43,7 @@ public class TitlePage : Page
 
     private void StartButtonClick()
     {
-        PageManager.Instance.OpenPage<StagePage>().stages[0].transform.SetAsLastSibling();
+        PageManager.Instance.OpenPage<StagePage>().OpenFirst();
     }
     private void CollectionButtonClick()
     {

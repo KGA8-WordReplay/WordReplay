@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,11 +13,19 @@ public class SoundSettingPopup : Popup
     [SerializeField] private Slider _sfxSlider;
     [SerializeField] private TextMeshProUGUI _bgmSoundText;
     [SerializeField] private TextMeshProUGUI _sfxSoundText;
+    [SerializeField] private Button _quitButton;
 
     private void Awake()
     {
         _bgmSlider.onValueChanged.AddListener(SetBgmVolume);
         _sfxSlider.onValueChanged.AddListener(SetSfxVolume);
+
+        _quitButton.onClick.AddListener(QuitButtonClick);
+    }
+
+    private void QuitButtonClick()
+    {
+        PopupManager.Instance.PopupClose();
     }
 
     public void InitVolume()
@@ -73,5 +82,7 @@ public class SoundSettingPopup : Popup
     {
         _bgmSlider.onValueChanged.RemoveListener(SetBgmVolume);
         _sfxSlider.onValueChanged.RemoveListener(SetSfxVolume);
+
+        _quitButton.onClick.RemoveListener(QuitButtonClick);
     }
 }
