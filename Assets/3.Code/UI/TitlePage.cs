@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TitlePage : Page
 {
+    [SerializeField] private SoundSettingPopup _soundSettingPopup;
     private Button _startButton;
     private Button _collectionButton;
     private Button _informationButton;
@@ -26,6 +27,18 @@ public class TitlePage : Page
         _informationButton.onClick.AddListener(InformationButtonClick);
         _soundSettingButton.onClick.AddListener(SoundSettingButtonClick);
         _quitButton.onClick.AddListener(QuitButtonClick);
+    }
+
+    private void Start()
+    {
+        if (_soundSettingPopup.CanLoadVolume())
+        {
+            _soundSettingPopup.LoadVolume();
+        }
+        else
+        {
+            _soundSettingPopup.InitVolume();
+        }
     }
 
     private void StartButtonClick()

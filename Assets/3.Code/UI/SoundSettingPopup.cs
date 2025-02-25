@@ -31,6 +31,7 @@ public class SoundSettingPopup : Popup
         _bgmSoundText.text = valueInt.ToString();
         _audioMixer.SetFloat("bgm", Mathf.Log10(value) * 20);
         PlayerPrefs.SetFloat("bgm", _bgmSlider.value);
+        PlayerPrefs.Save();
     }
 
     private void SetSfxVolume(float value)
@@ -39,16 +40,19 @@ public class SoundSettingPopup : Popup
         _sfxSoundText.text = valueInt.ToString();
         _audioMixer.SetFloat("sfx", Mathf.Log10(value) * 20);
         PlayerPrefs.SetFloat("sfx", _sfxSlider.value);
+        PlayerPrefs.Save();
     }
 
     public bool CanLoadVolume()
     {
         if (PlayerPrefs.HasKey("bgm") && PlayerPrefs.HasKey("sfx"))
         {
+            print("사운드세팅 로드 할 수 있음");
             return true;
         }
         else
         {
+            print("사운드세팅 로드 할 수 없음");
             return false;
         }
     }
