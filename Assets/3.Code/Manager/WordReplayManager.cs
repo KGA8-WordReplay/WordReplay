@@ -101,6 +101,16 @@ public class WordReplayManager : MonoBehaviour
     public void GameResult(bool isSuccess)
     {
         IsEndGame = true;
+        WordStorageManager.Instance.wordStorage.UsedWord.Clear();
+
+        if (WordStorageManager.Instance.wordStorage.UsedWord.Count > 0)
+        {
+            print("게임이 끝났는데도 사용한 단어가 초기화가 안됐음");
+        }
+        else
+        {
+            print("게임이 끝나고 사용한 단어 초기화 완료.");
+        }
         if (isSuccess)
         {
             GameEndManager.Instance.Win();
