@@ -31,7 +31,7 @@ public class GameEndManager : Singleton<GameEndManager>
         float elaspedTime = 0f;
         float durationTime = 0.5f;
 
-        yield return new WaitUntil(() => BlockManager.Instance.temp);
+        yield return new WaitUntil(() => BlockManager.Instance.blockSpawnEnd);
 
         while (elaspedTime <= durationTime)
         {

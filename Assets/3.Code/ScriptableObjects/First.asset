@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: First
   m_EditorClassIdentifier: 
   textName: "\uAC00\uD1A8\uB9AD"
-  image: {fileID: 21300000, guid: a6968dd1e09e8bb4a8a7ab3916a4c1d3, type: 3}
+  image: {fileID: 21300000, guid: 7f98811105cffcd4caace5d9004317a7, type: 3}
   gold: 100
