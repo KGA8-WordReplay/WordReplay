@@ -50,10 +50,11 @@ public class GoldPopup : Popup
     private void OnClickGoldButton()
     {
         //골드가 충분히 있다면
-        if(TempGoldSingleton.Instance.gold >= _collectionData.gold)
+        if(CollectionDataManager.Instance.currentGold >= _collectionData.gold)
         {
             PopupManager.Instance.PopupClose();
             _callback?.Invoke(true);
+            UserDataManager.Instance.SubGold(_collectionData.gold);
         }
         //없다면
         else
