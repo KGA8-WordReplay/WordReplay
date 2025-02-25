@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class UserDataManager : Singleton<UserDataManager>
 {
     [Header("UserData를 날리고 싶으시면 true를 하고 게임을 시작하세요.")]
     public bool isInit;
+
+    public Action goldAction;
 
     private UserData _userData;
 
@@ -28,6 +31,7 @@ public class UserDataManager : Singleton<UserDataManager>
     public void Save(int gold)
     {
         _userData.AddGold(gold);
+        goldAction?.Invoke();
         SaveUserData();
     }
     public void Save(string collectionName)
@@ -41,15 +45,27 @@ public class UserDataManager : Singleton<UserDataManager>
         SaveUserData();
     }
 
-	public List<string> GetCollectionName()
-	{
+    public List<string> GetCollectionName()
+    {
         return _userData.GetCollectionNames();
-	}
+    }
 
-	public bool IsStageLock(string stageName)
-	{
-		return !_userData.IsStageUnlock(stageName);
-	}
+    public bool IsStageLock(string stageName)
+    {
+        return !_userData.IsStageUnlock(stageName);
+    }
+
+    public int GetGold()
+    {
+        return _userData.GetGold();
+    }
+
+    public void SubGold(int gold)
+    {
+        _userData.SubGold(gold);
+        goldAction?.Invoke();
+        SaveUserData();
+    }
 
     private void SaveUserData()
     {
