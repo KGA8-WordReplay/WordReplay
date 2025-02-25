@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HEEJAEGameManager : MonoBehaviour
@@ -22,11 +24,25 @@ public class HEEJAEGameManager : MonoBehaviour
     [SerializeField] private string ruleOfHeadingTextName;
     [SerializeField] private string wordName;
     [SerializeField] private string meanName;
-
     [SerializeField] private int count;
+
+    [Header("여기에 제시어 입력")]
+    [SerializeField] private List<string> stage1 = new List<string> { "바람결", "햇살", "비행선", "구름층", "창공", "일출", "대기권", "공중전", "새벽" };
+    [SerializeField] private List<string> stage2 = new List<string> { "조개껍질", "해조류", "바닷물", "백사장", "파도소리", "갯벌", "해안선", "물결", "석양", "망망대해" };
+    [SerializeField] private List<string> stage3 = new List<string> { "산호초", "바다", "거북", "야자수", "파도타기", "모래알", "해변", "모래", "서핑보드", "해양생물", "진주조개" };
+    [SerializeField] private List<string> stage4 = new List<string> { "원시림", "동굴벽화", "정글", "탐험", "수풀길", "울창", "폭포수", "비단뱀", "나무다리", "수목원" };
+    [SerializeField] private List<string> stage5 = new List<string> { "능선", "운무", "절벽", "산골짜기", "고원지대", "석양", "바위산", "등산길", "정상석", "안개구름" };
+    [SerializeField] private List<string> stage6 = new List<string> { "초승달", "별자리", "운석군", "천문대", "은하수", "성운", "밤하늘", "유성우", "밤바람", "반딧불" };
+    [SerializeField] private List<string> stage7 = new List<string> { "빗소리", "우산", "젖은길", "장마철", "물웅덩이", "빗줄기", "구름층", "안개비", "빗방울", "호수면" };
+    [SerializeField] private List<string> stage8 = new List<string> { "번개", "암흑", "전력선", "폭우", "돌풍", "나뭇잎", "줄기", "벼락구름", "울림소리" };
+    [SerializeField] private List<string> stage9 = new List<string> { "로켓발사", "성층권", "대기권", "무중력", "우주선", "출발선", "행성" };
+    [SerializeField] private List<string> stage10 = new List<string> { "은하", "블랙홀", "행성군", "우주정거장", "암흑물질", "초신성", "태양풍", "우주망원경", "무한" };
 
     //임시 참조
     [SerializeField] private WordReplayManager wordReplayManager;
+
+    private Dictionary<string, List<string>> startDict = new Dictionary<string, List<string>>();
+    private List<string> startSuggestionList = new List<string>();
 
     private List<string> _foodWordList = new List<string>();
 
@@ -48,6 +64,9 @@ public class HEEJAEGameManager : MonoBehaviour
     public string _currentSuggetion = "";
     private string _privateCurrentSuggestion = "";
 
+    //현재 씬
+    private string _sceneName = "";
+
 
     private void Awake()
     {
@@ -56,6 +75,24 @@ public class HEEJAEGameManager : MonoBehaviour
         confirmButton.onClick.AddListener(OnClickConfirmButton);
         input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
+
+        //씬 이름 가져오기
+        _sceneName = SceneManager.GetActiveScene().name;
+
+        startDict = new Dictionary<string, List<string>>() 
+        {
+            { "stage1", stage1},
+            { "stage2", stage2},
+            { "stage3", stage3},
+            { "stage4", stage4},
+            { "stage5", stage5},
+            { "stage6", stage6},
+            { "stage7", stage7},
+            { "stage8", stage8},
+            { "stage9", stage9},
+            { "stage10", stage10},
+        };
+
     }
 
     private void Start()
@@ -114,13 +151,27 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void Init()
     {
-        wordReplayManager.PreWord = firstWord;
-        print($"wordReplayManager.PreWord의 단어 : {wordReplayManager.PreWord}");
-        print($"firstWord의 단어 : {firstWord}");
-        //임시로 이전단어 넘김
-        BlockManager.Instance.MakeFirstBlock(wordReplayManager.PreWord);
+        //시작하는 제시어 단어 리스트 가져오기
+        if (startDict.TryGetValue(_sceneName, out List<string> suggestions))
+        {
+            startSuggestionList = suggestions;
+        }
+        else 
+        {
+            Debug.LogError("씬 이름이 잘못 됨");
+        }
+
+        int randomNum = Random.Range(0, startSuggestionList.Count);
+        string startSuggestion = startSuggestionList[randomNum];
+
+        wordReplayManager.PreWord = startSuggestion;
+        //print($"wordReplayManager.PreWord의 단어 : {wordReplayManager.PreWord}");
+        //print($"firstWord의 단어 : {firstWord}");
+        ////임시로 이전단어 넘김
+        BlockManager.Instance.MakeFirstBlock(startSuggestion);
+        print($"처음 단어 : {startSuggestion}");
         //outputWord.text = _preWord;
-        explanationText.text = "처음단어";
+        explanationText.text = "처음단어"; // -> 여기 설명해야함
         //BlockManager.Instance.MakeLastWord(firstWord);
 
         hasSuggestion = false;
