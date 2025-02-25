@@ -24,6 +24,7 @@ public class CollectionPrefab : MonoBehaviour
 
     private void Start()
     {
+        CollectionDataManager.Instance.OnDataLoaded += Init;
         Init();
         print("CollectionPrefab에서 옴");
         //활성화true -> Active(false)
@@ -62,6 +63,7 @@ public class CollectionPrefab : MonoBehaviour
     private void Init()
     {
         collectionImage.sprite = collectionData.image;
+        collectionImage.rectTransform.sizeDelta = new Vector2(140, 120);
         collectionName.text = collectionData.textName;
         //gold.text = collectionData.gold.ToString();
         string collection = $"『{collectionName.text}』";
