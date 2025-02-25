@@ -17,20 +17,21 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
     private Dictionary<string, string> myWordNameDict = new Dictionary<string, string>();
 
+    public int currentGold = 0;
+
     private void Start()
     {
         myWordNameList = UserDataManager.Instance.GetCollectionName();
         Init();
+        InitGold();
+
+        UserDataManager.Instance.goldAction += InitGold;
+
         print("CollectionDataManager에서 옴");
         foreach(var temp in myWordNameList)
         {
             print(temp);
         }
-
-        //myWordNameDict.Clear();
-        //myWordNameDict["가톨릭"] = myWord[0];
-        //myWordNameDict["경제"] = myWord[1];
-        //myWordNameDict["교육"] = myWord[2];
     }
 
     public Action OnDataLoaded;
@@ -51,6 +52,11 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
             WordStorageManager.Instance.wordStorage.AddMyWordDict(tempword);
         }
         OnDataLoaded?.Invoke();
+    }
+
+    private void InitGold()
+    {
+        currentGold = UserDataManager.Instance.GetGold();
     }
 
     //구매 성공 시

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WordStorage
 {
@@ -41,11 +42,41 @@ public class WordStorage
 
     public void Init()
     {
+        CoroutineRunner.Instance.StartRoutine(HandleLoad());
+        ////필드 초기화
+        //EveryWordDict = new Dictionary<string, string>();
+        //MyWordDict = new Dictionary<string, string>();
+        //DueumDict = new Dictionary<char, char>();
+        //UsedWord = new List<string>();
+
+        ////엑셀 파일 에러땜에 나중에 주석만 지우면 됌.
+        ////데이터 가공
+        //List<Dictionary<string, object>> everyWordDict = CSVReader.Read($"Word/{everyWord}");
+        ////List<Dictionary<string, object>> myWordDict = CSVReader.Read($"Word/MyWord/{myWord}");
+        //List<Dictionary<string, object>> dueumDict = CSVReader.Read($"Word/{duemWord}");
+
+        ////전체 데이터 사전 등록
+        //EveryWordDict = ConvertToStringDictionary(everyWordDict, col1, col2);
+
+        ////나의 데이터 사전 등록
+        ////MyWordDict = ConvertToStringDictionary(myWordDict, col1, col2);
+
+        ////두음 데이터 사전 등록
+        //DueumDict = ConvertToCharDictionary(dueumDict, col3, col4);
+
+        //로드 다 되고 나면 로비씬 이동 -> 나중에 인스펙터로 빼는 작업 필요
+        //SceneManager.LoadScene("SeoLobbyScene2");
+    }
+
+    private IEnumerator HandleLoad()
+    {
         //필드 초기화
         EveryWordDict = new Dictionary<string, string>();
         MyWordDict = new Dictionary<string, string>();
         DueumDict = new Dictionary<char, char>();
         UsedWord = new List<string>();
+
+        yield return null;
 
         //엑셀 파일 에러땜에 나중에 주석만 지우면 됌.
         //데이터 가공
@@ -61,6 +92,12 @@ public class WordStorage
 
         //두음 데이터 사전 등록
         DueumDict = ConvertToCharDictionary(dueumDict, col3, col4);
+
+        yield return null;
+
+        yield return new WaitForSeconds(0.5f);
+        //로드 다 되고 나면 로비씬 이동 -> 나중에 인스펙터로 빼는 작업 필요
+        SceneManager.LoadScene("SeoLobbyScene2");
     }
 
     private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>> data, string colName, string colName2)
