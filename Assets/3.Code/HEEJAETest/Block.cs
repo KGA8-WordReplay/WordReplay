@@ -32,6 +32,24 @@ public class Block : MonoBehaviour
             case "stage4":
                 spriteRenderer.sprite = sprites[3];
                 break;
+            case "stage5":
+                spriteRenderer.sprite = sprites[4];
+                break;
+            case "stage6":
+                spriteRenderer.sprite = sprites[5];
+                break;
+            case "stage7":
+                spriteRenderer.sprite = sprites[6];
+                break;
+            case "stage8":
+                spriteRenderer.sprite = sprites[7];
+                break;
+            case "stage9":
+                spriteRenderer.sprite = sprites[8];
+                break;
+            case "stage10":
+                spriteRenderer.sprite = sprites[9];
+                break;
         }
 
         blockLength = spriteRenderer.bounds.size.x; // 가로 길이 가져오기
