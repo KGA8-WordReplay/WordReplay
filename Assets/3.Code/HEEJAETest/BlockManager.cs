@@ -2,9 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TreeEditor;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -256,7 +253,7 @@ public class BlockManager : MonoBehaviour
             bool isStart = (i == 0);
 
             //첫번째 글자이면서 두음법칙을 만족하고, 내가 치는 단어의 처음이 두음법칙일 경우
-            if(isStart && hasRuleOfHeading && (typingWord[0] == lastChar || typingWord[0] == ruledChar))
+            if (isStart && hasRuleOfHeading && (typingWord[0] == lastChar || typingWord[0] == ruledChar))
             {
                 block.SetWord(lastChar, ruledChar, true);
             }
@@ -269,7 +266,7 @@ public class BlockManager : MonoBehaviour
             {
                 currentX = blockSpawnPos.position.x;
                 currentY -= _blockLength;
-                foreach(var temp in childBlock)
+                foreach (var temp in childBlock)
                 {
                     temp.transform.position += Vector3.up * _blockLength;
                 }
@@ -296,7 +293,7 @@ public class BlockManager : MonoBehaviour
             return;
         }
 
-        for(int i = childBlock.Count - 1; i >= 0; i--)
+        for (int i = childBlock.Count - 1; i >= 0; i--)
         {
             Block block = childBlock[i];
             Destroy(block.gameObject);
@@ -363,13 +360,13 @@ public class BlockManager : MonoBehaviour
 
         switch (childBlock.Count())
         {
-            case int n when (n >= 1 && n <=3):
+            case int n when (n >= 1 && n <= 3):
                 AudioManager.Instance.PlaySfx(Sfx.Success1);
                 break;
-            case int n when (n >= 4 && n <=5):
+            case int n when (n >= 4 && n <= 5):
                 AudioManager.Instance.PlaySfx(Sfx.Success2);
                 break;
-            case int n when (n >= 6 && n <=7):
+            case int n when (n >= 6 && n <= 7):
                 AudioManager.Instance.PlaySfx(Sfx.Success3);
                 break;
             case int n when (n >= 8):
@@ -379,7 +376,7 @@ public class BlockManager : MonoBehaviour
 
         confirmedBlock.AddRange(childBlock);
         childBlock.Clear();
-        foreach(var block in confirmedBlock)
+        foreach (var block in confirmedBlock)
         {
             block.transform.position += Vector3.up * spaceScale;
             block.word.color = Color.black;
