@@ -14,7 +14,6 @@ public class CollectionPage : Page
     private void OnEnable()
     {
         backButton.onClick.AddListener(OnClickBackButton);
-        Init();
         print("켜짐");
     }
 
@@ -26,7 +25,7 @@ public class CollectionPage : Page
 
     private void Start()
     {
-        goldText.text = CollectionDataManager.Instance.currentGold.ToString();
+        Init();
 
         UserDataManager.Instance.goldAction += Init;
         //CollectionDataManager.Instance.goldChange += Init;
@@ -35,7 +34,7 @@ public class CollectionPage : Page
 
     private void Init()
     {
-        goldText.text = CollectionDataManager.Instance.currentGold.ToString();
+        goldText.text = UserDataManager.Instance.GetGold().ToString();
     }
 
     private void OnClickBackButton()
