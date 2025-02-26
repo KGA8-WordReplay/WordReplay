@@ -26,12 +26,14 @@ public class GiveupPopup : Popup
 
     private void YesButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PopupManager.Instance.PopupClose();
         _wordReplayManager.GameResult(false);
     }
 
     private void NoButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PopupManager.Instance.PopupClose();
     }
 

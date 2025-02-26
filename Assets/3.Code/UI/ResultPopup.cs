@@ -24,6 +24,7 @@ public class ResultPopup : Popup
 
     private void QuitButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PopupManager.Instance.PopupClose();
         _quitAction?.Invoke();
         print("나가기가 정상 작동 됌");

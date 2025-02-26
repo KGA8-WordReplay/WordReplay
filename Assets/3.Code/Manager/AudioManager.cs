@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public enum Bgm { None = -1, Lobby, Stage1, Stage2, Stage3, Stage4, Stage5, Stage6, Stage7, Stage8, Stage9, Stage10 }
+public enum Bgm { None = -1, Lobby, stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8, stage9, stage10 }
 public enum Sfx
 {
     Button, Lose, Success1, Success2, Success3, Success4, TypeFailed, Typing, Win
@@ -32,6 +32,8 @@ public class AudioManager : Singleton<AudioManager>
     private AudioSource[] _sfxPlayers;
     private int _channelIndex;
 
+    private Dictionary<string, Bgm> _stageBgmMap = new Dictionary<string, Bgm>();
+
     private void Init()
     {
         AudioMixerGroup[] group = _audioMixer.FindMatchingGroups("Master");
@@ -53,6 +55,25 @@ public class AudioManager : Singleton<AudioManager>
             _sfxPlayers[i].outputAudioMixerGroup = group[2];
             _sfxPlayers[i].playOnAwake = false;
             _sfxPlayers[i].loop = false;
+        }
+
+        _stageBgmMap.Add(Bgm.stage1.ToString(), Bgm.stage1);
+        _stageBgmMap.Add(Bgm.stage2.ToString(), Bgm.stage2);
+        _stageBgmMap.Add(Bgm.stage3.ToString(), Bgm.stage3);
+        _stageBgmMap.Add(Bgm.stage4.ToString(), Bgm.stage4);
+        _stageBgmMap.Add(Bgm.stage5.ToString(), Bgm.stage5);
+        _stageBgmMap.Add(Bgm.stage6.ToString(), Bgm.stage6);
+        _stageBgmMap.Add(Bgm.stage7.ToString(), Bgm.stage7);
+        _stageBgmMap.Add(Bgm.stage8.ToString(), Bgm.stage8);
+        _stageBgmMap.Add(Bgm.stage9.ToString(), Bgm.stage9);
+        _stageBgmMap.Add(Bgm.stage10.ToString(), Bgm.stage10);
+    }
+
+    public void PlayStageBgm(string stageName)
+    {
+        if (_stageBgmMap.ContainsKey(stageName))
+        {
+            PlayBgm(_stageBgmMap[stageName]);
         }
     }
 

@@ -25,6 +25,7 @@ public class SoundSettingPopup : Popup
 
     private void QuitButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PopupManager.Instance.PopupClose();
     }
 

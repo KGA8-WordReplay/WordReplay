@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,6 +42,8 @@ public class WordReplayManager : MonoBehaviour
         _timer.OnTimer();
         MainUI.AddScore(ScoreTracker.CurScore);
         MainUI.SetMaxScore(ScoreTracker.maxScore);
+
+        AudioManager.Instance.PlayStageBgm(stageName);
     }
 
     //단어 입력에 대한 처리
@@ -150,6 +153,7 @@ public class WordReplayManager : MonoBehaviour
             StageManager.Instance.NextStageUnlock(stageName);
         }
 
+        AudioManager.Instance.PlaySfx(Sfx.Win);
         PopupManager.Instance.PopupOpen<VictoryPopup>().SetPopup(finalGold.ToString(), EndGame);
     }
 
@@ -157,6 +161,7 @@ public class WordReplayManager : MonoBehaviour
     {
         Debug.Log("시간 초과로 졌음");
         UserDataManager.Instance.Save(ScoreTracker.CurScore); //골드 저장
+        AudioManager.Instance.PlaySfx(Sfx.Lose);
         PopupManager.Instance.PopupOpen<DefeatPopup>().SetPopup(ScoreTracker.CurScore.ToString(), EndGame);
     }
 
