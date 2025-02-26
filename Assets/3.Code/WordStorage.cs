@@ -144,7 +144,10 @@ public class WordStorage
             if (MyWordDict.ContainsKey(word.Key) == false)
             {
                 MyWordDict.Add(word.Key, word.Value);
-                EveryWordDict.Add(word.Key, word.Value);
+                if (EveryWordDict.ContainsKey(word.Key) == false)
+                {
+                    EveryWordDict.Add(word.Key, word.Value);
+                }
             }
         }
         Debug.Log("추가 완료");

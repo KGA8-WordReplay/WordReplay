@@ -116,7 +116,7 @@ public class HEEJAEGameManager : MonoBehaviour
         //_typingWord가 바뀔 때 마다 들어옴
         if (_typingWord != _preTypingWord)
         {
-            AudioManager.Instance.PlaySfx(Sfx.Typing);
+            AudioManager.Instance.PlaySfx(Sfx.Typing2);
             //매칭되는 단어 있으면
             if (HasMatchWord(_typingWord) == true)
             {
@@ -149,6 +149,13 @@ public class HEEJAEGameManager : MonoBehaviour
         {
             OnClickTab();
         }
+
+        //Backspace키 누를때
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            AudioManager.Instance.PlaySfx(Sfx.BackspaceButton);
+        }
+
     }
 
     private void Init()
@@ -349,6 +356,7 @@ public class HEEJAEGameManager : MonoBehaviour
             //SetCurrentSuggestion();
             SetCurrentSuggestion();
             BlockManager.Instance.MakeSuggestionBlock(wordReplayManager.PreWord, _typingWord, _currentSuggetion);
+            AudioManager.Instance.PlaySfx(Sfx.TapButton);
         }
     }
 

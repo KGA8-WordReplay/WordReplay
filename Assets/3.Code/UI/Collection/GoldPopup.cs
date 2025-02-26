@@ -62,6 +62,7 @@ public class GoldPopup : Popup
             PopupManager.Instance.PopupClose();
             _callback?.Invoke(true);
             UserDataManager.Instance.SubGold(_collectionData.gold);
+            AudioManager.Instance.PlaySfx(Sfx.Purchase);
         }
         //없다면
         else
