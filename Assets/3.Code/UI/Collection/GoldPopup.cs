@@ -55,6 +55,7 @@ public class GoldPopup : Popup
 
     private void OnClickGoldButton()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         //골드가 충분히 있다면
         if (CollectionDataManager.Instance.currentGold >= _collectionData.gold)
         {
@@ -71,6 +72,7 @@ public class GoldPopup : Popup
 
     private void OnClickCloseButton()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PopupManager.Instance.PopupClose();
     }
 

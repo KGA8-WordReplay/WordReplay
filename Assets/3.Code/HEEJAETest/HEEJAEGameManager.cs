@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TMPro;
@@ -115,6 +116,7 @@ public class HEEJAEGameManager : MonoBehaviour
         //_typingWord가 바뀔 때 마다 들어옴
         if (_typingWord != _preTypingWord)
         {
+            AudioManager.Instance.PlaySfx(Sfx.Typing);
             //매칭되는 단어 있으면
             if (HasMatchWord(_typingWord) == true)
             {
