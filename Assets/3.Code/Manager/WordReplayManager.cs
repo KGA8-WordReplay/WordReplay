@@ -117,6 +117,7 @@ public class WordReplayManager : MonoBehaviour
         }
 
         PopupManager.Instance.PopupCloseAll();
+        AudioManager.Instance.PlayBgm(Bgm.None);
 
         if (isSuccess)
         {
