@@ -20,6 +20,7 @@ public class CollectionPage : Page
     private void OnDisable()
     {
         backButton.onClick.RemoveAllListeners();
+        PopupManager.Instance.PopupCloseAll();
         print("꺼짐");
     }
 

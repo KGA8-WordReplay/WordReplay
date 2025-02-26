@@ -39,6 +39,7 @@ public class BlockManager : MonoBehaviour
 
     private void Start()
     {
+        spaceScale = 3;
         blockSpawnEnd = true;
         stageName = SceneManager.GetActiveScene().name;
     }
