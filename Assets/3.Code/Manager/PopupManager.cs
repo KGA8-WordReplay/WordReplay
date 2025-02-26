@@ -25,6 +25,7 @@ public class PopupManager : Singleton<PopupManager>
         foreach (Popup popup in foundedPopups)
         {
             _popups.Add(popup);
+            print($"팝업이 담김 {popup.name}");
         }
 
         foreach (Popup popup in _popups)
