@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class StagePage : Page
 
     public List<GameObject> stages = new List<GameObject>();
 
+    [SerializeField] private TextMeshProUGUI _goldText;
     [SerializeField] private GameObject _stagePivot;
     [SerializeField] private Button _nextButton;
     private Button _backButton;
@@ -24,6 +26,18 @@ public class StagePage : Page
 
         _nextButton = buttons[1];
         _nextButton.onClick.AddListener(NextButtonClick);
+    }
+
+    private void Start()
+    {
+        _goldText.text = UserDataManager.Instance.GetGold().ToString();
+
+        UserDataManager.Instance.goldAction += GoldAction;
+    }
+
+    private void GoldAction()
+    {
+        _goldText.text = UserDataManager.Instance.GetGold().ToString();
     }
 
     private void NextButtonClick()
@@ -73,5 +87,11 @@ public class StagePage : Page
     private void BackButtonClick()
     {
         PageManager.Instance.OpenPage<TitlePage>();
+
+    }
+
+    private void OnDestroy()
+    {
+        UserDataManager.Instance.goldAction -= GoldAction;
     }
 }

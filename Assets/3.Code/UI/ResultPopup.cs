@@ -26,6 +26,7 @@ public class ResultPopup : Popup
     {
         PopupManager.Instance.PopupClose();
         _quitAction?.Invoke();
+        print("나가기가 정상 작동 됌");
     }
 
     private void OnDestroy()
