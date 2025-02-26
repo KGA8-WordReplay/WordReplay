@@ -33,7 +33,7 @@ public class LoadingScene : MonoBehaviour
     private IEnumerator LoadScene()
     {
         float progress = 0f;
-        StartCoroutine(WordStorageManager.Instance.InitWordStorage());
+        //StartCoroutine(WordStorageManager.Instance.InitWordStorage());
 
         AsyncOperation asyncOper = SceneManager.LoadSceneAsync("SeoLobbyScene2");
         asyncOper.allowSceneActivation = false;

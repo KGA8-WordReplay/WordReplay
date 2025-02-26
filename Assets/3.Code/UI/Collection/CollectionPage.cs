@@ -9,11 +9,12 @@ public class CollectionPage : Page
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Button backButton;
 
-    private int currentGold;
+    //private int currentGold;
 
     private void OnEnable()
     {
         backButton.onClick.AddListener(OnClickBackButton);
+        Init();
         print("켜짐");
     }
 
@@ -25,8 +26,11 @@ public class CollectionPage : Page
 
     private void Start()
     {
+        goldText.text = CollectionDataManager.Instance.currentGold.ToString();
+
         UserDataManager.Instance.goldAction += Init;
-        Init();
+        //CollectionDataManager.Instance.goldChange += Init;
+        //Init();
     }
 
     private void Init()
