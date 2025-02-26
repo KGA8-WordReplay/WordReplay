@@ -17,7 +17,7 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private Block blackBlockPrefab;
     [SerializeField] private Block grayBlockPrefab;
     [SerializeField] private float spaceScale;
-    public Transform blockSpawnPos;
+    [SerializeField] private Transform blockSpawnPos;
     [SerializeField] private float autoDelay;
 
     private List<Block> childBlock = new List<Block>();
@@ -29,6 +29,8 @@ public class BlockManager : MonoBehaviour
     private Block _lastWordPrefab;
     private float _blockLength;
 
+    private Vector3 _blockSpawnPos;
+
     //false -> 시간 흘러감, true -> 시간 멈춤
     public bool blockSpawnEnd = false;
 
@@ -39,7 +41,9 @@ public class BlockManager : MonoBehaviour
 
     private void Start()
     {
-        spaceScale = 3;
+        _blockLength = Block.blockLength;
+        _blockSpawnPos = blockSpawnPos.position;
+        spaceScale = 2.5f;
         blockSpawnEnd = true;
         stageName = SceneManager.GetActiveScene().name;
     }
@@ -65,7 +69,6 @@ public class BlockManager : MonoBehaviour
 
     public void MakeBlock(string preWord, string word)
     {
-        _blockLength = Block.blockLength;
         if (word == null)
         {
             Debug.LogWarning("입력된 단어 없음");
@@ -112,14 +115,14 @@ public class BlockManager : MonoBehaviour
             if (currentX + _blockLength >= screenRightEdge)
             {
                 currentX = blockSpawnPos.position.x;
-                currentY -= _blockLength;
+                //currentY -= _blockLength;
                 foreach (var temp in childBlock)
                 {
                     temp.transform.position += Vector3.up * _blockLength;
                 }
             }
 
-            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
@@ -147,7 +150,6 @@ public class BlockManager : MonoBehaviour
 
     private IEnumerator HandleAutoBlock(string preWord, string word)
     {
-        _blockLength = Block.blockLength;
         //마지막 글자가 두음법칙을 만족하는가?
         bool hasRuleOfHeading = HEEJAEGameManager.Instance._ruleOfHeading.ContainsKey(preWord[preWord.Length - 1]);
         //마지막 글자
@@ -185,14 +187,14 @@ public class BlockManager : MonoBehaviour
             if (currentX + _blockLength >= screenRightEdge)
             {
                 currentX = blockSpawnPos.position.x;
-                currentY -= _blockLength;
+                //currentY -= _blockLength;
                 foreach (var temp in childBlock)
                 {
                     temp.transform.position += Vector3.up * _blockLength;
                 }
             }
 
-            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
@@ -211,7 +213,6 @@ public class BlockManager : MonoBehaviour
 
     public void MakeSuggestionBlock(string preWord, string typingWord, string currentSuggestion)
     {
-        _blockLength = Block.blockLength;
         if (currentSuggestion == null)
         {
             Debug.LogError("추천 단어 안넘어옴");
@@ -268,14 +269,14 @@ public class BlockManager : MonoBehaviour
             if (currentX + _blockLength >= screenRightEdge)
             {
                 currentX = blockSpawnPos.position.x;
-                currentY -= _blockLength;
-                foreach(var temp in childBlock)
+                //currentY -= _blockLength;
+                foreach (var temp in childBlock)
                 {
                     temp.transform.position += Vector3.up * _blockLength;
                 }
             }
 
-            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;

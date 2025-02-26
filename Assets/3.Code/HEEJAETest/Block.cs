@@ -11,6 +11,11 @@ public class Block : MonoBehaviour
     public Rigidbody rb;
     public GameObject particlePrefab;
 
+    private void Awake()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        blockLength = spriteRenderer.bounds.size.x; // 가로 길이 가져오기
+    }
     private void Start()
     {
         //particlePrefab.SetActive(false);
@@ -51,7 +56,7 @@ public class Block : MonoBehaviour
                 break;
         }
 
-        blockLength = spriteRenderer.bounds.size.x; // 가로 길이 가져오기
+        //blockLength = spriteRenderer.bounds.size.x; // 가로 길이 가져오기
     }
 
     public void SetWord(char word, char ruledWord, bool isStart)
