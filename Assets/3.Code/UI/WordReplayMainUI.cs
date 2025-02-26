@@ -41,12 +41,14 @@ public class WordReplayMainUI : MonoBehaviour
 
     private void AutoButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         onAuto = !onAuto;
         _wordReplayManager.AutoMode(onAuto);
     }
 
     private void QuitButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PopupManager.Instance.PopupOpen<GiveupPopup>();
     }
 

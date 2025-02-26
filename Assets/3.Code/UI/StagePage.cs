@@ -42,6 +42,7 @@ public class StagePage : Page
 
     private void NextButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         if (channel + 1 < stages.Count)
         {
             stages[channel + 1].transform.SetAsLastSibling();
@@ -86,8 +87,8 @@ public class StagePage : Page
 
     private void BackButtonClick()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PageManager.Instance.OpenPage<TitlePage>();
-
     }
 
     private void OnDestroy()

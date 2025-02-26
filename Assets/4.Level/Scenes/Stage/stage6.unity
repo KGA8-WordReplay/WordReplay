@@ -1677,17 +1677,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   basicScore: 10
-  maxScore: 750
+  maxScore: 2000
   limitedTimeByScores:
-  - score: 187
+  - score: 500
     time: 20
-  - score: 375
+  - score: 1000
     time: 15
-  - score: 562
+  - score: 1500
     time: 10
-  - score: 675
+  - score: 1800
     time: 8
-  - score: 750
+  - score: 2000
     time: 6
 --- !u!1 &410560093
 GameObject:
@@ -2005,7 +2005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backgroundRenderer: {fileID: 1452402660}
-  _backgroundAutoSource: {fileID: 21300000, guid: bd92ca2352bcc4f4a8e10a6cf715a547, type: 3}
+  _backgroundAutoSource: {fileID: 21300000, guid: 7d7f973c9a1253e47bec9cc8ba75b5a0, type: 3}
   autoInterval: 1
 --- !u!1 &445382726
 GameObject:
@@ -2970,8 +2970,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38b7573f5538b2246aa212d78e3bac31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winGold: 1000
-  stageName: stage3
+  winGold: 2000
+  stageName: stage6
   nextScene: SeoLobbyScene2
 --- !u!4 &649155338
 Transform:
@@ -6108,7 +6108,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: 9258a2e43f36804409a4761e71097953, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 30d00dc3f3e54fa40a424a7c8085b999, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6129,7 +6129,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1.5}
-  m_LocalScale: {x: 0.38, y: 0.38, z: 0.38}
+  m_LocalScale: {x: 0.32, y: 0.32, z: 0.32}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 519420032}
