@@ -113,9 +113,13 @@ public class BlockManager : MonoBehaviour
             {
                 currentX = blockSpawnPos.position.x;
                 currentY -= _blockLength;
+                foreach (var temp in childBlock)
+                {
+                    temp.transform.position += Vector3.up * _blockLength;
+                }
             }
 
-            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
@@ -182,9 +186,13 @@ public class BlockManager : MonoBehaviour
             {
                 currentX = blockSpawnPos.position.x;
                 currentY -= _blockLength;
+                foreach (var temp in childBlock)
+                {
+                    temp.transform.position += Vector3.up * _blockLength;
+                }
             }
 
-            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
@@ -261,9 +269,13 @@ public class BlockManager : MonoBehaviour
             {
                 currentX = blockSpawnPos.position.x;
                 currentY -= _blockLength;
+                foreach(var temp in childBlock)
+                {
+                    temp.transform.position += Vector3.up * _blockLength;
+                }
             }
 
-            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
