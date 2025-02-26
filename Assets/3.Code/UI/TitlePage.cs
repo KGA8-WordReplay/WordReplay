@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TitlePage : Page
 {
+    [SerializeField] private TextMeshProUGUI _goldText;
     [SerializeField] private SoundSettingPopup _soundSettingPopup;
     private Button _startButton;
     private Button _collectionButton;
@@ -39,6 +41,15 @@ public class TitlePage : Page
         {
             _soundSettingPopup.InitVolume();
         }
+
+        _goldText.text = UserDataManager.Instance.GetGold().ToString();
+
+        UserDataManager.Instance.goldAction += GoldAction;
+    }
+
+    private void GoldAction()
+    {
+        _goldText.text = UserDataManager.Instance.GetGold().ToString();
     }
 
     private void StartButtonClick()
@@ -70,5 +81,7 @@ public class TitlePage : Page
         _informationButton.onClick.RemoveListener(InformationButtonClick);
         _soundSettingButton.onClick.RemoveListener(SoundSettingButtonClick);
         _quitButton.onClick.RemoveListener(QuitButtonClick);
+
+        UserDataManager.Instance.goldAction -= GoldAction;
     }
 }
