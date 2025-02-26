@@ -3546,7 +3546,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageList: []
-  lobbySceneName: SeoLobbyScene
+  lobbySceneName: SeoLobbyScene2
 --- !u!1 &532514922
 GameObject:
   m_ObjectHideFlags: 0
