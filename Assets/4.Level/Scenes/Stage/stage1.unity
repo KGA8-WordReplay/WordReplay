@@ -2004,6 +2004,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cef10d7659f01746a7e4f9fd8b9d16c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _backgroundRenderer: {fileID: 1452402660}
+  _backgroundAutoSource: {fileID: 21300000, guid: 292da065c2cc1c24d83948a82aa1c71d, type: 3}
   autoInterval: 1
 --- !u!1 &445382726
 GameObject:

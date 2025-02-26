@@ -6,13 +6,21 @@ using UnityEngine;
 
 public class AutoMode : MonoBehaviour
 {
-    public float autoInterval;
+    [SerializeField] private SpriteRenderer _backgroundRenderer;
+    [SerializeField] private Sprite _backgroundAutoSource;
+    private Sprite _backgroundOrigin;
 
+    public float autoInterval;
     private WordReplayManager _wordReplayManager;
 
     private void Awake()
     {
         _wordReplayManager = FindObjectOfType<WordReplayManager>();
+    }
+
+    private void Start()
+    {
+        _backgroundOrigin = _backgroundRenderer.sprite;
     }
 
     #region 두음 법칙 로직
@@ -73,8 +81,10 @@ public class AutoMode : MonoBehaviour
                     _wordReplayManager.MainUI.AutoButtonColor();
                     print("이어붙일 단어가 없음");
                     _wordReplayManager.MainUI.inputText.interactable = true;
+                    _backgroundRenderer.sprite = _backgroundOrigin;
                     yield break;
                 }
+                _backgroundRenderer.sprite = _backgroundAutoSource;
 
                 string longestWord = "";
                 //찾은 단어에서 제일 긴 단어 검출
