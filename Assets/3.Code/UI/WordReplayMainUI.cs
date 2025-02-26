@@ -16,6 +16,8 @@ public class WordReplayMainUI : MonoBehaviour
     public Button confirmButton;
     public Button quitButton;
 
+    public Slider scoreSlider;
+
     public Button autoButton;
     public bool onAuto = false;
     private WordReplayManager _wordReplayManager;
@@ -81,5 +83,11 @@ public class WordReplayMainUI : MonoBehaviour
     public void SetMaxScore(int score)
     {
         maxScoreText.text = score.ToString();
+    }
+
+    public void UpdateScoreSlider(int score)
+    {
+        float result = (float)score / _wordReplayManager.ScoreTracker.maxScore;
+        scoreSlider.value = result;
     }
 }
