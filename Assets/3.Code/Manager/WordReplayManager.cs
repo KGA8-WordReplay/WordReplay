@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 
 public class WordReplayManager : MonoBehaviour
 {
@@ -35,6 +37,7 @@ public class WordReplayManager : MonoBehaviour
     private void Start()
     {
         GameStart();
+        MainUI.inputText.ActivateInputField();
     }
 
     private void GameStart()
@@ -86,6 +89,7 @@ public class WordReplayManager : MonoBehaviour
         {
             _autoMode.ChangeBackground(false);
             MainUI.inputText.interactable = true;
+            MainUI.inputText.ActivateInputField();
             MainUI.AutoButtonColor();
             if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);
             print("오토기능 멈춤");

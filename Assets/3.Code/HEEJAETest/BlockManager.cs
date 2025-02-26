@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TreeEditor;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -14,7 +17,7 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private Block blackBlockPrefab;
     [SerializeField] private Block grayBlockPrefab;
     [SerializeField] private float spaceScale;
-    public Transform blockSpawnPos;
+    [SerializeField] private Transform blockSpawnPos;
     [SerializeField] private float autoDelay;
 
     private List<Block> childBlock = new List<Block>();
@@ -26,6 +29,8 @@ public class BlockManager : MonoBehaviour
     private Block _lastWordPrefab;
     private float _blockLength;
 
+    private Vector3 _blockSpawnPos;
+
     //false -> 시간 흘러감, true -> 시간 멈춤
     public bool blockSpawnEnd = false;
 
@@ -36,7 +41,9 @@ public class BlockManager : MonoBehaviour
 
     private void Start()
     {
-        spaceScale = 3;
+        _blockLength = Block.blockLength;
+        _blockSpawnPos = blockSpawnPos.position;
+        spaceScale = 2.5f;
         blockSpawnEnd = true;
         stageName = SceneManager.GetActiveScene().name;
     }
@@ -62,7 +69,6 @@ public class BlockManager : MonoBehaviour
 
     public void MakeBlock(string preWord, string word)
     {
-        _blockLength = Block.blockLength;
         if (word == null)
         {
             Debug.LogWarning("입력된 단어 없음");
@@ -109,14 +115,14 @@ public class BlockManager : MonoBehaviour
             if (currentX + _blockLength >= screenRightEdge)
             {
                 currentX = blockSpawnPos.position.x;
-                currentY -= _blockLength;
+                //currentY -= _blockLength;
                 foreach (var temp in childBlock)
                 {
                     temp.transform.position += Vector3.up * _blockLength;
                 }
             }
 
-            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
@@ -144,7 +150,6 @@ public class BlockManager : MonoBehaviour
 
     private IEnumerator HandleAutoBlock(string preWord, string word)
     {
-        _blockLength = Block.blockLength;
         //마지막 글자가 두음법칙을 만족하는가?
         bool hasRuleOfHeading = HEEJAEGameManager.Instance._ruleOfHeading.ContainsKey(preWord[preWord.Length - 1]);
         //마지막 글자
@@ -182,14 +187,14 @@ public class BlockManager : MonoBehaviour
             if (currentX + _blockLength >= screenRightEdge)
             {
                 currentX = blockSpawnPos.position.x;
-                currentY -= _blockLength;
+                //currentY -= _blockLength;
                 foreach (var temp in childBlock)
                 {
                     temp.transform.position += Vector3.up * _blockLength;
                 }
             }
 
-            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
@@ -208,7 +213,6 @@ public class BlockManager : MonoBehaviour
 
     public void MakeSuggestionBlock(string preWord, string typingWord, string currentSuggestion)
     {
-        _blockLength = Block.blockLength;
         if (currentSuggestion == null)
         {
             Debug.LogError("추천 단어 안넘어옴");
@@ -253,7 +257,7 @@ public class BlockManager : MonoBehaviour
             bool isStart = (i == 0);
 
             //첫번째 글자이면서 두음법칙을 만족하고, 내가 치는 단어의 처음이 두음법칙일 경우
-            if (isStart && hasRuleOfHeading && (typingWord[0] == lastChar || typingWord[0] == ruledChar))
+            if(isStart && hasRuleOfHeading && (typingWord[0] == lastChar || typingWord[0] == ruledChar))
             {
                 block.SetWord(lastChar, ruledChar, true);
             }
@@ -265,14 +269,14 @@ public class BlockManager : MonoBehaviour
             if (currentX + _blockLength >= screenRightEdge)
             {
                 currentX = blockSpawnPos.position.x;
-                currentY -= _blockLength;
+                //currentY -= _blockLength;
                 foreach (var temp in childBlock)
                 {
                     temp.transform.position += Vector3.up * _blockLength;
                 }
             }
 
-            block.transform.position = new Vector3(currentX, 0, blockSpawnPos.position.z);
+            block.transform.position = new Vector3(currentX, currentY, blockSpawnPos.position.z);
 
             childBlock.Add(block);
             currentX += _blockLength;
@@ -293,7 +297,7 @@ public class BlockManager : MonoBehaviour
             return;
         }
 
-        for (int i = childBlock.Count - 1; i >= 0; i--)
+        for(int i = childBlock.Count - 1; i >= 0; i--)
         {
             Block block = childBlock[i];
             Destroy(block.gameObject);
@@ -360,13 +364,13 @@ public class BlockManager : MonoBehaviour
 
         switch (childBlock.Count())
         {
-            case int n when (n >= 1 && n <= 3):
+            case int n when (n >= 1 && n <=3):
                 AudioManager.Instance.PlaySfx(Sfx.Success1);
                 break;
-            case int n when (n >= 4 && n <= 5):
+            case int n when (n >= 4 && n <=5):
                 AudioManager.Instance.PlaySfx(Sfx.Success2);
                 break;
-            case int n when (n >= 6 && n <= 7):
+            case int n when (n >= 6 && n <=7):
                 AudioManager.Instance.PlaySfx(Sfx.Success3);
                 break;
             case int n when (n >= 8):
@@ -376,7 +380,7 @@ public class BlockManager : MonoBehaviour
 
         confirmedBlock.AddRange(childBlock);
         childBlock.Clear();
-        foreach (var block in confirmedBlock)
+        foreach(var block in confirmedBlock)
         {
             block.transform.position += Vector3.up * spaceScale;
             block.word.color = Color.black;
