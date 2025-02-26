@@ -66,7 +66,7 @@ public class Block : MonoBehaviour
         {
             this.word.text = $"{word}({ruledWord})";
             this.word.fontSize = 3f;
-            this.word.color = Color.black;
+            this.word.color = Color.white;
         }
     }
 
