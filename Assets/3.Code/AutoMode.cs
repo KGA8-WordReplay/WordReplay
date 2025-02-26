@@ -23,6 +23,12 @@ public class AutoMode : MonoBehaviour
         _backgroundOrigin = _backgroundRenderer.sprite;
     }
 
+    public void ChangeBackground(bool auto)
+    {
+        if (auto) _backgroundRenderer.sprite = _backgroundAutoSource;
+        else _backgroundRenderer.sprite = _backgroundOrigin;
+    }
+
     #region 두음 법칙 로직
     private bool IsDueum(char letter)
     {

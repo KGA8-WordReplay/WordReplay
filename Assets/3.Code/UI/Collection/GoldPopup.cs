@@ -22,11 +22,15 @@ public class GoldPopup : Popup
     private void OnEnable()
     {
         goldButton.image.color = Color.white;
+    }
+
+    private void Start()
+    {
         goldButton.onClick.AddListener(OnClickGoldButton);
         closeButton.onClick.AddListener(OnClickCloseButton);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         goldButton.onClick.RemoveAllListeners();
         closeButton.onClick.RemoveAllListeners();
@@ -52,7 +56,7 @@ public class GoldPopup : Popup
     private void OnClickGoldButton()
     {
         //골드가 충분히 있다면
-        if(CollectionDataManager.Instance.currentGold >= _collectionData.gold)
+        if (CollectionDataManager.Instance.currentGold >= _collectionData.gold)
         {
             PopupManager.Instance.PopupClose();
             _callback?.Invoke(true);

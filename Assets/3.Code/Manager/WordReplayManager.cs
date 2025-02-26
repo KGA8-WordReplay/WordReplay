@@ -81,6 +81,7 @@ public class WordReplayManager : MonoBehaviour
         }
         else
         {
+            _autoMode.ChangeBackground(false);
             MainUI.inputText.interactable = true;
             MainUI.AutoButtonColor();
             if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);
