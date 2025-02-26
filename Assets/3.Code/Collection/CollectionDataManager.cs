@@ -19,11 +19,14 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
     public int currentGold = 0;
 
+    //public Action goldChange;
+
     private void Start()
     {
         myWordNameList = UserDataManager.Instance.GetCollectionName();
         Init();
-        InitGold();
+        //InitGold();
+        currentGold = UserDataManager.Instance.GetGold();
 
         UserDataManager.Instance.goldAction += InitGold;
 
@@ -33,6 +36,11 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
             print(temp);
         }
     }
+
+    //private void OnEnable()
+    //{
+    //    InitGold();
+    //}
 
     public Action OnDataLoaded;
     private void Init()
