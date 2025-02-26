@@ -14228,8 +14228,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioMixer: {fileID: 24100000, guid: b34df9d6774ab354aa71c12eb12e660c, type: 2}
-  _bgmClips: []
-  _sfxClips: []
+  _bgmClips:
+  - {fileID: 8300000, guid: 6628873b63c862e4180ec0d627c5c93a, type: 3}
+  - {fileID: 8300000, guid: db86f2b17abd4dd478e9947c29f1e54c, type: 3}
+  - {fileID: 8300000, guid: 2e3942197308cba4380b5f22b0295d80, type: 3}
+  - {fileID: 8300000, guid: 5d10afc4cfba67d41a342450cc4c807f, type: 3}
+  - {fileID: 8300000, guid: 14b8fc518e6dc8a47bb5d342a5865d60, type: 3}
+  - {fileID: 8300000, guid: 3df460bb4201f19489228ee679f0e623, type: 3}
+  - {fileID: 8300000, guid: 2f3da6578c05ace4fbb4096fa7be82db, type: 3}
+  - {fileID: 8300000, guid: 3f2ea424b57577649bf11c29060f90aa, type: 3}
+  - {fileID: 8300000, guid: f55b67b3fafe0e74d8d5ee2ffd52933f, type: 3}
+  - {fileID: 8300000, guid: 55e99fda0c2d97f42864008c2dc68f97, type: 3}
+  - {fileID: 8300000, guid: ace5d77b6d7e4144499706b695b221e3, type: 3}
+  _sfxClips:
+  - {fileID: 8300000, guid: 3cdf832df924cd74aaedd7aad88b72a6, type: 3}
+  - {fileID: 8300000, guid: 0c02a41e120ed4745a066a61fbf3ec9a, type: 3}
+  - {fileID: 8300000, guid: 43bda298bd31f0e4fafcfd97fc861f27, type: 3}
+  - {fileID: 8300000, guid: 1366255e2429c2b4692b18bbd9ae3509, type: 3}
+  - {fileID: 8300000, guid: 211ad490ec0f767489af05e9ded50c9d, type: 3}
+  - {fileID: 8300000, guid: 764137ceb4f9b6e44894380a48db16e9, type: 3}
+  - {fileID: 8300000, guid: 385fcd9cb603a324f815c9ad386efc59, type: 3}
+  - {fileID: 8300000, guid: 5b3a1dcd076965a489b0647f1e973613, type: 3}
+  - {fileID: 8300000, guid: fe969e58385f17c438267f6dc82c5847, type: 3}
   sfxChannels: 30
 --- !u!1 &1786000366
 GameObject:
