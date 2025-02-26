@@ -30,6 +30,7 @@ public class InformationPopup : Popup
 
     private void OnClickCloseButton()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         PopupManager.Instance.PopupClose();
     }
 }

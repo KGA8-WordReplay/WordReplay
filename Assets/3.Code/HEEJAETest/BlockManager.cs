@@ -192,6 +192,7 @@ public class BlockManager : MonoBehaviour
             //childBlock.Add(block);
 
             //movePos += Vector3.right * _blockLength;
+            AudioManager.Instance.PlaySfx(Sfx.Typing);
 
             yield return new WaitForSeconds(autoDelay);
         }
@@ -240,6 +241,8 @@ public class BlockManager : MonoBehaviour
             {
                 block = Instantiate(grayBlockPrefab, blockSpawnPos);
             }
+
+            AudioManager.Instance.PlaySfx(Sfx.Typing);
 
             bool isStart = (i == 0);
 
@@ -345,6 +348,22 @@ public class BlockManager : MonoBehaviour
             block.SpawnParticle();
         }
 
+        switch (childBlock.Count())
+        {
+            case int n when (n >= 1 && n <=3):
+                AudioManager.Instance.PlaySfx(Sfx.Success1);
+                break;
+            case int n when (n >= 4 && n <=5):
+                AudioManager.Instance.PlaySfx(Sfx.Success2);
+                break;
+            case int n when (n >= 6 && n <=7):
+                AudioManager.Instance.PlaySfx(Sfx.Success3);
+                break;
+            case int n when (n >= 8):
+                AudioManager.Instance.PlaySfx(Sfx.Success4);
+                break;
+        }
+
         confirmedBlock.AddRange(childBlock);
         childBlock.Clear();
         foreach(var block in confirmedBlock)
@@ -352,6 +371,8 @@ public class BlockManager : MonoBehaviour
             block.transform.position += Vector3.up * spaceScale;
             block.word.color = Color.black;
         }
+
+        //AudioManager.Instance.PlaySfx(Sfx.Typing);
     }
 
     public void SetPrefabTextRed()
@@ -368,6 +389,7 @@ public class BlockManager : MonoBehaviour
             block.word.color = Color.red;
             print($"빨개짐");
         }
+        AudioManager.Instance.PlaySfx(Sfx.TypeFailed);
         yield return new WaitForSeconds(0.3f);
         foreach (var block in tempBlock)
         {
