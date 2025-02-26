@@ -63,6 +63,7 @@ public class WordReplayManager : MonoBehaviour
         //InitTimer();
         ScoreTracker.CalcScoreByLength(word);
         MainUI.AddScore(ScoreTracker.CurScore);
+        MainUI.UpdateScoreSlider(ScoreTracker.CurScore);
 
         if (ScoreTracker.IsMaxScore())
         {
