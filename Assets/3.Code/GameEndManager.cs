@@ -9,6 +9,9 @@ public class GameEndManager : Singleton<GameEndManager>
     private Camera _camera;
     public bool WinAnimEnd = false;
 
+    [Header("이겼을때 위로 올라가는 시간")]
+    [SerializeField] private float winDuration = 1f;
+
     private void Awake()
     {
         _camera = Camera.main;
@@ -29,14 +32,14 @@ public class GameEndManager : Singleton<GameEndManager>
         Vector3 endPos = _targetBlock.transform.position + new Vector3(7.69f, 0, -10);
 
         float elaspedTime = 0f;
-        float durationTime = 0.5f;
-
+        //float durationTime = 0.5f;
+        winDuration = 1f;
         yield return new WaitUntil(() => BlockManager.Instance.blockSpawnEnd);
 
-        while (elaspedTime <= durationTime)
+        while (elaspedTime <= winDuration)
         {
             elaspedTime += Time.deltaTime;
-            _camera.transform.position = Vector3.Lerp(startPos, endPos, elaspedTime / durationTime);
+            _camera.transform.position = Vector3.Lerp(startPos, endPos, elaspedTime / winDuration);
             yield return null;
         }
 
