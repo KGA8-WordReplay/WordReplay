@@ -93,14 +93,19 @@ public class AutoMode : MonoBehaviour
                 _backgroundRenderer.sprite = _backgroundAutoSource;
 
                 string longestWord = "";
-                //찾은 단어에서 제일 긴 단어 검출
-                foreach (string word in findWords)
-                {
-                    if (word.Length >= longestWord.Length)
-                    {
-                        longestWord = word;
-                    }
-                }
+                ////찾은 단어에서 제일 긴 단어 검출
+                //foreach (string word in findWords)
+                //{
+                //    if (word.Length >= longestWord.Length)
+                //    {
+                //        longestWord = word;
+                //    }
+                //}
+
+                //찾은 단어에서 랜덤 단어 검출
+                int random = UnityEngine.Random.Range(0, findWords.Count);
+                longestWord = findWords[random];
+
                 print($"다음 단어: {longestWord}");
 
                 if (!_wordReplayManager.IsEndGame)
