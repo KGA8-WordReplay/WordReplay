@@ -16,7 +16,6 @@ public class CollectionPrefab : MonoBehaviour
     [SerializeField] private Button activeButton;
     public bool isActive;
 
-
     private void Awake()
     {
         activeButton.onClick.AddListener(OnClickButton);
@@ -98,6 +97,7 @@ public class CollectionPrefab : MonoBehaviour
     {
         //isActive = !isActive;
 
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         if (isActive == true)
         {
             //lockedImage.gameObject.SetActive(false);

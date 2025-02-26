@@ -40,5 +40,7 @@ public class CollectionPage : Page
     private void OnClickBackButton()
     {
         PageManager.Instance.OpenPage<TitlePage>();
+
+        AudioManager.Instance.PlaySfx(Sfx.Button);
     }
 }
