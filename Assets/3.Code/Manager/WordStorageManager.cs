@@ -16,10 +16,19 @@ public class WordStorageManager : Singleton<WordStorageManager>
     protected override void Awake()
     {
         base.Awake();
-        if (Instance == this)
-        {
-            wordStorage = new WordStorage(everyWord, myWord, duemWord, col1, col2, col3, col4);
-            wordStorage.Init();
-        }
+        //if (Instance == this)
+        //{
+        //    wordStorage = new WordStorage(everyWord, myWord, duemWord, col1, col2, col3, col4);
+        //    wordStorage.Init();
+        //}
+    }
+
+    public IEnumerator InitWordStorage()
+    {
+        print("전체 단어 초기화 중");
+        wordStorage = new WordStorage(everyWord, myWord, duemWord, col1, col2, col3, col4);
+        wordStorage.Init();
+
+        yield return null;
     }
 }
