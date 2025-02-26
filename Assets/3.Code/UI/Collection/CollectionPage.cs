@@ -9,6 +9,8 @@ public class CollectionPage : Page
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private Button backButton;
 
+    private int currentGold;
+
     private void OnEnable()
     {
         backButton.onClick.AddListener(OnClickBackButton);
@@ -23,14 +25,13 @@ public class CollectionPage : Page
 
     private void Start()
     {
+        UserDataManager.Instance.goldAction += Init;
         Init();
     }
 
     private void Init()
     {
-        //goldText.text = TempGoldSingleton.Instance.gold.ToString();
-        //List<CollectionPrefab> collectionPrefabs = new List<CollectionPrefab>();
-        //CollectionPrefab collectionPrefab = FindObjectOfType<CollectionPrefab>();
+        goldText.text = CollectionDataManager.Instance.currentGold.ToString();
     }
 
     private void OnClickBackButton()
