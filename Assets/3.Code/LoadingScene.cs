@@ -33,13 +33,13 @@ public class LoadingScene : MonoBehaviour
     private IEnumerator LoadScene()
     {
         float progress = 0f;
-        yield return StartCoroutine(WordStorageManager.Instance.InitWordStorage());
+        StartCoroutine(WordStorageManager.Instance.InitWordStorage());
 
         AsyncOperation asyncOper = SceneManager.LoadSceneAsync("SeoLobbyScene2");
         asyncOper.allowSceneActivation = false;
 
         //진행도를 반영
-        while (asyncOper.progress < 0.9f)
+        while (WordStorageManager.Instance.wordStorage.initEnd == false && asyncOper.progress < 0.9f)
         {
             progress = Mathf.Lerp(progress, asyncOper.progress, Time.deltaTime * 2);
             UpdateProgress(progress);

@@ -13,13 +13,17 @@ public class WordStorageManager : Singleton<WordStorageManager>
     public string col4;
     public WordStorage wordStorage { get; private set; }
 
+    public bool initEnd = false;
     protected override void Awake()
     {
         base.Awake();
         //if (Instance == this)
         //{
+        //    initEnd = false;
         //    wordStorage = new WordStorage(everyWord, myWord, duemWord, col1, col2, col3, col4);
         //    wordStorage.Init();
+
+        //    initEnd = true;
         //}
     }
 
