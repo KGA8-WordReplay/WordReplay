@@ -83,6 +83,7 @@ public class WordReplayManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySfx(Sfx.AutoOn);
             MainUI.inputText.interactable = false;
+            MainUI.confirmButton.interactable = false;
             MainUI.AutoButtonColor();
             _autoCoroutine = StartCoroutine(_autoMode.AutoCoroutine());
         }
@@ -91,6 +92,7 @@ public class WordReplayManager : MonoBehaviour
             AudioManager.Instance.PlaySfx(Sfx.AutoOff);
             _autoMode.ChangeBackground(false);
             MainUI.inputText.interactable = true;
+            MainUI.confirmButton.interactable = true;
             MainUI.inputText.ActivateInputField();
             MainUI.AutoButtonColor();
             if (_autoCoroutine != null) StopCoroutine(_autoCoroutine);

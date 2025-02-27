@@ -18,10 +18,14 @@ public class PageManager : Singleton<PageManager>
 
     private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
-        Init();
+        Init2();
         if (newScene.name == "SeoLobbyScene2")
         {
-            OpenPage<StagePage>();
+            print("PageManager에서 씬체인지에 대한 함수가 발동됌.");
+            StageManager.Instance.Init();
+            OpenPage<StagePage>().UpdatePage();
+            AudioManager.Instance.PlayBgm(Bgm.Lobby);
+            print("===============페이지 매니저 씬 체인지 호출==========================");
         }
     }
 
@@ -56,4 +60,22 @@ public class PageManager : Singleton<PageManager>
         }
         print("Init이 작동함");
     }
+
+    private void Init2()
+    {
+        _pages.Clear();
+
+        //GameObject pagesGO = GameObject.Find("Pages");
+
+
+        Page[] pages = FindObjectsOfType<Page>();
+
+        foreach (Page page in pages)
+        {
+            _pages.Add(page);
+            print(page.name + "이 담김");
+        }
+        print("Init이 작동함");
+    }
+
 }

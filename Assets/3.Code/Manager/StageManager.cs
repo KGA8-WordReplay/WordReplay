@@ -12,18 +12,9 @@ public class StageManager : Singleton<StageManager>
     private void Start()
     {
         Init();
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
-    {
-        if (SceneManager.GetActiveScene().name == lobbySceneName)
-        {
-            Init();
-        }
-    }
-
-    private void Init()
+    public void Init()
     {
         stageList.Clear();
 

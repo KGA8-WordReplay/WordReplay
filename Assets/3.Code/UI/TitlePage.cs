@@ -45,8 +45,6 @@ public class TitlePage : Page
         _goldText.text = UserDataManager.Instance.GetGold().ToString();
 
         UserDataManager.Instance.goldAction += GoldAction;
-
-        AudioManager.Instance.PlayBgm(Bgm.Lobby);
     }
 
     private void GoldAction()
@@ -57,7 +55,7 @@ public class TitlePage : Page
     private void StartButtonClick()
     {
         AudioManager.Instance.PlaySfx(Sfx.Button);
-        PageManager.Instance.OpenPage<StagePage>();
+        PageManager.Instance.OpenPage<StagePage>().UpdatePage();
     }
     private void CollectionButtonClick()
     {
