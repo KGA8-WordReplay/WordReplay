@@ -21,7 +21,7 @@ public class PageManager : Singleton<PageManager>
         Init();
         if (newScene.name == "SeoLobbyScene2")
         {
-            OpenPage<StagePage>().OpenFirst();
+            OpenPage<StagePage>();
         }
     }
 
