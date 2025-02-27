@@ -123,10 +123,14 @@ public class HEEJAEGameManager : MonoBehaviour
                 //추천단어 설정하고
                 SetCurrentSuggestion();
 
-                //추천 단어가 있으면
-                if (string.IsNullOrEmpty(_currentSuggetion) == false)
+                //추천 단어가 있고 전 단어에 이어지면
+                if (string.IsNullOrEmpty(_currentSuggetion) == false )
                 {
                     BlockManager.Instance.MakeSuggestionBlock(wordReplayManager.PreWord, _typingWord, _currentSuggetion);
+                }
+                else
+                {
+                    BlockManager.Instance.MakeBlock(wordReplayManager.PreWord, _typingWord);
                 }
             }
             //매칭되는 단어 없으면 그냥 삭제
@@ -369,6 +373,12 @@ public class HEEJAEGameManager : MonoBehaviour
             suggestionList.Clear();
             return false;
         }
+
+        if (wordReplayManager.PreWord[wordReplayManager.PreWord.Length - 1] != composition[0])
+        {
+            return false;
+        }
+
         _currentSuggetion = null;
 
         if (_ruleOfHeading.ContainsKey(composition[0]))
