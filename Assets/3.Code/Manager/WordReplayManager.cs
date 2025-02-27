@@ -81,12 +81,14 @@ public class WordReplayManager : MonoBehaviour
     {
         if (onAuto)
         {
+            AudioManager.Instance.PlaySfx(Sfx.AutoOn);
             MainUI.inputText.interactable = false;
             MainUI.AutoButtonColor();
             _autoCoroutine = StartCoroutine(_autoMode.AutoCoroutine());
         }
         else
         {
+            AudioManager.Instance.PlaySfx(Sfx.AutoOff);
             _autoMode.ChangeBackground(false);
             MainUI.inputText.interactable = true;
             MainUI.inputText.ActivateInputField();
@@ -121,6 +123,7 @@ public class WordReplayManager : MonoBehaviour
         }
 
         PopupManager.Instance.PopupCloseAll();
+        AudioManager.Instance.PlayBgm(Bgm.None);
 
         if (isSuccess)
         {

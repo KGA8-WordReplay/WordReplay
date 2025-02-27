@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 public enum Bgm { None = -1, Lobby, stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8, stage9, stage10 }
 public enum Sfx
 {
-    Button, Lose, Success1, Success2, Success3, Success4, TypeFailed, Typing, Typing2, Win, TapButton, Purchase, BackspaceButton
+    Button, Lose, Success1, Success2, Success3, Success4, Success5, TypeFailed, Typing, Typing2, Win, TapButton, Purchase, BackspaceButton, AutoOn, AutoOff
 }
 
 public class AudioManager : Singleton<AudioManager>

@@ -13,12 +13,16 @@ public class PageManager : Singleton<PageManager>
     {
         Init();
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.activeSceneChanged += OnSceneChanged;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneChanged(Scene oldScene, Scene newScene)
     {
         Init();
+        if (newScene.name == "SeoLobbyScene2")
+        {
+            OpenPage<StagePage>().OpenFirst();
+        }
     }
 
     public T OpenPage<T>() where T : Page
@@ -44,12 +48,12 @@ public class PageManager : Singleton<PageManager>
 
         Page[] pages = FindObjectsOfType<Page>();
 
-            foreach (Page page in pages)
-            {
-                _pages.Add(page);
-                page.gameObject.SetActive(page.isDefault);
-                print(page.name + "이 담김");
-            }
+        foreach (Page page in pages)
+        {
+            _pages.Add(page);
+            page.gameObject.SetActive(page.isDefault);
+            print(page.name + "이 담김");
+        }
         print("Init이 작동함");
     }
 }
