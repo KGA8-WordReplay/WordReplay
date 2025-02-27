@@ -25,17 +25,16 @@ public class StagePage : Page
         _backButton.onClick.AddListener(BackButtonClick);
         _prevButton.onClick.AddListener(PrevButtonClick);
         _nextButton.onClick.AddListener(NextButtonClick);
+
+        print("===============스테이지 페이지 Awake 호출==========================");
     }
 
 
-    private IEnumerator Start()
+    private void Start()
     {
         _goldText.text = UserDataManager.Instance.GetGold().ToString();
 
         UserDataManager.Instance.goldAction += GoldAction;
-
-        UpdatePage();
-        yield return null;
     }
     private void PrevButtonClick()
     {
@@ -60,7 +59,7 @@ public class StagePage : Page
             AudioManager.Instance.PlaySfx(Sfx.Button);
         }
     }
-    private void UpdatePage()
+    public void UpdatePage()
     {
         // 모든 오브젝트 비활성화
         foreach (GameObject obj in stages)

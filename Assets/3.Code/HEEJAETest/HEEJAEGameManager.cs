@@ -1,12 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,6 +15,7 @@ public class HEEJAEGameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI outputWord;
     [SerializeField] private TextMeshProUGUI explanationText;
     [SerializeField] private Button confirmButton;
+    [SerializeField] private Button suggestionButton;
     [SerializeField] private string wholeWordTextName;
     [SerializeField] private string foodWordTextName;
     [SerializeField] private string ruleOfHeadingTextName;
@@ -68,18 +64,20 @@ public class HEEJAEGameManager : MonoBehaviour
     //현재 씬
     private string _sceneName = "";
 
-
+    public bool isOn = true;
     private void Awake()
     {
         _instance = this;
 
         confirmButton.onClick.AddListener(OnClickConfirmButton);
+        suggestionButton.onClick.AddListener(OnClickSuggestionButton);
         input.onValueChanged.AddListener(OnInputChanged); //값이 바뀔때마다 검사
         input.onSubmit.AddListener(OnSubmit); //값이 바뀔때마다 검사
 
         //씬 이름 가져오기
         _sceneName = SceneManager.GetActiveScene().name;
 
+        isOn = true;
         startDict = new Dictionary<string, List<string>>()
         {
             { "stage1", stage1},
@@ -116,9 +114,19 @@ public class HEEJAEGameManager : MonoBehaviour
         //_typingWord가 바뀔 때 마다 들어옴
         if (_typingWord != _preTypingWord)
         {
-            AudioManager.Instance.PlaySfx(Sfx.Typing2);
+            //Backspace키 누를때
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                AudioManager.Instance.PlaySfx(Sfx.BackspaceButton);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySfx(Sfx.Typing2);
+
+            }
+            print("바뀜");
             //매칭되는 단어 있으면
-            if (HasMatchWord(_typingWord) == true)
+            if (isOn == true && HasMatchWord(_typingWord) == true)
             {
                 //추천단어 설정하고
                 SetCurrentSuggestion();
@@ -136,6 +144,9 @@ public class HEEJAEGameManager : MonoBehaviour
             //매칭되는 단어 없으면 그냥 삭제
             else
             {
+                _currentSuggetion = null;
+                suggestionList.Clear();
+
                 BlockManager.Instance.MakeBlock(wordReplayManager.PreWord, _typingWord);
             }
             _preTypingWord = _typingWord;
@@ -154,11 +165,6 @@ public class HEEJAEGameManager : MonoBehaviour
             OnClickTab();
         }
 
-        //Backspace키 누를때
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            AudioManager.Instance.PlaySfx(Sfx.BackspaceButton);
-        }
 
     }
 
@@ -247,6 +253,12 @@ public class HEEJAEGameManager : MonoBehaviour
             input.text = "";
             input.ActivateInputField();
         }
+    }
+
+    private void OnClickSuggestionButton()
+    {
+        isOn = !isOn;
+        print($"현재 불값 : {isOn}");
     }
 
     private bool IsInputWordInEveryList(string inputText)

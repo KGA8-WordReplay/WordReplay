@@ -248,7 +248,7 @@ public class BlockManager : MonoBehaviour
                 block = Instantiate(grayBlockPrefab, blockSpawnPos);
             }
 
-            AudioManager.Instance.PlaySfx(Sfx.Typing);
+            //AudioManager.Instance.PlaySfx(Sfx.Typing);
 
             bool isStart = (i == 0);
 
@@ -412,4 +412,3 @@ public class BlockManager : MonoBehaviour
         tempBlock.Clear();
     }
 }
-
