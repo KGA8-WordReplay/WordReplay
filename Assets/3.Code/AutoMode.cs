@@ -88,6 +88,7 @@ public class AutoMode : MonoBehaviour
                     print("이어붙일 단어가 없음");
                     _wordReplayManager.MainUI.inputText.interactable = true;
                     _backgroundRenderer.sprite = _backgroundOrigin;
+                    _wordReplayManager.MainUI.inputText.ActivateInputField();
                     yield break;
                 }
                 _backgroundRenderer.sprite = _backgroundAutoSource;
