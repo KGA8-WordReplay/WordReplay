@@ -354,11 +354,12 @@ public class BlockManager : MonoBehaviour
     //끝말잇기가 되면 올라감
     public void ConfirmBlock()
     {
+        //마지막 블럭에 y좌표
         float childBlockY = childBlock[childBlock.Count() - 1].transform.position.y;
         Vector3 upScale = Vector3.up * childBlockY;
         foreach (var block in childBlock)
         {
-            block.transform.position -= upScale;
+            //block.transform.position -= upScale;
             block.SpawnParticle();
         }
 
@@ -367,14 +368,17 @@ public class BlockManager : MonoBehaviour
             case int n when (n >= 1 && n <=3):
                 AudioManager.Instance.PlaySfx(Sfx.Success1);
                 break;
-            case int n when (n >= 4 && n <=5):
+            case int n when (n >= 4 && n <=6):
                 AudioManager.Instance.PlaySfx(Sfx.Success2);
                 break;
-            case int n when (n >= 6 && n <=7):
+            case int n when (n >= 7 && n <=9):
                 AudioManager.Instance.PlaySfx(Sfx.Success3);
                 break;
-            case int n when (n >= 8):
+            case int n when (n >= 10 && n <= 15):
                 AudioManager.Instance.PlaySfx(Sfx.Success4);
+                break;
+            case int n when (n >= 16):
+                AudioManager.Instance.PlaySfx(Sfx.Success5);
                 break;
         }
 
