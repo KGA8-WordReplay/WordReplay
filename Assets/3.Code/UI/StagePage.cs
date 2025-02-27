@@ -28,13 +28,14 @@ public class StagePage : Page
     }
 
 
-    private void Start()
+    private IEnumerator Start()
     {
         _goldText.text = UserDataManager.Instance.GetGold().ToString();
 
         UserDataManager.Instance.goldAction += GoldAction;
 
         UpdatePage();
+        yield return null;
     }
     private void PrevButtonClick()
     {

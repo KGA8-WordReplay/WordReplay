@@ -33,7 +33,7 @@ public class StageManager : Singleton<StageManager>
         {
             Stage stage = stages[i];
             bool isLocked = UserDataManager.Instance.IsStageLock(stage.stageName);
-
+            print($"{stage.name}이 잠겨있는지 : {isLocked}");
             stage.LockStage(isLocked);
             stageList.Add(stage.stageName);
         }
