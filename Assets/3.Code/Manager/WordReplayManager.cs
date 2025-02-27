@@ -54,7 +54,7 @@ public class WordReplayManager : MonoBehaviour
     {
         if (Auto)
         {
-            MainUI.UpdateAutoDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]);
+            StartCoroutine(MainUI.UpdateAutoDisplay(word, WordStorageManager.Instance.wordStorage.MyWordDict[word]));
         }
         else
         {
