@@ -109,5 +109,7 @@ public class Block : MonoBehaviour
         GameObject particle = Instantiate(particlePrefab, transform);
         particle.SetActive(true);
         print("프리팹 소환됨");
+
+        Destroy(particle, 2.0f); // 2초 후에 삭제
     }
 }
