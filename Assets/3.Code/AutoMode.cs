@@ -83,6 +83,7 @@ public class AutoMode : MonoBehaviour
 
                 if (findWords.Count <= 0)
                 {
+                    AudioManager.Instance.PlaySfx(Sfx.AutoOff);
                     _wordReplayManager.MainUI.onAuto = false;
                     _wordReplayManager.MainUI.AutoButtonColor();
                     print("이어붙일 단어가 없음");
