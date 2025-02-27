@@ -219,6 +219,7 @@ public class HEEJAEGameManager : MonoBehaviour
         //사용하지 않은 단어일 경우
         else
         {
+            //전체 리스트에 입력한게 있을때
             if (IsInputWordInEveryList(inputText))
             {
                 //전체 단어에도 있으면서 끝말잇기도 되는 경우
@@ -232,6 +233,7 @@ public class HEEJAEGameManager : MonoBehaviour
                 else
                 {
                     print("끝말잇기가 안됩니다");
+                    BlockManager.Instance.SetPrefabTextRed();
                     //suggestionText.text = "";
                 }
             }

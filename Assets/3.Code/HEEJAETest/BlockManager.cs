@@ -354,11 +354,12 @@ public class BlockManager : MonoBehaviour
     //끝말잇기가 되면 올라감
     public void ConfirmBlock()
     {
+        //마지막 블럭에 y좌표
         float childBlockY = childBlock[childBlock.Count() - 1].transform.position.y;
         Vector3 upScale = Vector3.up * childBlockY;
         foreach (var block in childBlock)
         {
-            block.transform.position -= upScale;
+            //block.transform.position -= upScale;
             block.SpawnParticle();
         }
 
