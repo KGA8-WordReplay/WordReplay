@@ -41,7 +41,6 @@ public class WordReplayMainUI : MonoBehaviour
 
     private void AutoButtonClick()
     {
-        AudioManager.Instance.PlaySfx(Sfx.Button);
         onAuto = !onAuto;
         _wordReplayManager.AutoMode(onAuto);
     }
