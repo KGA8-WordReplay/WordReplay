@@ -64,7 +64,14 @@ public class WordReplayMainUI : MonoBehaviour
         //outputText.text = output;
         BlockManager.Instance.MakeBlock(_wordReplayManager.PreWord, output);
         BlockManager.Instance.ConfirmBlock();
-        explanationText.text = explanation;
+        if (WordStorageManager.Instance.wordStorage.fieldDict.TryGetValue(output, out string field))
+        {
+            explanationText.text = $"{field}\n{explanation}";
+        }
+        else
+        {
+            explanationText.text = explanation;
+        }
     }
 
     public IEnumerator UpdateAutoDisplay(string output, string explanation)
@@ -74,8 +81,16 @@ public class WordReplayMainUI : MonoBehaviour
         //outputText.text = output;
         BlockManager.Instance.AutoBlock(_wordReplayManager.PreWord, output);
         //BlockManager.Instance.ConfirmBlock();
+
         yield return new WaitUntil(() => BlockManager.Instance.blockSpawnEnd == true);
-        explanationText.text = explanation;
+        if (WordStorageManager.Instance.wordStorage.fieldDict.TryGetValue(output, out string field))
+        {
+            explanationText.text = $"{field}\n{explanation}";
+        }
+        else
+        {
+            explanationText.text = explanation;
+        }
     }
 
     public void AddScore(int score)

@@ -17,6 +17,9 @@ public class WordStorage
     //사용한 데이터 사전
     public List<string> UsedWord { get; private set; }
 
+    //전문 분야 별 데이터 사전
+    public Dictionary<string, string> fieldDict { get; private set; }
+
     public WordStorage(string everyWord, string myWord, string duemWord, string col1, string col2, string col3, string col4)
     {
         this.everyWord = everyWord;
@@ -77,6 +80,7 @@ public class WordStorage
         MyWordDict = new Dictionary<string, string>();
         DueumDict = new Dictionary<char, char>();
         UsedWord = new List<string>();
+        fieldDict = new Dictionary<string, string>();
 
         yield return null;
 
@@ -151,5 +155,23 @@ public class WordStorage
             }
         }
         Debug.Log("추가 완료");
+    }
+    public void AddMyWordDict2(Dictionary<string, string> words)
+    {
+        //if (MyWordDict.Count <= 0)
+        //{
+        //    return;
+        //}
+        foreach (var word in words)
+        {
+            string oldField = word.Value;
+            string cutField = oldField.Replace(oldField[0], '[').Replace(oldField[oldField.Length - 1], ']');
+            Debug.Log($"전문 분야 : {cutField}");
+            //키값에 이미 추가된게 없을때만 추가해야함
+            if (fieldDict.ContainsKey(word.Key) == false)
+            {
+                fieldDict.Add(word.Key, cutField);
+            }
+        }
     }
 }

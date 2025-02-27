@@ -80,7 +80,7 @@ public class HEEJAEGameManager : MonoBehaviour
         //씬 이름 가져오기
         _sceneName = SceneManager.GetActiveScene().name;
 
-        startDict = new Dictionary<string, List<string>>() 
+        startDict = new Dictionary<string, List<string>>()
         {
             { "stage1", stage1},
             { "stage2", stage2},
@@ -124,7 +124,7 @@ public class HEEJAEGameManager : MonoBehaviour
                 SetCurrentSuggestion();
 
                 //추천 단어가 있고 전 단어에 이어지면
-                if (string.IsNullOrEmpty(_currentSuggetion) == false )
+                if (string.IsNullOrEmpty(_currentSuggetion) == false && (!WordStorageManager.Instance.wordStorage.UsedWord.Contains(_currentSuggetion)))
                 {
                     BlockManager.Instance.MakeSuggestionBlock(wordReplayManager.PreWord, _typingWord, _currentSuggetion);
                 }
@@ -169,7 +169,7 @@ public class HEEJAEGameManager : MonoBehaviour
         {
             startSuggestionList = suggestions;
         }
-        else 
+        else
         {
             Debug.LogError("씬 이름이 잘못 됨");
         }
@@ -225,7 +225,7 @@ public class HEEJAEGameManager : MonoBehaviour
                 //전체 단어에도 있으면서 끝말잇기도 되는 경우
                 if (IsWordChainTrue(inputText))
                 {
-                    ShowMean(inputText);
+                    //ShowMean(inputText);
                     //BlockManager.Instance.ConfirmBlock();
                     //BlockManager.Instance.MakeLastWord(inputText);
                 }
@@ -240,7 +240,7 @@ public class HEEJAEGameManager : MonoBehaviour
             else
             {
                 BlockManager.Instance.SetPrefabTextRed();
-                explanationText.text = "없는 단어입니다.";
+                explanationText.text = "이미 사용했거나, 없는 단어입니다.";
             }
 
 
@@ -381,6 +381,7 @@ public class HEEJAEGameManager : MonoBehaviour
             return false;
         }
 
+
         _currentSuggetion = null;
 
         if (_ruleOfHeading.ContainsKey(composition[0]))
@@ -397,6 +398,7 @@ public class HEEJAEGameManager : MonoBehaviour
         //두음 법칙이 성립 안할때
         else
         {
+
             //맞는 단어 리스트로 만듦
             suggestionList = _foodWordList.Where(word => word.StartsWith(composition)).ToList();
         }

@@ -31,7 +31,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
         UserDataManager.Instance.goldAction += InitGold;
 
         print("CollectionDataManager에서 옴");
-        foreach(var temp in myWordNameList)
+        foreach (var temp in myWordNameList)
         {
             print(temp);
         }
@@ -56,8 +56,10 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
             List<Dictionary<string, object>> tempkey = CSVReader.Read($"Word/MyWord/{myWord}");
 
             Dictionary<string, string> tempword = ConvertToStringDictionary(tempkey, col1, col2);
+            Dictionary<string, string> tempWord2 = ConvertToStringDictionary2(tempkey, col1, "전문 분야");
 
             WordStorageManager.Instance.wordStorage.AddMyWordDict(tempword);
+            WordStorageManager.Instance.wordStorage.AddMyWordDict2(tempWord2);
         }
         OnDataLoaded?.Invoke();
     }
@@ -77,18 +79,34 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
         List<Dictionary<string, object>> resource = CSVReader.Read($"Word/MyWord/{collectionName}");
         //그 전환한 파일을 Dict로 전환
         Dictionary<string, string> tempWord = ConvertToStringDictionary(resource, col1, col2);
+        Dictionary<string, string> tempWord2 = ConvertToStringDictionary2(resource, col1, "전문 분야");
         //마지막으로 내가 가지고 있는 단어에 추가
         WordStorageManager.Instance.wordStorage.AddMyWordDict(tempWord);
+        WordStorageManager.Instance.wordStorage.AddMyWordDict2(tempWord2);
 
         UserDataManager.Instance.Save(collectionName);
         myWordNameList.Add(collectionName);
         print($"저장된 파일 이름 : {collectionName}");
     }
 
-    private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>>data, string colName, string colName2)
+    private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>> data, string colName, string colName2)
     {
         Dictionary<string, string> processedData = new Dictionary<string, string>();
-        for(int i = 0; i < data.Count; i++)
+        for (int i = 0; i < data.Count; i++)
+        {
+            string word = data[i][colName].ToString();
+            string explanation = data[i][colName2].ToString();
+
+            if (processedData.ContainsKey(word)) continue;
+            processedData.Add(word, explanation);
+        }
+
+        return processedData;
+    }
+    private Dictionary<string, string> ConvertToStringDictionary2(List<Dictionary<string, object>> data, string colName, string colName2)
+    {
+        Dictionary<string, string> processedData = new Dictionary<string, string>();
+        for (int i = 0; i < data.Count; i++)
         {
             string word = data[i][colName].ToString();
             string explanation = data[i][colName2].ToString();
