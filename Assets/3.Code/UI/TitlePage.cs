@@ -57,7 +57,7 @@ public class TitlePage : Page
     private void StartButtonClick()
     {
         AudioManager.Instance.PlaySfx(Sfx.Button);
-        PageManager.Instance.OpenPage<StagePage>().OpenFirst();
+        PageManager.Instance.OpenPage<StagePage>();
     }
     private void CollectionButtonClick()
     {
@@ -67,7 +67,7 @@ public class TitlePage : Page
     private void InformationButtonClick()
     {
         AudioManager.Instance.PlaySfx(Sfx.Button);
-
+        PageManager.Instance.OpenPage<InformationPage>();
     }
     private void SoundSettingButtonClick()
     {

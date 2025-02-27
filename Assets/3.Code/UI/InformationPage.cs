@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -8,6 +9,7 @@ public class InformationPage : Page
 {
     [SerializeField] private Button _prevButton;
     [SerializeField] private Button _nextButton;
+    [SerializeField] private Button _backButton;
 
     public List<GameObject> informations = new List<GameObject>();
     private int currentIndex = 0;
@@ -16,8 +18,14 @@ public class InformationPage : Page
     {
         _prevButton.onClick.AddListener(PrevButtonClick);
         _nextButton.onClick.AddListener(NextButtonClick);
-
+        _backButton.onClick.AddListener(BackButtonClick);
         UpdatePage();
+    }
+
+    private void BackButtonClick()
+    {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
+        PageManager.Instance.OpenPage<TitlePage>();
     }
 
     private void PrevButtonClick()
@@ -26,6 +34,7 @@ public class InformationPage : Page
         {
             currentIndex--;
             UpdatePage();
+            AudioManager.Instance.PlaySfx(Sfx.Button);
         }
     }
 
@@ -35,6 +44,7 @@ public class InformationPage : Page
         {
             currentIndex++;
             UpdatePage();
+            AudioManager.Instance.PlaySfx(Sfx.Button);
         }
     }
 

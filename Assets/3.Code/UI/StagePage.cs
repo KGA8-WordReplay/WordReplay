@@ -1,40 +1,50 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StagePage : Page
 {
-    public int channel;
+    public int currentIndex;
 
     public List<GameObject> stages = new List<GameObject>();
 
     [SerializeField] private TextMeshProUGUI _goldText;
     [SerializeField] private GameObject _stagePivot;
+    [SerializeField] private Button _backButton;
+    [SerializeField] private Button _prevButton;
     [SerializeField] private Button _nextButton;
-    private Button _backButton;
 
 
     private void Awake()
     {
-        Button[] buttons = GetComponentsInChildren<Button>();
-
-        _backButton = buttons[0];
 
         _backButton.onClick.AddListener(BackButtonClick);
-
-        _nextButton = buttons[1];
+        _prevButton.onClick.AddListener(PrevButtonClick);
         _nextButton.onClick.AddListener(NextButtonClick);
     }
+
 
     private void Start()
     {
         _goldText.text = UserDataManager.Instance.GetGold().ToString();
 
         UserDataManager.Instance.goldAction += GoldAction;
-    }
 
+        UpdatePage();
+    }
+    private void PrevButtonClick()
+    {
+        if (currentIndex > 0)
+        {
+            currentIndex--;
+            UpdatePage();
+            AudioManager.Instance.PlaySfx(Sfx.Button);
+        }
+    }
     private void GoldAction()
     {
         _goldText.text = UserDataManager.Instance.GetGold().ToString();
@@ -42,47 +52,27 @@ public class StagePage : Page
 
     private void NextButtonClick()
     {
-        AudioManager.Instance.PlaySfx(Sfx.Button);
-        if (channel + 1 < stages.Count)
+        if (currentIndex < stages.Count - 1)
         {
-            stages[channel + 1].transform.SetAsLastSibling();
-            channel++;
-        }
-        else
-        {
-            channel = 0;
-            stages[channel].transform.SetAsLastSibling();
-        }
-
-        foreach (GameObject go in stages)
-        {
-            if (stages.IndexOf(go) == channel)
-            {
-                go.SetActive(true);
-            }
-            else
-            {
-                go.SetActive(false);
-            }
+            currentIndex++;
+            UpdatePage();
+            AudioManager.Instance.PlaySfx(Sfx.Button);
         }
     }
-
-    public void OpenFirst()
+    private void UpdatePage()
     {
-        channel = 0;
-        stages[channel].transform.SetAsLastSibling();
-
-        foreach (GameObject go in stages)
+        // 모든 오브젝트 비활성화
+        foreach (GameObject obj in stages)
         {
-            if (stages.IndexOf(go) == channel)
-            {
-                go.SetActive(true);
-            }
-            else
-            {
-                go.SetActive(false);
-            }
+            obj.SetActive(false);
         }
+
+        // 현재 인덱스의 오브젝트 활성화
+        stages[currentIndex].SetActive(true);
+
+        // 버튼 활성/비활성 설정
+        _prevButton.interactable = currentIndex > 0;
+        _nextButton.interactable = currentIndex < stages.Count - 1;
     }
 
     private void BackButtonClick()
@@ -94,5 +84,8 @@ public class StagePage : Page
     private void OnDestroy()
     {
         UserDataManager.Instance.goldAction -= GoldAction;
+        _backButton.onClick.RemoveListener(BackButtonClick);
+        _prevButton.onClick.RemoveListener(PrevButtonClick);
+        _nextButton.onClick.RemoveListener(NextButtonClick);
     }
 }
