@@ -122,67 +122,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &59186894
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1831862087579036877, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: everyWord
-      value: EveryWord
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8405736357536634490, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
-      propertyPath: m_Name
-      value: WordStorageManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
 --- !u!1 &524250653
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +270,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a8e60ec630a4554f8a97d0bdc960f96, type: 3}
+--- !u!1001 &765311034
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8405736357536634490, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: m_Name
+      value: WordStorageManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
 --- !u!1 &1268895181
 GameObject:
   m_ObjectHideFlags: 0
@@ -2660,18 +2656,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7317551968878905158, guid: ad1136d9866dcdb43b475321e5817f71, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.b
-      value: 0.049153566
-      objectReference: {fileID: 0}
-    - target: {fileID: 7317551968878905158, guid: ad1136d9866dcdb43b475321e5817f71, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7317551968878905158, guid: ad1136d9866dcdb43b475321e5817f71, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7672191213698492303, guid: ad1136d9866dcdb43b475321e5817f71, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3103,4 +3087,4 @@ SceneRoots:
   - {fileID: 710220930}
   - {fileID: 524250654}
   - {fileID: 1780717625}
-  - {fileID: 59186894}
+  - {fileID: 765311034}

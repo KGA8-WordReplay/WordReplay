@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.iOS;
 using UnityEngine;
 
 public class CollectionDataManager : Singleton<CollectionDataManager>
