@@ -374,8 +374,11 @@ public class BlockManager : MonoBehaviour
             case int n when (n >= 6 && n <=7):
                 AudioManager.Instance.PlaySfx(Sfx.Success3);
                 break;
-            case int n when (n >= 8):
+            case int n when (n >= 8 && n <= 16):
                 AudioManager.Instance.PlaySfx(Sfx.Success4);
+                break;
+            case int n when (n >= 17):
+                AudioManager.Instance.PlaySfx(Sfx.Success5);
                 break;
         }
 
