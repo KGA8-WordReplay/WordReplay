@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1831862087579036877, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
+      propertyPath: everyWord
+      value: EveryWord2
+      objectReference: {fileID: 0}
     - target: {fileID: 7567626166729932978, guid: 260a4b8c618745a40956e343ec6951a7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2734,7 +2738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7874951817397171423, guid: ad1136d9866dcdb43b475321e5817f71, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 867.3001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7916954235982205353, guid: ad1136d9866dcdb43b475321e5817f71, type: 3}
       propertyPath: m_AnchorMax.y
