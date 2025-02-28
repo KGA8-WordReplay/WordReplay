@@ -6,23 +6,24 @@ using UnityEngine.UI;
 
 public class TitlePage : Page
 {
-    [SerializeField] private TextMeshProUGUI _goldText;
+    [SerializeField] private GameObject _gameInfoPrefab;
+    [SerializeField] private GameObject _storeInfoPrefab;
+
     [SerializeField] private SoundSettingPopup _soundSettingPopup;
+    [SerializeField] private Button _soundSettingButton;
     private Button _startButton;
     private Button _collectionButton;
     private Button _informationButton;
-    private Button _soundSettingButton;
     private Button _quitButton;
 
-    private void Awake()
+    private void Start()
     {
         Button[] buttons = transform.Find("Buttons").GetComponentsInChildren<Button>();
 
         _startButton = buttons[0];
         _collectionButton = buttons[1];
         _informationButton = buttons[2];
-        _soundSettingButton = buttons[3];
-        _quitButton = buttons[4];
+        _quitButton = buttons[3];
 
         _startButton.onClick.AddListener(StartButtonClick);
         _collectionButton.onClick.AddListener(CollectionButtonClick);
@@ -31,7 +32,7 @@ public class TitlePage : Page
         _quitButton.onClick.AddListener(QuitButtonClick);
     }
 
-    private void Start()
+    public void Init()
     {
         if (_soundSettingPopup.CanLoadVolume())
         {
@@ -41,25 +42,29 @@ public class TitlePage : Page
         {
             _soundSettingPopup.InitVolume();
         }
-
-        _goldText.text = UserDataManager.Instance.GetGold().ToString();
-
-        UserDataManager.Instance.goldAction += GoldAction;
     }
 
-    private void GoldAction()
-    {
-        _goldText.text = UserDataManager.Instance.GetGold().ToString();
-    }
 
     private void StartButtonClick()
     {
         AudioManager.Instance.PlaySfx(Sfx.Button);
+        if (UserDataManager.Instance.IsNewGoGame())
+        {
+            Canvas canvas = FindObjectOfType<Canvas>();
+            Instantiate(_gameInfoPrefab, canvas.transform);
+            UserDataManager.Instance.FalseNewGoGame();
+        }
         PageManager.Instance.OpenPage<StagePage>().UpdatePage();
     }
     private void CollectionButtonClick()
     {
         AudioManager.Instance.PlaySfx(Sfx.Button);
+        if (UserDataManager.Instance.IsNewGoStore())
+        {
+            Canvas canvas = FindObjectOfType<Canvas>();
+            Instantiate(_storeInfoPrefab, canvas.transform);
+            UserDataManager.Instance.FalseNewGoStore();
+        }
         PageManager.Instance.OpenPage<CollectionPage>();
     }
     private void InformationButtonClick()
@@ -80,12 +85,10 @@ public class TitlePage : Page
 
     private void OnDestroy()
     {
-        _startButton.onClick.RemoveListener(StartButtonClick);
-        _collectionButton.onClick.RemoveListener(CollectionButtonClick);
-        _informationButton.onClick.RemoveListener(InformationButtonClick);
-        _soundSettingButton.onClick.RemoveListener(SoundSettingButtonClick);
-        _quitButton.onClick.RemoveListener(QuitButtonClick);
-
-        UserDataManager.Instance.goldAction -= GoldAction;
+        _startButton?.onClick.RemoveListener(StartButtonClick);
+        _collectionButton?.onClick.RemoveListener(CollectionButtonClick);
+        _informationButton?.onClick.RemoveListener(InformationButtonClick);
+        _soundSettingButton?.onClick.RemoveListener(SoundSettingButtonClick);
+        _quitButton.onClick?.RemoveListener(QuitButtonClick);
     }
 }

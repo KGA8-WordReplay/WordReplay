@@ -1,15 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InformationPage : Page
+public class GameInformationPage : MonoBehaviour
 {
     [SerializeField] private Button _prevButton;
     [SerializeField] private Button _nextButton;
-    [SerializeField] private Button _backButton;
+    [SerializeField] private Button _confirmButton;
 
     public List<GameObject> informations = new List<GameObject>();
     private int currentIndex = 0;
@@ -18,14 +16,22 @@ public class InformationPage : Page
     {
         _prevButton?.onClick.AddListener(PrevButtonClick);
         _nextButton?.onClick.AddListener(NextButtonClick);
-        _backButton.onClick.AddListener(BackButtonClick);
         UpdatePage();
     }
 
-    private void BackButtonClick()
+    private void OnEnable()
+    {
+        _confirmButton.onClick.AddListener(ConfirmButtonClick);
+    }
+    private void OnDisable()
+    {
+        _confirmButton.onClick.RemoveListener(ConfirmButtonClick);
+    }
+
+    private void ConfirmButtonClick()
     {
         AudioManager.Instance.PlaySfx(Sfx.Button);
-        PageManager.Instance.OpenPage<TitlePage>();
+        Destroy(gameObject);
     }
 
     private void PrevButtonClick()
@@ -62,6 +68,15 @@ public class InformationPage : Page
         // 버튼 활성/비활성 설정
         _prevButton.interactable = currentIndex > 0;
         _nextButton.interactable = currentIndex < informations.Count - 1;
+
+        if (currentIndex == informations.Count - 1)
+        {
+            _confirmButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            _confirmButton.gameObject.SetActive(false);
+        }
     }
 
     private void OnDestroy()
