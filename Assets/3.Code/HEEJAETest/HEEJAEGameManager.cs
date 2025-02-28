@@ -416,6 +416,18 @@ public class HEEJAEGameManager : MonoBehaviour
             suggestionList = _foodWordList.Where(word => word.StartsWith(composition)).ToList();
         }
 
+        List<string> temp = suggestionList.ToList();
+
+        foreach (var word in suggestionList)
+        {
+            if (WordStorageManager.Instance.wordStorage.UsedWord.Contains(word))
+            {
+                temp.Remove(word);
+            }
+        }
+
+        suggestionList = temp.ToList();
+
         if (suggestionList.Count > 0)
         {
             print($"추천단어 설정 완료 : {suggestionList[0]}");
