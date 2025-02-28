@@ -30,6 +30,18 @@ public class PopupManager : Singleton<PopupManager>
 
         foreach (Popup popup in _popups)
         {
+            SoundSettingPopup soundSettingPopup = _popups.Find(x => x is SoundSettingPopup) as SoundSettingPopup;
+            if (soundSettingPopup != null)
+            {
+                if (soundSettingPopup.CanLoadVolume())
+                {
+                    soundSettingPopup.LoadVolume();
+                }
+                else
+                {
+                    soundSettingPopup.InitVolume();
+                }
+            }
             popup.gameObject.SetActive(false);
         }
     }
