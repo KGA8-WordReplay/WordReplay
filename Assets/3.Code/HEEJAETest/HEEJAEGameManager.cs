@@ -219,6 +219,7 @@ public class HEEJAEGameManager : MonoBehaviour
             Debug.LogWarning($"이미 사용한 단어입니다 : {inputText}");
             input.text = "";
             input.ActivateInputField();
+            explanationText.text = "이미 사용한 단어입니다.";
             return;
         }
 
@@ -246,7 +247,7 @@ public class HEEJAEGameManager : MonoBehaviour
             else
             {
                 BlockManager.Instance.SetPrefabTextRed();
-                explanationText.text = "이미 사용했거나, 없는 단어입니다.";
+                explanationText.text = "없는 단어입니다.";
             }
 
 
