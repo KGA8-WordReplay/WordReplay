@@ -32,6 +32,7 @@ public class Switch : MonoBehaviour
     }
     private void OnClickSuggestionButton()
     {
+        AudioManager.Instance.PlaySfx(Sfx.Button);
         isOn = !isOn;
     }
 }

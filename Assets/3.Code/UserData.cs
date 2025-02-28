@@ -9,12 +9,16 @@ public class UserData
     [JsonProperty] private int gold;
     [JsonProperty] private List<string> collectionNames;
     [JsonProperty] private List<string> stagesUnlock;
+    public bool isNewGoStore;
+    public bool isNewGoGame;
 
     public UserData()
     {
         gold = 0;
         collectionNames = new List<string>();
         stagesUnlock = new List<string>();
+        isNewGoStore = true;
+        isNewGoGame = true;
     }
 
     //Add

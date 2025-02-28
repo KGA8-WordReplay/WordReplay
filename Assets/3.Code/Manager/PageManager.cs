@@ -12,7 +12,7 @@ public class PageManager : Singleton<PageManager>
     private void Start()
     {
         Init();
-
+        AudioManager.Instance.PlayBgm(Bgm.Lobby);
         SceneManager.activeSceneChanged += OnSceneChanged;
     }
 

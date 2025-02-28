@@ -67,6 +67,27 @@ public class UserDataManager : Singleton<UserDataManager>
         SaveUserData();
     }
 
+    public void FalseNewGoStore()
+    {
+        _userData.isNewGoStore = false;
+        SaveUserData();
+    }
+    public void FalseNewGoGame()
+    {
+        _userData.isNewGoGame = false;
+        SaveUserData();
+    }
+
+    public bool IsNewGoStore()
+    {
+        return _userData.isNewGoStore;
+    }
+
+    public bool IsNewGoGame()
+    {
+        return _userData.isNewGoGame;
+    }
+
     private void SaveUserData()
     {
         string json = JsonConvert.SerializeObject(_userData);

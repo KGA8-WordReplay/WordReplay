@@ -31,7 +31,11 @@ public class Stage : MonoBehaviour
 
     private void Start()
     {
-        if (!string.IsNullOrEmpty(stageName)) _stageNameText.text = $"<{stageName}>";
+        if (!string.IsNullOrEmpty(stageName))
+        {
+            string cutStageName = stageName.ToUpper();
+            _stageNameText.text = $"<{cutStageName}>";
+        }
         else
         {
             _stageNameText.text = "Coming Soon";
