@@ -417,6 +417,7 @@ MonoBehaviour:
   spaceScale: 2.1
   blockSpawnPos: {fileID: 1540524754}
   autoDelay: 0.1
+  tabButtonPrefab: {fileID: 2595498322372570249, guid: 127890b9ae2062e428e75ce0d1254608, type: 3}
   confirmedBlock: []
   stageName: 
   blockSpawnEnd: 0
@@ -883,9 +884,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1435449688312476804, guid: 46d5544c422dc054086354ae02c7318e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4163607611195038864, guid: 46d5544c422dc054086354ae02c7318e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737539646126353323, guid: 46d5544c422dc054086354ae02c7318e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7081027484114419646, guid: 46d5544c422dc054086354ae02c7318e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7439664522847540287, guid: 46d5544c422dc054086354ae02c7318e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -894,6 +907,10 @@ PrefabInstance:
     - target: {fileID: 7439664522847540287, guid: 46d5544c422dc054086354ae02c7318e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114473604195908645, guid: 46d5544c422dc054086354ae02c7318e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -65,6 +65,9 @@ public class HEEJAEGameManager : MonoBehaviour
     private string _sceneName = "";
 
     public bool isOn = true;
+
+    //탭 버튼을 눌렀는지
+    private bool _tabButtonClicked;
     private void Awake()
     {
         _instance = this;
@@ -135,6 +138,8 @@ public class HEEJAEGameManager : MonoBehaviour
                 if (string.IsNullOrEmpty(_currentSuggetion) == false && (!WordStorageManager.Instance.wordStorage.UsedWord.Contains(_currentSuggetion)))
                 {
                     BlockManager.Instance.MakeSuggestionBlock(wordReplayManager.PreWord, _typingWord, _currentSuggetion);
+                    //탭버튼이 한번도 안눌린 상태
+
                 }
                 else
                 {
@@ -194,6 +199,7 @@ public class HEEJAEGameManager : MonoBehaviour
         //BlockManager.Instance.MakeLastWord(firstWord);
 
         hasSuggestion = false;
+        _tabButtonClicked = false;
     }
 
     //끝말잇기 로직이 들어가는 부분
@@ -367,7 +373,8 @@ public class HEEJAEGameManager : MonoBehaviour
 
     private void OnClickTab()
     {
-        if (suggestionList.Count > 0)
+        //추천 단어가 2개 이상이어야지 tab버튼이 눌림
+        if (suggestionList.Count >= 2)
         {
             //_currentSuggestionIndex = (_currentSuggestionIndex + 1) % suggestionList.Count;
             //suggestionText.text = suggestionList[_currentSuggestionIndex];
@@ -376,6 +383,7 @@ public class HEEJAEGameManager : MonoBehaviour
             SetCurrentSuggestion();
             BlockManager.Instance.MakeSuggestionBlock(wordReplayManager.PreWord, _typingWord, _currentSuggetion);
             AudioManager.Instance.PlaySfx(Sfx.TapButton);
+
         }
     }
 
@@ -417,7 +425,6 @@ public class HEEJAEGameManager : MonoBehaviour
         }
 
         List<string> temp = suggestionList.ToList();
-
         foreach (var word in suggestionList)
         {
             if (WordStorageManager.Instance.wordStorage.UsedWord.Contains(word))
@@ -425,8 +432,9 @@ public class HEEJAEGameManager : MonoBehaviour
                 temp.Remove(word);
             }
         }
-
         suggestionList = temp.ToList();
+
+
 
         if (suggestionList.Count > 0)
         {

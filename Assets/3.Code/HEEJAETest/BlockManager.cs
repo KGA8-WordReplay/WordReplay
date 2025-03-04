@@ -15,6 +15,7 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private float spaceScale;
     [SerializeField] private Transform blockSpawnPos;
     [SerializeField] private float autoDelay;
+    [SerializeField] private TabButtonPrefab tabButtonPrefab;
 
     private List<Block> childBlock = new List<Block>();
     public List<Block> confirmedBlock = new List<Block>();
@@ -29,6 +30,7 @@ public class BlockManager : MonoBehaviour
 
     //false -> 시간 흘러감, true -> 시간 멈춤
     public bool blockSpawnEnd = false;
+
 
     private void Awake()
     {
@@ -410,5 +412,21 @@ public class BlockManager : MonoBehaviour
             Destroy(block.gameObject);
         }
         tempBlock.Clear();
+    }
+
+    private TabButtonPrefab _tabButton;
+    //탭버튼 깜빡거리는 함수
+    public void MakeTabButton()
+    {
+        _tabButton = Instantiate(tabButtonPrefab);
+
+        //마지막 블록보다 오른쪽으로 생성
+        Vector3 targetPos = childBlock[0].transform.position;
+        _tabButton.transform.position = targetPos + Vector3.up * 0.85f;
+    }
+
+    public void DeleteTabButton()
+    {
+        Destroy(_tabButton.gameObject);
     }
 }

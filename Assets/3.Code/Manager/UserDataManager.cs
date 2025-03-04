@@ -36,9 +36,30 @@ public class UserDataManager : Singleton<UserDataManager>
     }
     public void Save(string collectionName)
     {
-        _userData.AddCollectionName(collectionName);
-        SaveUserData();
+        if (!_userData.GetCollectionNames().Contains(collectionName))
+        {
+            _userData.AddCollectionName(collectionName);
+            SaveUserData();
+        }
     }
+
+    public void ActivedCollection(string collectionName)
+    {
+        if (!_userData.GetActiveCollectionNames().Contains(collectionName))
+        {
+            _userData.AddActiveCollectionName(collectionName);
+            SaveUserData();
+        }
+    }
+    public void DisActivedCollection(string collectionName)
+    {
+        if (_userData.GetActiveCollectionNames().Contains(collectionName))
+        {
+            _userData.SubActiveCollectionName(collectionName);
+            SaveUserData();
+        }
+    }
+
     public void SaveStageUnlock(string stage)
     {
         _userData.AddStageUnlock(stage);
@@ -48,6 +69,11 @@ public class UserDataManager : Singleton<UserDataManager>
     public List<string> GetCollectionName()
     {
         return _userData.GetCollectionNames();
+    }
+
+    public List<string> GetActiveCollectionName()
+    {
+        return _userData.GetActiveCollectionNames();
     }
 
     public bool IsStageLock(string stageName)

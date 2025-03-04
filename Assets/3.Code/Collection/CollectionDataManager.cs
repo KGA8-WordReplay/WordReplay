@@ -14,6 +14,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
 
     //PlayerPrefab에서 가져오는 string 값이 들어가야함
     public List<string> myWordNameList = new List<string>();
+    public List<string> activedNameList = new List<string>();
 
     private Dictionary<string, string> myWordNameDict = new Dictionary<string, string>();
 
@@ -24,6 +25,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
     private void Start()
     {
         myWordNameList = UserDataManager.Instance.GetCollectionName();
+        activedNameList = UserDataManager.Instance.GetActiveCollectionName();
         Init();
         //InitGold();
         currentGold = UserDataManager.Instance.GetGold();
@@ -51,7 +53,7 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
             print("콜렉션 리스트 없음");
             return;
         }
-        foreach (var myWord in myWordNameList)
+        foreach (var myWord in activedNameList)
         {
             List<Dictionary<string, object>> tempkey = CSVReader.Read($"Word/MyWord/{myWord}");
 
@@ -72,6 +74,9 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
     //구매 성공 시
     public void PurchaseWordDict(string collectionName)
     {
+        if (myWordNameList.Contains(collectionName))
+            return;
+
         print($"구매 시 이름 : {collectionName}");
         //콜렉션의 UI상에 보이는 이름을 리소스파일 이름으로 변환
         //string value = myWordNameDict[collectionName];
@@ -84,9 +89,39 @@ public class CollectionDataManager : Singleton<CollectionDataManager>
         WordStorageManager.Instance.wordStorage.AddMyWordDict(tempWord);
         WordStorageManager.Instance.wordStorage.AddMyWordDict2(tempWord2);
 
+        //구매를 하고나면 내가 산 콜렉션이름 세이브하고, 활성화된 콜렉션 세이브 해야함
         UserDataManager.Instance.Save(collectionName);
         myWordNameList.Add(collectionName);
+
+        if (!activedNameList.Contains(collectionName))
+        {
+            UserDataManager.Instance.ActivedCollection(collectionName);
+            activedNameList.Add(collectionName);
+        }
+
         print($"저장된 파일 이름 : {collectionName}");
+
+    }
+
+    public void AddCollection(string collectionName)
+    {
+        UserDataManager.Instance.Save(collectionName);
+        myWordNameList.Add(collectionName);
+    }
+
+    public void AddActiveCollection(string collectionName)
+    {
+        if (!activedNameList.Contains(collectionName))
+        {
+            UserDataManager.Instance.ActivedCollection(collectionName);
+            activedNameList.Add(collectionName);
+        }
+    }
+
+    public void SubActiveCollection(string collectionName)
+    {
+        UserDataManager.Instance.DisActivedCollection(collectionName);
+        activedNameList.Remove(collectionName);
     }
 
     private Dictionary<string, string> ConvertToStringDictionary(List<Dictionary<string, object>> data, string colName, string colName2)

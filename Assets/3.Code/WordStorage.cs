@@ -166,11 +166,34 @@ public class WordStorage
         {
             string oldField = word.Value;
             string cutField = oldField.Replace(oldField[0], '[').Replace(oldField[oldField.Length - 1], ']');
-            Debug.Log($"전문 분야 : {cutField}");
             //키값에 이미 추가된게 없을때만 추가해야함
             if (fieldDict.ContainsKey(word.Key) == false)
             {
                 fieldDict.Add(word.Key, cutField);
+            }
+        }
+    }
+
+    public void SubMyWordDict(Dictionary<string, string> words)
+    {
+        foreach (var word in words)
+        {
+            //키값에 있을때만
+            if (MyWordDict.ContainsKey(word.Key) == true)
+            {
+                MyWordDict.Remove(word.Key);
+            }
+        }
+    }
+
+    public void SubMyWordDict2(Dictionary<string, string> words)
+    {
+        foreach (var word in words)
+        {
+            //키값에 있을때만
+            if (fieldDict.ContainsKey(word.Key) == false)
+            {
+                fieldDict.Remove(word.Key);
             }
         }
     }
